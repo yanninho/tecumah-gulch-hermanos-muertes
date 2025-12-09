@@ -1,0 +1,2454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌪️ Le Convoi des Pendus - Scénario JDR</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:wght@300;400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #2d1810 0%, #4a3520 50%, #2d1810 100%);
+            color: #E8E8E8;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(45, 24, 16, 0.95);
+            border: 8px solid #654321;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(255, 87, 34, 0.4);
+            overflow: hidden;
+        }
+        
+        /* HEADER */
+        header {
+            background: linear-gradient(to bottom, #1a1410, #2d1810);
+            color: #FFD700;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid #654321;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '🌪️';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: spin 6s linear infinite;
+        }
+        
+        header::after {
+            content: '⛓️';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: swing 2s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: translateY(-50%) rotate(0deg); }
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+        
+        @keyframes swing {
+            0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+            50% { transform: translateY(-50%) rotate(5deg); }
+        }
+        
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(255, 87, 34, 0.7);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            color: #FF5722;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #FFA726;
+            font-style: italic;
+        }
+        
+        /* TIMER & TOOLS */
+        .tools-bar {
+            background: #3e2723;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 3px solid #654321;
+        }
+        
+        .timer {
+            background: rgba(255, 87, 34, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #FFD700;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timer-controls button {
+            background: #654321;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+        
+        .timer-controls button:hover {
+            background: #8B4513;
+            transform: scale(1.05);
+        }
+        
+        .dice-roller {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dice-button {
+            background: #FF5722;
+            color: white;
+            border: 3px solid #D84315;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Creepster', cursive;
+        }
+        
+        .dice-button:hover {
+            background: #FF7043;
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .dice-result {
+            background: rgba(255, 87, 34, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* NAVIGATION */
+        nav {
+            background: #3e2723;
+            padding: 20px 30px;
+            border-bottom: 3px solid #654321;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: #654321;
+            color: #FFE0B2;
+            border: 2px solid #8B4513;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #8B4513;
+            border-color: #FF7043;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+        }
+        
+        /* MAIN CONTENT */
+        .content {
+            padding: 40px;
+            min-height: 600px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            font-family: 'Creepster', cursive;
+            color: #FF7043;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #654321;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        h3 {
+            font-family: 'Creepster', cursive;
+            color: #FF5722;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #FFA726;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        p, li {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        /* CARDS */
+        .card {
+            background: rgba(62, 39, 35, 0.8);
+            border: 3px solid #654321;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.3);
+        }
+        
+        /* PNJ CARDS */
+        .pnj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pnj-card {
+            background: linear-gradient(135deg, #2d1810 0%, #3e2723 100%);
+            border: 4px solid #8B4513;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pnj-card::before {
+            content: '⛓️';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 4em;
+            opacity: 0.1;
+        }
+        
+        .pnj-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(255, 87, 34, 0.4);
+            border-color: #FF5722;
+        }
+        
+        .pnj-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .pnj-icon {
+            font-size: 3em;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+        }
+        
+        .pnj-info {
+            flex: 1;
+        }
+        
+        .pnj-name {
+            font-family: 'Creepster', cursive;
+            font-size: 1.8em;
+            color: #FF7043;
+            margin-bottom: 5px;
+        }
+        
+        .pnj-surnom {
+            color: #FFA726;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+        
+        .pnj-description {
+            color: #E8E8E8;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        
+        .pnj-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-box {
+            background: rgba(255, 87, 34, 0.1);
+            border-left: 4px solid #FF5722;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        
+        .stat-title {
+            font-weight: bold;
+            color: #FF7043;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        
+        .stat-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .stat-list li {
+            padding: 4px 0 4px 15px;
+            position: relative;
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+        
+        .stat-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #FFA726;
+        }
+        
+        /* LIEU CARDS */
+        .lieu-card {
+            background: linear-gradient(135deg, #3e2723 0%, #4a3520 100%);
+            border: 4px solid #8B4513;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .lieu-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(255, 87, 34, 0.3);
+        }
+        
+        .lieu-name {
+            font-family: 'Creepster', cursive;
+            font-size: 2em;
+            color: #FF7043;
+            margin-bottom: 10px;
+        }
+        
+        .lieu-location {
+            color: #FFA726;
+            font-style: italic;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+        
+        .lieu-ambiance {
+            list-style: none;
+            margin: 15px 0;
+            padding: 0;
+        }
+        
+        .lieu-ambiance li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .lieu-ambiance li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #FF5722;
+            font-size: 1.2em;
+        }
+        
+        /* SCENE CARDS */
+        .scene-card {
+            background: rgba(62, 39, 35, 0.9);
+            border: 4px solid #8B4513;
+            border-radius: 12px;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.3);
+            overflow: hidden;
+        }
+        
+        .scene-header {
+            background: linear-gradient(to right, #D84315, #FF5722);
+            color: white;
+            padding: 25px;
+        }
+        
+        .scene-title {
+            font-family: 'Creepster', cursive;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .scene-synopsis {
+            font-style: italic;
+            font-size: 1.05em;
+            opacity: 0.95;
+        }
+        
+        .scene-body {
+            padding: 25px;
+        }
+        
+        .scene-section {
+            margin-bottom: 25px;
+        }
+        
+        .scene-section-title {
+            font-family: 'Creepster', cursive;
+            color: #FF7043;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #654321;
+            padding-bottom: 5px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: rgba(255, 87, 34, 0.1);
+            border-left: 4px solid #FF5722;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #FF7043;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: #E8E8E8;
+            font-size: 1em;
+        }
+        
+        /* WARNINGS */
+        .warning {
+            background: #654321;
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning::before {
+            content: '⚠️ ';
+            font-size: 1.5em;
+        }
+        
+        /* FOOTER */
+        footer {
+            background: #1a1410;
+            color: #FFA726;
+            padding: 30px;
+            text-align: center;
+            border-top: 5px solid #654321;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .pnj-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tools-bar {
+                flex-direction: column;
+            }
+        }
+        
+        /* INFO-BULLES (TOOLTIPS) */
+        .tooltip-trigger {
+            position: relative;
+            cursor: help;
+            border-bottom: 2px dotted #FF5722;
+            font-weight: 600;
+            color: #FFB74D;
+            transition: all 0.2s;
+        }
+        
+        .tooltip-trigger:hover {
+            color: #FF7043;
+            border-bottom-color: #ff0000;
+        }
+        
+        .tooltip-trigger-pnj {
+            color: #ff4444;
+        }
+        
+        .tooltip-trigger-lieu {
+            color: #FFA726;
+        }
+        
+        .custom-tooltip {
+            position: absolute;
+            display: none;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1810 100%);
+            border: 3px solid #FF5722;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.9);
+            z-index: 10000;
+            pointer-events: none;
+            animation: tooltipFadeIn 0.2s ease-out;
+        }
+        
+        @keyframes tooltipFadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip-header {
+            font-family: 'Creepster', cursive;
+            font-size: 1.2em;
+            color: #FF7043;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .tooltip-surnom {
+            font-size: 0.9em;
+            color: #FFB74D;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .tooltip-lieu {
+            font-size: 0.85em;
+            color: #FFA726;
+            margin-bottom: 10px;
+        }
+        
+        .tooltip-text {
+            color: #E8E8E8;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .tooltip-combat {
+            background: rgba(255, 87, 34, 0.3);
+            border-left: 3px solid #FF5722;
+            padding: 8px;
+            margin-top: 8px;
+            color: #FF7043;
+            font-size: 0.9em;
+            border-radius: 5px;
+        }
+        
+        .tooltip-role {
+            background: rgba(255, 167, 38, 0.3);
+            border-left: 3px solid #FFA726;
+            padding: 8px;
+            margin-top: 8px;
+            color: #FFB74D;
+            font-size: 0.9em;
+            border-radius: 5px;
+        }
+        
+        .tooltip-ambiance {
+            background: rgba(101, 67, 33, 0.3);
+            border-left: 3px solid #8B4513;
+            padding: 8px;
+            margin-top: 8px;
+            color: #FFB74D;
+            font-size: 0.9em;
+            font-style: italic;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌪️ LE CONVOI DES PENDUS</h1>
+            <p class="subtitle">Session 3 - La Trilogie de Tecumah Gulch - Système d6 - Durée 2h30</p>
+            <p class="subtitle" style="margin-top: 5px; font-size: 0.9em;">📍 Tecumah Gulch • ⛪ Église Saint-Michel • ⏱️ Timer 24h • 📅 2 mois après Calavera</p>
+        </header>
+        
+        <div class="tools-bar">
+            <div class="timer">
+                ⏱️ <span id="time-display">00:00</span>
+                <div class="timer-controls">
+                    <button onclick="startTimer()">▶️ Start</button>
+                    <button onclick="pauseTimer()">⏸️ Pause</button>
+                    <button onclick="resetTimer()">🔄 Reset</button>
+                </div>
+            </div>
+            
+            <div class="dice-roller">
+                <button class="dice-button" onclick="rollDice()">🎲 LANCER D6</button>
+                <div class="dice-result" id="dice-result">-</div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('intro')">📋 Introduction</button>
+                <button class="nav-btn" onclick="showSection('pnj')">👥 PNJ</button>
+                <button class="nav-btn" onclick="showSection('lieux')">🗺️ Lieux</button>
+                <button class="nav-btn" onclick="showSection('scene1')">🌅 Scène 1</button>
+                <button class="nav-btn" onclick="showSection('scene2')">🔍 Scène 2</button>
+                <button class="nav-btn" onclick="showSection('scene3')">💥 Scène 3</button>
+                <button class="nav-btn" onclick="showSection('scene4')">⛪ Scène 4</button>
+                <button class="nav-btn" onclick="showSection('scene5')">⚖️ Scène 5</button>
+                <button class="nav-btn" onclick="showSection('conseils')">💡 Conseils MJ</button>
+            </div>
+        </nav>
+        
+        <div class="content">
+            <!-- INTRODUCTION -->
+            <section id="intro" class="section active">
+                <h2>📋 INTRODUCTION</h2>
+                
+                <div class="card">
+                    <h3>🎯 Pitch</h3>
+                    <p>Deux mois après la mort d'<span data-pnj="el_serpiente">El Serpiente</span> à <span data-lieu="calavera">Calavera</span>, la paix règne enfin sur <span data-lieu="tecumah_gulch">Tecumah Gulch</span>. Mais une tempête de sable force un convoi pénitentiaire à s'arrêter en pleine nuit. Parmi les 7 prisonniers : <span data-pnj="carmen">Carmen "La Víbora" Muerte</span>, sœur jumelle d'El Serpiente, condamnée pour le massacre de Red Ridge. À l'aube, les prisonniers ont tous disparu. Carmen orchestre sa vengeance depuis les ombres : elle veut que les héros <strong>souffrent</strong> comme elle a souffert. Les héros ont 24 heures pour capturer les 7 fugitifs avant que l'armée n'arrive et ne massacre indistinctement habitants et criminels.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📖 Synopsis</h3>
+                    <ul>
+                        <li><strong>Acte I (0h-6h)</strong> - L'Aube Sanglante : <span data-pnj="rosie">Rosie</span> alerte les héros, <span data-pnj="blackman">shérif Blackman</span> révèle identité de <span data-pnj="carmen">Carmen</span>, découverte du convoi abandonné</li>
+                        <li><strong>Acte II (6h-12h)</strong> - La Traque : Capture de 4 prisonniers "faciles" (<span data-pnj="dolores">Dolores</span>, <span data-pnj="two_feathers">Two-Feathers</span>, <span data-pnj="omalley">Father O'Malley</span>, <span data-pnj="professeur">Le Professeur</span>), <span data-pnj="rosie">Rosie</span> révélée</li>
+                        <li><strong>Acte III (12h-18h)</strong> - Le Piège : Star Saloon piégé par <span data-pnj="mad_dog">Mad Dog</span> et <span data-pnj="silent_jim">Silent Jim</span>, <span data-pnj="blackman">Blackman</span> blessé gravement</li>
+                        <li><strong>Acte IV (18h-23h)</strong> - L'Ultimatum : <span data-pnj="carmen">Carmen</span> occupe l'<span data-lieu="eglise">église</span> avec 12 otages, ultimatum de minuit</li>
+                        <li><strong>Acte V (23h-24h)</strong> - Le Jugement : Duel final avec <span data-pnj="carmen">Carmen</span>, choix moral (tuer ou épargner), épilogue</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⏰ Mécanique Centrale : Le Timer 24h</h3>
+                    <p><strong>CRUCIAL :</strong> Ce scénario repose sur une pression temporelle constante. Les héros ont exactement 24 heures (in-game) pour capturer les 7 fugitifs avant l'arrivée de l'armée.</p>
+                    <ul>
+                        <li><strong>0h00 (Minuit)</strong> : Évasion des prisonniers pendant tempête</li>
+                        <li><strong>6h00 (Aube)</strong> : Découverte évasion, début traque</li>
+                        <li><strong>12h00 (Midi)</strong> : Piège au Star Saloon déclenché</li>
+                        <li><strong>18h00 (Soir)</strong> : <span data-pnj="carmen">Carmen</span> prend église en otage</li>
+                        <li><strong>21h00-23h00</strong> : <span data-pnj="carmen">Carmen</span> pend un otage/heure si inaction</li>
+                        <li><strong>24h00 (Minuit suivant)</strong> : Duel final</li>
+                        <li><strong>6h00 (+30h)</strong> : Armée arrive, massacre si échec</li>
+                    </ul>
+                    <p class="warning"><strong>Conseil MJ :</strong> Utilisez un chronomètre visible pour créer urgence réelle. Rappelez l'heure constamment.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🎭 Continuité avec Sessions 1-2</h3>
+                    <ul>
+                        <li><strong>Session 1 :</strong> El Serpiente + Hermanos Muerte (menace externe) → <span data-lieu="tecumah_gulch">Tecumah Gulch</span> sauvée</li>
+                        <li><strong>Session 2 :</strong> Malédiction <span data-lieu="calavera">Calavera</span> + chasseurs (conséquences passé) → El Serpiente mort, or récupéré</li>
+                        <li><strong>Session 3 :</strong> <span data-pnj="carmen">Carmen Muerte</span> + prisonniers (vengeance personnelle) → Conclusion trilogie</li>
+                    </ul>
+                    <p><strong>Évolution personnages :</strong></p>
+                    <ul>
+                        <li><span data-pnj="rosie">Rosie McKenzie</span> : 10 ans (S1) → 11 ans (S2) → 13 ans (S3, deputy officielle)</li>
+                        <li><span data-pnj="blackman">Walt Blackman</span> : Actif (S1) → Blessé (S2) → Passe flambeau (S3)</li>
+                        <li>Héros : Novices (S1) → Légendes (S2) → Protecteurs définitifs (S3)</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- PNJ -->
+            <section id="pnj" class="section">
+                <h2>👥 PERSONNAGES (PNJ)</h2>
+                
+                <div class="pnj-grid">
+                    <!-- Carmen Muerte -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">🐍</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Carmen "La Víbora" Muerte</div>
+                                <div class="pnj-surnom">28 ans - "Le Serpent Vengeur" - Boss Final</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Sœur jumelle d'El Serpiente. Condamnée pour le massacre de Red Ridge (16 morts en une nuit). Veut venger son frère en faisant souffrir les héros comme elle a souffert. Méthodique, patiente, sadique.
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Physique</div>
+                                <ul class="stat-list">
+                                    <li>Femme mince, cheveux noirs longs</li>
+                                    <li>Fouet empoisonné (vipère gravée)</li>
+                                    <li>Cicatrice en V sur joue gauche</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Mental</div>
+                                <ul class="stat-list">
+                                    <li>Venger son frère jumeau</li>
+                                    <li>Faire souffrir émotionnellement</li>
+                                    <li>Mourir avec honneur si nécessaire</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Combat</div>
+                                <ul class="stat-list">
+                                    <li><strong>2 PV</strong></li>
+                                    <li>Fouet empoisonné 4+ (paralyse 1 tour)</li>
+                                    <li>Dague rapide 5+</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Voix douce et calme (terrifiante)</li>
+                                    <li>Sifflote mélodie mexicaine</li>
+                                    <li>Regarde fixement dans les yeux</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Walt Blackman -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">🤠</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Walt Blackman</div>
+                                <div class="pnj-surnom">63 ans - "Iron Will" - Shérif de Tecumah Gulch</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Vieillissant mais déterminé, blessé lors Session 2, considère maintenant sa retraite. L'évasion des prisonniers est son cauchemar personnel - il se sent responsable d'avoir autorisé l'arrêt du convoi. Blessé gravement Acte 3, passe symboliquement son étoile à Rosie.
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme bedonnant, moustache grisonnante</li>
+                                    <li>Étoile cabossée sur gilet usé</li>
+                                    <li>Boite depuis blessure Calavera (canne)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Mental</div>
+                                <ul class="stat-list">
+                                    <li>Protéger Tecumah Gulch jusqu'au bout</li>
+                                    <li>Culpabilité écrasante</li>
+                                    <li>Fatigué du sang</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Parle lentement, réfléchit avant d'agir</li>
+                                    <li>Accent texan marqué</li>
+                                    <li>Refuse qu'on le traite de "vieux"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rosie -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">⭐</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Rosie "Red" McKenzie</div>
+                                <div class="pnj-surnom">13 ans - "La Petite Légende" - Apprentie Deputy</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            A grandi rapidement après Sessions 1-2. S'entraîne avec Blackman, porte son premier badge de deputy. Veut PROUVER qu'elle mérite sa place. Téméraire et impulsive. Capture son premier criminel Acte 2, sauve civil Acte 3, reçoit étoile officielle Acte 5.
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Physique</div>
+                                <ul class="stat-list">
+                                    <li>Tenue apprentie cowgirl</li>
+                                    <li>Revolver miniature (cadeau Blackman)</li>
+                                    <li>Taches de rousseur, regard déterminé</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Mental</div>
+                                <ul class="stat-list">
+                                    <li>Prouver sa valeur aux héros</li>
+                                    <li>Protéger Tecumah Gulch comme eux</li>
+                                    <li>Combattre ses peurs</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Enthousiaste mais parfois maladroite</li>
+                                    <li>Surjoue le courage pour cacher peur</li>
+                                    <li>Idolâtre les héros ("les Légendes")</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mad Dog -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">🐕</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">"Mad Dog" Malone</div>
+                                <div class="pnj-surnom">35 ans - "Le Chien Fou" - Prisonnier Dangereux</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Psychopathe instable condamné pour 9 meurtres. Collectionne les étoiles de shérif arrachées à ses victimes. Ne suit personne, pas même Carmen. Imprévisible et ultraviolent. Attaque Star Saloon (Acte 3).
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme décharné, yeux injectés</li>
+                                    <li>Dents en acier (torturé en prison)</li>
+                                    <li>Chaînes brisées aux poignets</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Combat</div>
+                                <ul class="stat-list">
+                                    <li><strong>2 PV</strong></li>
+                                    <li>Chaînes 4+ (zone 2m)</li>
+                                    <li>Morsure 5+ (rage bestiale)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Rire maniaque constant</li>
+                                    <li>Parle à victimes imaginaires</li>
+                                    <li>Mouvements saccadés</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Silent Jim -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">🔪</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Silent Jim</div>
+                                <div class="pnj-surnom">40 ans - "La Lame Muette" - Prisonnier Furtif</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Assassin muet (langue coupée en prison). Condamné pour 12 contrats d'assassinat. Loyal envers Carmen qui l'a protégé en prison. Tue silencieusement, efficacement. Attaque Star Saloon (Acte 3).
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Combat</div>
+                                <ul class="stat-list">
+                                    <li><strong>1 PV</strong></li>
+                                    <li>Couteaux lancer 4+</li>
+                                    <li>Furtif (6+ pour détecter)</li>
+                                    <li>Gorge tranchée 3+ si surprise</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Communique par gestes uniquement</li>
+                                    <li>Regard vide, inexpressif</li>
+                                    <li>Disparaît des conversations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dolores -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">💣</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">"Dynamite" Dolores</div>
+                                <div class="pnj-surnom">32 ans - "Poudre et Liberté" - Prisonnière Pragmatique</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Experte en explosifs mexicaine. Condamnée pour sabotage de mine (3 morts). Veut juste sa liberté, pas intéressée par vengeance. Peut devenir alliée si bon argument. Capturée Acte 2.
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Combat</div>
+                                <ul class="stat-list">
+                                    <li><strong>1 PV</strong></li>
+                                    <li>Lance dynamite 4+ (explosion zone 5m)</li>
+                                    <li>Piège explosif (dé de dégâts)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Parle fort, rit facilement</li>
+                                    <li>Gesticule exagérément</li>
+                                    <li>Respecte courage adversaires</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Father O'Malley -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">✝️</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Father Declan O'Malley</div>
+                                <div class="pnj-surnom">50 ans - "Le Prêtre Déchu" - Prisonnier Ambigu</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Prêtre irlandais condamné pour avoir brûlé une église avec 7 personnes. Clame son innocence - dit avoir été piégé. Manipulateur ou vraiment innocent ? Capturé Acte 2.
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Combat</div>
+                                <ul class="stat-list">
+                                    <li><strong>1 PV</strong></li>
+                                    <li>Non-violent (fuit)</li>
+                                    <li>Peut convaincre autres se rendre (jet 6)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Cite la Bible constamment</li>
+                                    <li>Bénit tout le monde</li>
+                                    <li>Pleure facilement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Two-Feathers -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">🪶</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Two-Feathers (Deux-Plumes)</div>
+                                <div class="pnj-surnom">26 ans - "Le Guerrier Condamné" - Prisonnier Honorable</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Guerrier Sioux condamné pour avoir tué 2 soldats qui violaient une femme de son village. Code d'honneur strict. Ne veut pas fuir lâchement - veut procès juste. Capturé Acte 2, peut devenir allié.
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Combat</div>
+                                <ul class="stat-list">
+                                    <li><strong>1 PV</strong></li>
+                                    <li>Tomahawk improvisé 4+</li>
+                                    <li>Combat loyal (refuse attaquer dos)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Parle peu, choisit ses mots</li>
+                                    <li>Regard droit et fier</li>
+                                    <li>Respecte adversaires courageux</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Le Professeur -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">🎓</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Le Professeur (Samuel Whitmore)</div>
+                                <div class="pnj-surnom">55 ans - "L'Escroc Génial" - Prisonnier Non-Violent</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Escroc intellectuel condamné pour détournement 50 000$ de fonds publics. Cerveau, pas muscle. Manipule tous les autres prisonniers. Peut acheter sa liberté ? Capturé Acte 2 (par Rosie).
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Combat</div>
+                                <ul class="stat-list">
+                                    <li><strong>0 PV - Non-combattant</strong></li>
+                                    <li>Manipulation sociale (jet 4+)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Vocabulaire sophistiqué</li>
+                                    <li>Condescendant mais charmeur</li>
+                                    <li>Touche constamment ses lunettes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Captain Reeves -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div class="pnj-icon">🎖️</div>
+                            <div class="pnj-info">
+                                <div class="pnj-name">Captain James Reeves</div>
+                                <div class="pnj-surnom">45 ans - "Le Gardien Brutal" - Commandant Pénitentiaire</div>
+                            </div>
+                        </div>
+                        <div class="pnj-description">
+                            Commandant du convoi pénitentiaire. Brutal mais professionnel. A survécu à l'évasion (assommé). Se sent responsable, veut tous les reprendre MORT ou VIF. Rival potentiel des héros.
+                        </div>
+                        <div class="pnj-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Autoritaire, aboie ordres</li>
+                                    <li>Méprise civils (surtout héros)</li>
+                                    <li>Obsédé par règlement militaire</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- LIEUX -->
+            <section id="lieux" class="section">
+                <h2>🗺️ LIEUX PRINCIPAUX</h2>
+                
+                <div class="lieu-card">
+                    <div class="lieu-name">🏘️ Tecumah Gulch (En État de Siège)</div>
+                    <div class="lieu-location">Ville des héros - Transformée en zone de guerre</div>
+                    <h4>Ambiance et description :</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Rues désertes, volets fermés barricadés</li>
+                        <li>Silence oppressant brisé par vent qui siffle</li>
+                        <li>Patrouilles improvisées de citoyens armés nerveux</li>
+                        <li>Tension palpable - chaque ombre est suspect</li>
+                        <li>Star Saloon transformé en QG de crise (Blackman y coordonne recherches)</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-name">🚐 Le Convoi Abandonné</div>
+                    <div class="lieu-location">Lieu de l'évasion - À 2km ouest de Tecumah Gulch</div>
+                    <h4>Ambiance et description :</h4>
+                    <ul class="lieu-ambiance">
+                        <li>3 chariots-cages renversés dans tempête de sable</li>
+                        <li>Barreaux tordus, cadenas forcés de l'intérieur (aide extérieure?)</li>
+                        <li>2 gardes morts (gorge tranchée - Silent Jim)</li>
+                        <li>1 garde assommé (Captain Reeves) - témoin confus</li>
+                        <li>Traces multiples partent dans toutes directions (tactique dispersion)</li>
+                        <li>Fouet de Carmen oublié volontairement (message)</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-name">⛪ L'Église Saint-Michel</div>
+                    <div class="lieu-location">Bâtiment occupé par Carmen (Acte 4) - Centre de Tecumah Gulch</div>
+                    <h4>Ambiance et description :</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Clocher le plus haut de la ville (point de vue stratégique)</li>
+                        <li>Vitraux brisés par tempête, bancs renversés</li>
+                        <li>12 citoyens pris en otages (femmes, enfants, vieillards)</li>
+                        <li>Carmen installée à l'autel comme juge (symbolique)</li>
+                        <li>Corde de pendu préparée au centre de la nef (pour les héros)</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-name">⛏️ La Mine Abandonnée</div>
+                    <div class="lieu-location">Cachette Potentielle - 1km nord de Tecumah Gulch</div>
+                    <h4>Ambiance et description :</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Ancienne mine d'argent abandonnée depuis 1843</li>
+                        <li>Tunnels sombres, éboulements dangereux</li>
+                        <li>Parfait pour embuscade ou piège</li>
+                        <li>Mad Dog et Silent Jim peuvent s'y cacher</li>
+                        <li>Risque d'effondrement si explosion (Dolores)</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-name">🌾 Les Fermes Environnantes</div>
+                    <div class="lieu-location">Lieux de capture - Périphérie 5km autour de Tecumah Gulch</div>
+                    <h4>Ambiance et description :</h4>
+                    <ul class="lieu-ambiance">
+                        <li>4-5 fermes isolées, familles terrorisées</li>
+                        <li>Granges, silos, étables (cachettes possibles)</li>
+                        <li>Champs de maïs (furtivité pour Silent Jim)</li>
+                        <li>Two-Feathers se cache chez fermière qui l'a nourri</li>
+                        <li>Father O'Malley dans chapelle de ferme McAllister</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 1 -->
+            <section id="scene1" class="section">
+                <h2>🌅 SCÈNE 1 : L'AUBE SANGLANTE (0h-6h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE I - L'Évasion Révélée</div>
+                        <div class="scene-synopsis">Les héros dorment paisiblement après 2 mois de tranquillité. À l'aube, <span data-pnj="rosie">Rosie</span> tambourine à leur porte : le convoi pénitentiaire a été attaqué, 7 prisonniers ont disparu, dont <span data-pnj="carmen">Carmen Muerte</span>. <span data-pnj="blackman">Blackman</span> convoque urgence au Star Saloon. Découverte du convoi abandonné, 2 morts, <span data-pnj="reeves">Captain Reeves</span> survit et accuse les héros d'incompétence. Course contre la montre commence.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Date</div>
+                                    <div class="info-value">2 mois après Calavera (fin d'été 1850)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Aube (6h00) - Brume matinale</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Après tempête - Air saturé poussière</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">30 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Établir urgence (timer 24h avant arrivée armée)</li>
+                                <li>Révéler menace : <span data-pnj="carmen">Carmen Muerte</span> veut vengeance</li>
+                                <li>Présenter <span data-pnj="reeves">Captain Reeves</span> (rival potentiel)</li>
+                                <li>Découvrir scène de crime (indices sur prisonniers)</li>
+                                <li>Lancer traque des 7 fugitifs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">ℹ️ Informations à Révéler</div>
+                            <h4>Au Star Saloon (<span data-pnj="blackman">Blackman</span> explique) :</h4>
+                            <ul>
+                                <li>Convoi pénitentiaire devait traverser sans s'arrêter</li>
+                                <li>Tempête a forcé arrêt d'urgence 2km à l'ouest</li>
+                                <li><span data-pnj="blackman">Blackman</span> a autorisé contre avis de <span data-pnj="reeves">Reeves</span> (culpabilité)</li>
+                                <li>Prisonniers tous condamnés à mort ou perpétuité</li>
+                                <li><strong><span data-pnj="carmen">Carmen "La Víbora" Muerte</span></strong> - sœur jumelle d'El Serpiente</li>
+                                <li>Armée prévenue, arrive dans 24h avec ordre : "tuer tout ce qui bouge"</li>
+                            </ul>
+                            
+                            <h4>Sur le Convoi Abandonné (investigation) :</h4>
+                            <ul>
+                                <li>2 gardes morts : gorges tranchées proprement (<span data-pnj="silent_jim">Silent Jim</span>)</li>
+                                <li><span data-pnj="reeves">Captain Reeves</span> assommé, contusion crâne (<span data-pnj="mad_dog">Mad Dog</span> avec chaîne)</li>
+                                <li>Barreaux forcés DE L'INTÉRIEUR mais outil extérieur nécessaire</li>
+                                <li>Fouet de <span data-pnj="carmen">Carmen</span> volontairement laissé (message : "Je suis là")</li>
+                                <li>Traces partent dans 7 directions différentes (tactique coordonnée)</li>
+                                <li>Test Pistage (4+) : repérer que traces se rejoignent 500m plus loin</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Les héros partent immédiatement en traque →</strong> Début Acte 2</li>
+                                <li><strong>Les héros interrogent <span data-pnj="reeves">Reeves</span> →</strong> Il révèle profils des 7 (mais les méprise)</li>
+                                <li><strong><span data-pnj="rosie">Rosie</span> insiste pour venir →</strong> <span data-pnj="blackman">Blackman</span> refuse catégoriquement (elle désobéira)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Faire <span data-pnj="reeves">Captain Reeves</span> trop antipathique : il est professionnel, pas méchant</li>
+                                <li>Négliger urgence temporelle : rappeler timer constamment</li>
+                                <li>Oublier culpabilité de <span data-pnj="blackman">Blackman</span> (il a autorisé l'arrêt)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 2 -->
+            <section id="scene2" class="section">
+                <h2>🔍 SCÈNE 2 : LA TRAQUE (6h-12h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE II - La Chasse aux Fugitifs</div>
+                        <div class="scene-synopsis">Les héros se séparent ou restent groupés pour traquer les fugitifs. Chaque prisonnier a fui vers un lieu différent. Cette scène est composée de 3-4 mini-confrontations où les héros capturent (ou tuent) les prisonniers "faciles" : <span data-pnj="dolores">Dolores</span>, <span data-pnj="two_feathers">Two-Feathers</span>, <span data-pnj="omalley">Father O'Malley</span>, <span data-pnj="professeur">Le Professeur</span>. Chaque capture révèle des informations sur le plan de <span data-pnj="carmen">Carmen</span>. <span data-pnj="rosie">Rosie</span> suit en secret et capture Le Professeur seule (moment héroïque).</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">6h00-12h00 (matinée)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Soleil écrasant après tempête (40°C)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">40 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Capturer 3-4 prisonniers "accessibles"</li>
+                                <li>Révéler personnalités distinctes de chaque fugitif</li>
+                                <li>Créer dilemmes moraux (<span data-pnj="two_feathers">Two-Feathers</span> innocent ? <span data-pnj="omalley">O'Malley</span> manipulateur ?)</li>
+                                <li>Faire progresser <span data-pnj="rosie">Rosie</span> (capture son premier criminel)</li>
+                                <li>Rassembler indices sur plan de <span data-pnj="carmen">Carmen</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎭 Mini-Confrontations</div>
+                            
+                            <h4>A) <span data-pnj="dolores">Dolores</span> à la Ferme Henderson (Combat optionnel)</h4>
+                            <p><strong>Setup :</strong> Famille Henderson terrorisée, cachée dans maison. <span data-pnj="dolores">Dolores</span> barricadée dans grange avec explosifs. Crie qu'elle fera tout sauter si approche. Veut juste un cheval pour fuir au Mexique.</p>
+                            <p><strong>Options :</strong></p>
+                            <ul>
+                                <li><strong>Négocier (jet 5+) :</strong> Elle accepte se rendre si on lui promet procès équitable (+ cheval pour s'enfuir plus tard)</li>
+                                <li><strong>Forcer (combat) :</strong> 1 PV - Lance dynamite 4+ (explosion zone 5m, grange s'effondre)</li>
+                                <li><strong>Piéger :</strong> <span data-pnj="rosie">Rosie</span> fait diversion pendant héros entre par derrière (jet 5+)</li>
+                            </ul>
+                            <p><strong>Révélation si capturée :</strong> "<span data-pnj="carmen">Carmen</span> m'a libérée pour créer chaos. Elle veut vous épuiser avant vraie confrontation. <span data-pnj="mad_dog">Mad Dog</span> et <span data-pnj="silent_jim">Silent Jim</span> sont ses lames - mais elle vous attend quelque part en ville."</p>
+                            
+                            <h4>B) <span data-pnj="two_feathers">Two-Feathers</span> à la Ferme O'Connor (Dilemme moral)</h4>
+                            <p><strong>Setup :</strong> Fermière Molly O'Connor (veuve, 50 ans) cache <span data-pnj="two_feathers">Two-Feathers</span> dans cave. <span data-pnj="two_feathers">Two-Feathers</span> a fers aux pieds, n'a pas fui loin. Molly : "Il a sauvé ma fille d'un viol ! Il est innocent !" <span data-pnj="two_feathers">Two-Feathers</span> refuse fuir lâchement, veut procès équitable.</p>
+                            <p><strong>Options :</strong></p>
+                            <ul>
+                                <li><strong>Capturer malgré protestations :</strong> Molly haineuse, <span data-pnj="two_feathers">Two-Feathers</span> accepte dignement</li>
+                                <li><strong>Écouter son histoire (jet 6) :</strong> Révèle qu'il a tué 2 soldats en 1849 pour défendre femme violée</li>
+                                <li><strong>Laisser partir :</strong> <span data-pnj="blackman">Blackman</span> furieux plus tard, mais <span data-pnj="two_feathers">Two-Feathers</span> devient allié Acte 4</li>
+                                <li><strong>Promettre procès équitable :</strong> <span data-pnj="two_feathers">Two-Feathers</span> se rend volontairement</li>
+                            </ul>
+                            <p><strong>Révélation si capturé :</strong> "<span data-pnj="carmen">Carmen</span> a parlé de 'jugement' à l'<span data-lieu="eglise">église</span>. Elle veut que toute la ville vous voie échouer. Elle a dit : 'Ils m'ont pris mon frère, je leur prendrai leur espoir.'"</p>
+                            
+                            <h4>C) <span data-pnj="omalley">Father O'Malley</span> à la Chapelle McAllister (Manipulation)</h4>
+                            <p><strong>Setup :</strong> Petite chapelle isolée, <span data-pnj="omalley">Father O'Malley</span> prie à genoux. Pleure, Bible ouverte, semble sincèrement repentant. "Je n'ai pas brûlé cette église ! J'ai été piégé !" Argumentaire convaincant (jet 4+ pour douter de lui).</p>
+                            <p><strong>Options :</strong></p>
+                            <ul>
+                                <li><strong>Croire et aider :</strong> Il promet témoigner contre <span data-pnj="carmen">Carmen</span> (mais peut être piège)</li>
+                                <li><strong>Capturer quand même :</strong> Il se laisse faire, continue prier</li>
+                                <li><strong>Tester sincérité :</strong> Lui donner chance fuir - s'il reste = innocent ?</li>
+                            </ul>
+                            <p><strong>Révélation (vraie ou fausse ?) :</strong> "<span data-pnj="carmen">Carmen</span> veut quelque chose de personnel de chacun de vous. Elle a dit : 'Je veux leurs âmes brisées, pas leurs corps morts.' Elle a prévu quelque chose à l'<span data-lieu="eglise">église</span>... un 'procès public'."</p>
+                            
+                            <h4>D) <span data-pnj="professeur">Le Professeur</span> sur la Route (Négociation)</h4>
+                            <p><strong>Setup :</strong> Marche calmement sur route principale. Pas armé, mains levées dès qu'il voit héros. "Messieurs, négocions. Je peux vous être utile." Offre 10 000$ cachés quelque part contre liberté.</p>
+                            <p><strong>Options :</strong></p>
+                            <ul>
+                                <li><strong>Accepter pot-de-vin (jet 6 Moralité) :</strong> Il révèle cache puis trahit potentiellement</li>
+                                <li><strong>Refuser et capturer :</strong> "Vous commettez une erreur stratégique"</li>
+                                <li><strong>Utiliser ses infos :</strong> Il connaît plan de <span data-pnj="carmen">Carmen</span> (échange info contre clémence)</li>
+                            </ul>
+                            <p><strong>Révélation (si négociation) :</strong> "<span data-pnj="carmen">Carmen</span> a recruté <span data-pnj="mad_dog">Mad Dog</span> et <span data-pnj="silent_jim">Silent Jim</span> comme assassins. Elle veut capturer quelqu'un de précieux pour vous... une enfant peut-être ? Une certaine <span data-pnj="rosie">Rosie</span> dont vous êtes proches ?"</p>
+                            <p><strong>MOMENT CLÉ :</strong> <span data-pnj="rosie">Rosie</span> révélée ici (elle suivait héros depuis le début)</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">⭐ Événement : <span data-pnj="rosie">Rosie</span> Révélée (vers 10h)</div>
+                            <p><span data-pnj="rosie">Rosie</span> a suivi héros en secret. Quand <span data-pnj="professeur">Professeur</span> mentionne son nom, elle sort de cachette :</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (fière) :</strong> "Je savais que vous auriez besoin d'aide ! Et j'ai capturé celui-ci moi-même !"</p>
+                            <p>Elle a pistolé Le <span data-pnj="professeur">Professeur</span> discrètement pendant que héros interrogeaient <span data-pnj="two_feathers">Two-Feathers</span>. <strong>Moment héroïque pour elle</strong> - les héros peuvent :</p>
+                            <ul>
+                                <li><strong>La féliciter :</strong> Moral de <span data-pnj="rosie">Rosie</span> +10, compétente pour Acte 3-4</li>
+                                <li><strong>La gronder :</strong> Moral de <span data-pnj="rosie">Rosie</span> -5, mais elle obéit mieux</li>
+                                <li><strong>L'envoyer chez <span data-pnj="blackman">Blackman</span> :</strong> Elle désobéit et revient Acte 3</li>
+                            </ul>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (arrive peu après, furieux mais fier) :</strong> "Cette gamine va me tuer de stress avant les bandits !"</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>4 prisonniers capturés →</strong> Retour <span data-lieu="tecumah_gulch">Tecumah Gulch</span>, interrogatoires, préparation Acte 3</li>
+                                <li><strong>Moins de 3 capturés →</strong> <span data-pnj="carmen">Carmen</span> lance plan B plus tôt (Acte 3 anticipé)</li>
+                                <li><strong><span data-pnj="rosie">Rosie</span> blessée :</strong> <span data-pnj="blackman">Blackman</span> retire héros de l'affaire (conflit dramatique)</li>
+                                <li><strong><span data-pnj="reeves">Captain Reeves</span> interfère :</strong> Veut capturer prisonniers lui-même (rivalité)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Rendre captures trop faciles : chacun doit être mini-défi unique</li>
+                                <li>Oublier personnalités : <span data-pnj="two_feathers">Two-Feathers</span> honorable ≠ <span data-pnj="dolores">Dolores</span> pragmatique</li>
+                                <li>Négliger dilemmes moraux : certains méritent vraiment clémence ?</li>
+                                <li>Minimiser révélations : chaque capturé doit donner indice sur <span data-pnj="carmen">Carmen</span></li>
+                                <li>Oublier <span data-pnj="rosie">Rosie</span> : son arc narratif commence ici</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 3 -->
+            <section id="scene3" class="section">
+                <h2>💥 SCÈNE 3 : LE PIÈGE (12h-18h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE III - L'Embuscade au Star Saloon</div>
+                        <div class="scene-synopsis">Les héros reviennent à <span data-lieu="tecumah_gulch">Tecumah Gulch</span> vers midi avec leurs prisonniers. Le Star Saloon semble calme. SOUDAIN : <span data-pnj="mad_dog">Mad Dog</span> surgit du toit en hurlant, chaînes tournoyantes. <span data-pnj="silent_jim">Silent Jim</span> égorge un civil depuis les ombres. Chaos total. <span data-pnj="blackman">Blackman</span> se jette pour protéger une femme - blessé gravement par <span data-pnj="mad_dog">Mad Dog</span>. Combat urbain intense : toits, ruelles, barricades. <span data-pnj="rosie">Rosie</span> sauve un enfant. <span data-pnj="blackman">Blackman</span>, mourant, passe symboliquement son étoile à <span data-pnj="rosie">Rosie</span> : "Tu es deputy maintenant, petite."</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">12h00-18h00 (après-midi)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Star Saloon + Rues de Tecumah Gulch</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Soleil écrasant (45°C), poussière</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">30 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Créer chaos soudain et imprévu (piège parfait de <span data-pnj="carmen">Carmen</span>)</li>
+                                <li>Blesser gravement <span data-pnj="blackman">Blackman</span> (passage de flambeau symbolique)</li>
+                                <li>Faire briller <span data-pnj="rosie">Rosie</span> (sauve un civil, prouve sa valeur)</li>
+                                <li>Combat urbain spectaculaire (toits, ruelles, barricades)</li>
+                                <li>Capturer <span data-pnj="mad_dog">Mad Dog</span> et <span data-pnj="silent_jim">Silent Jim</span> (2 mini-boss)</li>
+                                <li>Découvrir note de <span data-pnj="carmen">Carmen</span> : rendez-vous <span data-lieu="eglise">église</span> minuit</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement de la Scène</div>
+                            
+                            <h4>Phase 1 : Le Calme Trompeur (12h00)</h4>
+                            <p>Héros reviennent au Star Saloon, prisonniers enchaînés. <span data-pnj="blackman">Blackman</span> félicite : "Bon travail, les gars. On les enferme et—"</p>
+                            <p><strong>SOUDAIN :</strong> Rire maniaque du toit. <span data-pnj="mad_dog">Mad Dog</span> surgit, chaînes brisées tournoyantes.</p>
+                            <p><strong><span data-pnj="mad_dog">Mad Dog</span> :</strong> "HAHAHAHA ! Venez chercher votre mort, shérifs de pacotille !"</p>
+                            
+                            <h4>Phase 2 : L'Attaque Coordonnée (12h05)</h4>
+                            <p><strong><span data-pnj="mad_dog">Mad Dog</span> (toit du Star Saloon) :</strong></p>
+                            <ul>
+                                <li>Saute du toit, chaînes fouettent zone 2m (jet 4+ pour éviter, 1 dégât)</li>
+                                <li>Cible prioritaire : <span data-pnj="blackman">Blackman</span> (veut son étoile pour collection)</li>
+                                <li>Combat 2 PV : Chaînes 4+, Morsure 5+ si corps à corps</li>
+                                <li>Tactique : Attire héros loin des civils pour que <span data-pnj="silent_jim">Silent Jim</span> agisse</li>
+                            </ul>
+                            
+                            <p><strong><span data-pnj="silent_jim">Silent Jim</span> (ombres/ruelles) :</strong></p>
+                            <ul>
+                                <li>Égorge Martha (serveuse) silencieusement (jet 6+ pour remarquer à temps)</li>
+                                <li>Si héros dispersés : assassine 1 civil supplémentaire</li>
+                                <li>Combat 1 PV : Furtif (6+ détection), Couteaux lancés 4+, Gorge 3+ si surprise</li>
+                                <li>Tactique : Reste caché, frappe isolés, disparaît après chaque kill</li>
+                            </ul>
+                            
+                            <h4>Phase 3 : Le Sacrifice de <span data-pnj="blackman">Blackman</span> (12h15)</h4>
+                            <p><strong>Moment clé :</strong> <span data-pnj="mad_dog">Mad Dog</span> fonce vers femme + enfant terrifiés. <span data-pnj="blackman">Blackman</span> se jette devant.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Pas tant que je respire encore !"</p>
+                            <p>Chaînes de <span data-pnj="mad_dog">Mad Dog</span> s'enroulent autour poitrine <span data-pnj="blackman">Blackman</span>. CRACK audible (côtes brisées). <span data-pnj="blackman">Blackman</span> s'effondre, crachant sang.</p>
+                            <p><strong>Conséquence :</strong> <span data-pnj="blackman">Blackman</span> hors combat (2 dégâts, mourra sans soin rapide). Héros DOIVENT le protéger ET combattre.</p>
+                            
+                            <h4>Phase 4 : <span data-pnj="rosie">Rosie</span> Sauve un Civil (12h20)</h4>
+                            <p><strong>Moment héroïque :</strong> <span data-pnj="silent_jim">Silent Jim</span> se faufile vers Tommy (enfant 8 ans, orphelin). Couteau levé.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (surgit, tir parfait) :</strong> "Pas lui !"</p>
+                            <p>Jet 5+ : <span data-pnj="rosie">Rosie</span> tire, touche bras <span data-pnj="silent_jim">Silent Jim</span>. <span data-pnj="silent_jim">Silent Jim</span> s'enfuit, Tommy sauvé.</p>
+                            <p>Si échec (1-4) : <span data-pnj="rosie">Rosie</span> se jette physiquement sur <span data-pnj="silent_jim">Silent Jim</span>, bagarre, héros arrivent à temps.</p>
+                            <p><strong>Conséquence :</strong> <span data-pnj="rosie">Rosie</span> a PROUVÉ qu'elle mérite l'étoile. Tommy pleure dans ses bras : "T'es un vrai héros !"</p>
+                            
+                            <h4>Phase 5 : Combat Urbain Chaotique (12h25-12h45)</h4>
+                            <p><strong>Zones de combat :</strong></p>
+                            <ul>
+                                <li><strong>Star Saloon (intérieur) :</strong> Tables renversées, bouteilles explosent, barricades improvisées</li>
+                                <li><strong>Rue Principale :</strong> Chevaux paniqués, chariots obstacles, civils fuient</li>
+                                <li><strong>Toits :</strong> <span data-pnj="mad_dog">Mad Dog</span> saute toit en toit, tire héros vers pièges</li>
+                                <li><strong>Ruelles :</strong> <span data-pnj="silent_jim">Silent Jim</span> apparaît/disparaît, embuscades répétées</li>
+                            </ul>
+                            
+                            <p><strong>Tactiques des ennemis :</strong></p>
+                            <ul>
+                                <li><span data-pnj="mad_dog">Mad Dog</span> : Attire héros loin des civils, combat direct, accepte blessures pour continuer</li>
+                                <li><span data-pnj="silent_jim">Silent Jim</span> : Harcèlement furtif, jamais engage frontalement, fuit si découvert</li>
+                                <li><strong>Coordination :</strong> Quand héros focalisent un, l'autre frappe ailleurs</li>
+                            </ul>
+                            
+                            <h4>Phase 6 : Passage de l'Étoile (13h00)</h4>
+                            <p><strong>Après capture des 2 fugitifs :</strong> Héros reviennent à <span data-pnj="blackman">Blackman</span>. Doc Miller (médecin) soigne. <span data-pnj="blackman">Blackman</span> conscient mais affaibli.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (retire son étoile, main tremblante) :</strong> "Rosie... viens ici."</p>
+                            <p><span data-pnj="rosie">Rosie</span> s'approche, yeux embués. <span data-pnj="blackman">Blackman</span> épingle étoile sur sa chemise.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Tu es deputy maintenant, petite. Protège cette ville... comme je l'ai protégée pendant 40 ans."</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (sanglote) :</strong> "Vous allez guérir ! Vous allez revenir !"</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (sourire faible) :</strong> "Peut-être... mais si je reviens pas, tu sais quoi faire."</p>
+                            <p><strong>Conséquence :</strong> <span data-pnj="rosie">Rosie</span> officiellement deputy temporaire. Citoyens applaudissent faiblement. Moment solennel.</p>
+                            
+                            <h4>Phase 7 : La Note de <span data-pnj="carmen">Carmen</span> (13h15)</h4>
+                            <p>Fouille <span data-pnj="mad_dog">Mad Dog</span> : Note pliée dans poche, encre rouge.</p>
+                            <p><strong>Note :</strong> <em>"Chers héros, vous avez capturé mes pions. Félicitations. Maintenant vient le vrai jeu. Rendez-vous à l'<span data-lieu="eglise">Église Saint-Michel</span>, minuit. Venez seuls, désarmés, ou 12 innocents pendent. Vous avez 11 heures pour décider. - C.M."</em></p>
+                            <p>Pli supplémentaire : Liste 12 noms (familles connues : Henderson, O'Connor, McAllister...)</p>
+                            <p><strong>Réalisation :</strong> <span data-pnj="carmen">Carmen</span> a prévu TOUT depuis le début. Piège était diversion pour occuper <span data-lieu="eglise">église</span>.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">⚔️ Stats de Combat</div>
+                            
+                            <h4><span data-pnj="mad_dog">Mad Dog Malone</span> (Mini-Boss)</h4>
+                            <ul>
+                                <li><strong>2 PV</strong></li>
+                                <li><strong>Chaînes tournoyantes :</strong> 4+ pour toucher, zone 2m, 1 dégât + cible repoussée</li>
+                                <li><strong>Morsure bestiale :</strong> 5+ pour toucher, 1 dégât + infection (malus -1 prochain jet)</li>
+                                <li><strong>Résistance douleur :</strong> Continue combattre même à 0 PV (1 tour supplémentaire avant effondrement)</li>
+                                <li><strong>Tactique :</strong> Fonce tête baissée, ignore danger, cible shérifs/figures autorité</li>
+                            </ul>
+                            
+                            <h4><span data-pnj="silent_jim">Silent Jim</span> (Mini-Boss)</h4>
+                            <ul>
+                                <li><strong>1 PV</strong></li>
+                                <li><strong>Furtif :</strong> 6+ pour détecter avant qu'il frappe</li>
+                                <li><strong>Couteaux lancés :</strong> 4+ pour toucher, portée 10m, 1 dégât</li>
+                                <li><strong>Gorge tranchée :</strong> 3+ pour toucher SI surprise totale, tue instantanément civils (héros : 2 dégâts)</li>
+                                <li><strong>Ombre vivante :</strong> Après chaque attaque, disparaît (jet 5+ pour pister)</li>
+                                <li><strong>Tactique :</strong> Harcèlement, jamais combat loyal, fuit si acculé</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Les 2 capturés, <span data-pnj="blackman">Blackman</span> survit →</strong> Préparation Acte 4 (11h restantes)</li>
+                                <li><strong><span data-pnj="blackman">Blackman</span> meurt →</strong> Funérailles rapides (2h), moral -10, <span data-pnj="rosie">Rosie</span> vengeance</li>
+                                <li><strong>1 fugitif s'échappe →</strong> Il rejoint <span data-pnj="carmen">Carmen</span> à l'<span data-lieu="eglise">église</span> (boss fight +1 ennemi)</li>
+                                <li><strong>Civils morts (3+) →</strong> Citoyens furieux contre héros, refusent aider Acte 4</li>
+                                <li><strong><span data-pnj="rosie">Rosie</span> blessée gravement →</strong> <span data-pnj="blackman">Blackman</span> refuse mourir, reste conscient par volonté</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Télégraphier l'embuscade : Doit être surprise TOTALE</li>
+                                <li>Tuer <span data-pnj="blackman">Blackman</span> gratuitement : Si meurt, DOIT être héroïque et mémorable</li>
+                                <li>Minimiser chaos : Tables volent, vitres explosent, chevaux paniquent, poussière partout</li>
+                                <li>Oublier <span data-pnj="rosie">Rosie</span> : Son moment de sauver Tommy est CRUCIAL pour arc narratif</li>
+                                <li>Combat trop long : 20-25 minutes max, sinon perd rythme</li>
+                                <li>Faire <span data-pnj="silent_jim">Silent Jim</span> combattre loyalement : Il est FURTIF, pas guerrier</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 4 -->
+            <section id="scene4" class="section">
+                <h2>⛪ SCÈNE 4 : L'ULTIMATUM (18h-23h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE IV - Le Siège de l'Église</div>
+                        <div class="scene-synopsis">18h00 : Les cloches de l'<span data-lieu="eglise">Église Saint-Michel</span> sonnent lugubrement. <span data-pnj="carmen">Carmen</span> occupe l'église avec 12 otages (familles connues). Un enfant apporte message : "Venez me rendre visite. Minuit. Seuls et désarmés. Ou ils pendent tous, un par heure à partir de 21h." Les héros ont 5 heures pour planifier leur approche finale. L'armée arrive dans 6 heures - si échec, massacre total. Tension maximale, choix stratégique crucial.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">18h00-23h00 (soirée/nuit)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Église Saint-Michel (occupée)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Nuit tombante, vent se lève</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">20 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Créer tension maximale avant climax final</li>
+                                <li>Forcer héros à planifier tactiquement (5 heures in-game)</li>
+                                <li>Révéler ultimatum de <span data-pnj="carmen">Carmen</span> : venir seuls/désarmés ou otages meurent</li>
+                                <li>Présenter multiple approches possibles (diplomatie, infiltration, assaut, piège...)</li>
+                                <li>Gérer timer : exécutions programmées 21h, 22h, 23h si inaction</li>
+                                <li>Impliquer <span data-pnj="rosie">Rosie</span>, <span data-pnj="reeves">Reeves</span>, prisonniers capturés comme ressources</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement de la Scène</div>
+                            
+                            <h4>18h00 - Les Cloches Sonnent</h4>
+                            <p>Héros soignent blessés après Acte 3. Soudain : DONG... DONG... DONG... Cloches <span data-lieu="eglise">église</span> sonnent 12 coups lents.</p>
+                            <p>Enfant (Tommy, celui sauvé par <span data-pnj="rosie">Rosie</span>) arrive en courant, lettre rouge dans main tremblante.</p>
+                            <p><strong>Tommy (pleure) :</strong> "Une dame m'a donné ça... Elle a dit que si je courais pas assez vite, ma mère mourrait..."</p>
+                            
+                            <h4>18h05 - La Lettre de <span data-pnj="carmen">Carmen</span></h4>
+                            <p><strong>Contenu (encre rouge sang, écriture élégante) :</strong></p>
+                            <p style="font-style: italic; padding: 15px; background: rgba(139,0,0,0.2); border-left: 4px solid #8B0000; margin: 10px 0;">
+                                "Chers assassins de mon frère,<br><br>
+                                Vous m'avez pris Rodrigo. Mon jumeau. Mon âme. Maintenant, je veux que vous ressentiez ce que j'ai ressenti : l'impuissance.<br><br>
+                                J'ai 12 innocents. Femmes, enfants, vieillards. Ils ont peur. Comme j'avais peur quand j'ai appris la mort de Rodrigo.<br><br>
+                                Rendez-vous à l'Église Saint-Michel. Minuit. Venez seuls. Désarmés. Nous aurons une conversation d'adultes.<br><br>
+                                Si vous refusez, ou si vous tentez quoi que ce soit avant minuit, je pends un otage par heure à partir de 21h.<br><br>
+                                Le premier sera Old Pete. À 22h, ce sera Mary et son bébé. À 23h, Father Sullivan.<br><br>
+                                L'armée arrive à 6h demain. S'ils trouvent des corps, ils brûleront cette ville entière. Vous le savez.<br><br>
+                                Alors... que choisirez-vous ? Votre fierté, ou leurs vies ?<br><br>
+                                Je vous attends.<br><br>
+                                - Carmen 'La Víbora' Muerte"
+                            </p>
+                            
+                            <h4>18h15 - Reconnaissance de l'Église</h4>
+                            <p>Héros observent <span data-lieu="eglise">église</span> depuis toits/ruelles. Voici ce qu'ils voient :</p>
+                            <ul>
+                                <li><strong>Clocher :</strong> <span data-pnj="carmen">Carmen</span> visible par moments, fouet à la ceinture, surveille approches</li>
+                                <li><strong>Porte principale :</strong> Barricadée de l'intérieur, impossible forcer sans bruit</li>
+                                <li><strong>Vitraux :</strong> Brisés (tempête), mais trop hauts pour entrer (3m)</li>
+                                <li><strong>Otages :</strong> Assis bancs avant, attachés ensemble, bâillonnés</li>
+                                <li><strong>Autel :</strong> Corde pendu préparée au centre de la nef (pour les héros ?)</li>
+                                <li><strong><span data-pnj="carmen">Carmen</span> seule ?</strong> Oui, pas d'autres fugitifs visibles</li>
+                            </ul>
+                            
+                            <h4>18h30 - Conseil de Guerre</h4>
+                            <p>Retour Star Saloon. Héros, <span data-pnj="rosie">Rosie</span>, <span data-pnj="reeves">Captain Reeves</span>, citoyens clés débattent.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (étoile sur poitrine, sérieuse) :</strong> "On peut pas laisser ces gens mourir. Blackman aurait accepté l'ultimatum."</p>
+                            <p><strong><span data-pnj="reeves">Reeves</span> (brutal) :</strong> "Assaut frontal. 20 soldats, on défonce la porte, on neutralise la cible. Pertes acceptables."</p>
+                            <p><strong>Citoyen (père d'otage) :</strong> "Si vous attaquez, elle tuera ma fille ! S'il vous plaît, négociez !"</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Options Tactiques Disponibles</div>
+                            
+                            <h4>Option A : Accepter l'Ultimatum (Héroïsme)</h4>
+                            <p><strong>Description :</strong> Héros vont seuls, désarmés, à minuit comme demandé.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Otages libérés vivants (si <span data-pnj="carmen">Carmen</span> respecte parole)</li>
+                                <li>Duel loyal probable (honneur mexicain de <span data-pnj="carmen">Carmen</span>)</li>
+                                <li>Citoyens voient héros comme martyrs potentiels</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li>Héros TRÈS vulnérables (désarmés face boss 2 PV)</li>
+                                <li><span data-pnj="carmen">Carmen</span> peut les tuer puis otages quand même</li>
+                                <li>Aucun plan B si trahison</li>
+                            </ul>
+                            <p><strong>Jet requis :</strong> Aucun (courage pur)</p>
+                            
+                            <h4>Option B : Assaut Frontal (<span data-pnj="reeves">Reeves</span>)</h4>
+                            <p><strong>Description :</strong> <span data-pnj="reeves">Captain Reeves</span> + 15 soldats défoncent porte, neutralisent <span data-pnj="carmen">Carmen</span>.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Force brute, probabilité haute capturer/tuer <span data-pnj="carmen">Carmen</span></li>
+                                <li>Héros pas vulnérables personnellement</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li><span data-pnj="carmen">Carmen</span> tue 2-3 otages pendant assaut (garanti)</li>
+                                <li>Citoyens haïssent héros pour pertes</li>
+                                <li><span data-pnj="carmen">Carmen</span> peut s'échapper chaos (jet 5+ pour bloquer fuite)</li>
+                            </ul>
+                            <p><strong>Jet requis :</strong> 4+ coordonner assaut, 5+ minimiser pertes</p>
+                            
+                            <h4>Option C : Infiltration Nocturne (<span data-pnj="rosie">Rosie</span>)</h4>
+                            <p><strong>Description :</strong> <span data-pnj="rosie">Rosie</span> révèle passage secret cave → crypte église (elle jouait là enfant).</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Surprise totale, <span data-pnj="carmen">Carmen</span> ne surveille pas crypte</li>
+                                <li>Héros armés, avantage tactique</li>
+                                <li>Possibilité libérer otages avant confronter <span data-pnj="carmen">Carmen</span></li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li>Passage étroit, 1 personne à la fois (lent)</li>
+                                <li>Si <span data-pnj="carmen">Carmen</span> détecte (jet 6+), tue otages immédiatement</li>
+                                <li><span data-pnj="rosie">Rosie</span> DOIT guider (elle en danger)</li>
+                            </ul>
+                            <p><strong>Jet requis :</strong> 5+ furtivité, 6+ éviter grincements plancher</p>
+                            
+                            <h4>Option D : Négociation (<span data-pnj="omalley">Father O'Malley</span>)</h4>
+                            <p><strong>Description :</strong> Si <span data-pnj="omalley">O'Malley</span> capturé Acte 2, il propose parlementer (prêtre → prêtre).</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li><span data-pnj="carmen">Carmen</span> peut écouter homme d'église</li>
+                                <li>Temps gagné pour préparer autre plan</li>
+                                <li>Possible convaincre <span data-pnj="carmen">Carmen</span> se rendre (jet 6)</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li><span data-pnj="omalley">O'Malley</span> manipulateur - peut trahir</li>
+                                <li><span data-pnj="carmen">Carmen</span> peut tuer <span data-pnj="omalley">O'Malley</span> comme message</li>
+                                <li>Si échec négo, <span data-pnj="carmen">Carmen</span> exécute otage immédiatement</li>
+                            </ul>
+                            <p><strong>Jet requis :</strong> 5+ persuasion <span data-pnj="omalley">O'Malley</span>, 6+ convaincre <span data-pnj="carmen">Carmen</span></p>
+                            
+                            <h4>Option E : Piège Explosif (<span data-pnj="dolores">Dolores</span>)</h4>
+                            <p><strong>Description :</strong> Si <span data-pnj="dolores">Dolores</span> capturée Acte 2, elle propose piéger extérieur église.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Quand <span data-pnj="carmen">Carmen</span> sort (après minuit ?), explosion contrôlée</li>
+                                <li>Neutralise <span data-pnj="carmen">Carmen</span> sans risque otages</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li><span data-pnj="carmen">Carmen</span> peut NE JAMAIS sortir</li>
+                                <li>Si explosion trop forte, église s'effondre (otages morts)</li>
+                                <li><span data-pnj="dolores">Dolores</span> peut saboter exprès pour s'échapper</li>
+                            </ul>
+                            <p><strong>Jet requis :</strong> 5+ placer charges, 6+ timing parfait explosion</p>
+                            
+                            <h4>Option F : Attendre l'Armée (Lâcheté)</h4>
+                            <p><strong>Description :</strong> Ne rien faire, laisser armée gérer à 6h.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Héros pas en danger personnel</li>
+                                <li>Armée expérimentée, supériorité numérique</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li>12 otages morts d'ici là</li>
+                                <li>Armée brûle église + maisons suspects (dommages collatéraux massifs)</li>
+                                <li>Citoyens chassent héros de <span data-lieu="tecumah_gulch">Tecumah Gulch</span> (ÉCHEC CAMPAGNE)</li>
+                                <li><span data-pnj="carmen">Carmen</span> s'échappe pendant chaos militaire</li>
+                            </ul>
+                            <p><strong>Conséquence :</strong> Fin alternative noire - Héros survivent mais déshonorés</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">⏰ Gestion du Timer (18h-23h)</div>
+                            
+                            <h4>Si Héros N'Agissent Pas Avant Délais</h4>
+                            <p><strong>21h00 (3h après ultimatum) :</strong></p>
+                            <ul>
+                                <li>Cloches sonnent 9 coups</li>
+                                <li>Old Pete (70 ans, ivrogne ville) pendu devant vitrail</li>
+                                <li>Corps visible depuis rue (message clair)</li>
+                                <li>Citoyen témoin : "Mon Dieu... elle l'a vraiment fait..."</li>
+                            </ul>
+                            
+                            <p><strong>22h00 (2h avant minuit) :</strong></p>
+                            <ul>
+                                <li>Cloches sonnent 10 coups</li>
+                                <li>Mary Henderson (28 ans) + bébé (6 mois) menacés</li>
+                                <li><span data-pnj="carmen">Carmen</span> crie depuis clocher : "Dernière chance ! Venez maintenant ou le bébé tombe !"</li>
+                                <li>Pression MAXIMALE - héros DOIVENT agir</li>
+                            </ul>
+                            
+                            <p><strong>23h00 (1h avant minuit) :</strong></p>
+                            <ul>
+                                <li>Si TOUJOURS inaction : Mary + bébé meurent</li>
+                                <li>Father Sullivan (prêtre ville) suivant sur liste</li>
+                                <li>Citoyen assiègent Star Saloon : "FAITES QUELQUE CHOSE !"</li>
+                            </ul>
+                            
+                            <p class="warning"><strong>Important MJ :</strong> Utilisez timer réel visible. Rappelez heure constamment. Si héros tergiversent 10+ minutes réel, sautez à 21h direct.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Héros choisissent plan A-E →</strong> Transition Acte 5 (23h00-Minuit selon plan)</li>
+                                <li><strong>Héros hésitent trop →</strong> Old Pete meurt 21h, pression +10</li>
+                                <li><strong><span data-pnj="rosie">Rosie</span> insiste infiltration →</strong> Elle guide, bonus +1 furtivité</li>
+                                <li><strong><span data-pnj="reeves">Reeves</span> force assaut →</strong> Conflit héros vs militaire, doivent choisir camp</li>
+                                <li><strong>Combinaison plans →</strong> Ex : Négo (diversion) + Infiltration (vraie approche)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Forcer un plan spécifique : Héros DOIVENT avoir vraie liberté choix</li>
+                                <li>Ignorer timer : Si 21h arrive, Old Pete DOIT mourir (conséquences réelles)</li>
+                                <li>Rendre <span data-pnj="carmen">Carmen</span> prévisible : Elle a anticipé la plupart des plans</li>
+                                <li>Oublier <span data-pnj="rosie">Rosie</span> : Elle connaît passage secret (atout majeur)</li>
+                                <li>Minimiser tension : C'est moment le plus tendu AVANT climax</li>
+                                <li>Bâcler débat tactique : Laissez héros VRAIMENT planifier (15-20 min réel)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 5 -->
+            <section id="scene5" class="section">
+                <h2>⚖️ SCÈNE 5 : LE JUGEMENT (23h-24h / Minuit)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE V - Le Duel Final</div>
+                        <div class="scene-synopsis">Minuit. Les héros arrivent à l'<span data-lieu="eglise">Église Saint-Michel</span> selon leur plan. <span data-pnj="carmen">Carmen</span> les attend à l'autel, calme et sereine. "Bienvenue. Nous avons beaucoup à nous dire." Elle révèle sa douleur : Rodrigo était son âme jumelle, sa seule famille. Les héros l'ont tuée une première fois. Mais <span data-pnj="carmen">Carmen</span> n'est pas un monstre - elle propose duel loyal selon tradition mexicaine. Combat 2 PV, fouet empoisonné, dague rapide. Si héros honorables, elle respectera l'issue. Choix moral final : tuer ou épargner ? <span data-pnj="rosie">Rosie</span> peut intervenir. Épilogue : aube se lève, armée arrive, <span data-pnj="blackman">Blackman</span> fier, <span data-pnj="rosie">Rosie</span> deputy officielle. La Trilogie Muerte s'achève.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">23h00-24h00 (minuit pile)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Église Saint-Michel (nef centrale)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Pleine lune, vent froid traverse vitraux brisés</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">30 minutes (climax campagne)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Clôturer Trilogie Muerte (El Serpiente → Carmen → Fin)</li>
+                                <li>Humaniser <span data-pnj="carmen">Carmen</span> : pas monstre, juste sœur brisée</li>
+                                <li>Duel épique digne d'un boss final</li>
+                                <li>Choix moral impactant : tuer, épargner, ou laisser <span data-pnj="rosie">Rosie</span> décider ?</li>
+                                <li>Épilogue satisfaisant : <span data-pnj="rosie">Rosie</span> deputy officielle, héros légendes</li>
+                                <li>Laisser porte ouverte Session 4 si <span data-pnj="carmen">Carmen</span> survit</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement de la Scène</div>
+                            
+                            <h4>Phase 1 : L'Arrivée (23h45-Minuit)</h4>
+                            <p>Héros approchent église selon plan choisi Acte 4. Quelle que soit méthode, <span data-pnj="carmen">Carmen</span> les attendait.</p>
+                            <p><strong>Si infiltration :</strong> <span data-pnj="carmen">Carmen</span> depuis clocher : "Je savais que <span data-pnj="rosie">Rosie</span> connaissait ce passage. Bienvenue."</p>
+                            <p><strong>Si accepté ultimatum :</strong> <span data-pnj="carmen">Carmen</span> ouvre porte elle-même : "Vous avez du courage. J'apprécie."</p>
+                            <p><strong>Si assaut :</strong> <span data-pnj="carmen">Carmen</span> a déjà libéré otages par porte arrière : "Je n'ai jamais voulu les tuer. Juste vous forcer à venir."</p>
+                            
+                            <p><strong>Église à minuit :</strong></p>
+                            <ul>
+                                <li>Lune pleine illumine nef par vitraux brisés</li>
+                                <li>12 otages assis bancs (ou libérés si assaut), terrifiés mais vivants</li>
+                                <li><span data-pnj="carmen">Carmen</span> debout à l'autel, fouet enroulé main gauche, dague ceinture</li>
+                                <li>Corde pendu balance au centre (symbole, pas utilisée)</li>
+                                <li>Silence absolu, juste vent qui siffle</li>
+                            </ul>
+                            
+                            <h4>Phase 2 : Le Procès de <span data-pnj="carmen">Carmen</span> (Minuit-00h10)</h4>
+                            <p><span data-pnj="carmen">Carmen</span> descend lentement de l'autel. Sifflote mélodie mexicaine douce. S'arrête 5m des héros.</p>
+                            
+                            <p><strong><span data-pnj="carmen">Carmen</span> (voix calme, brisée) :</strong></p>
+                            <p style="font-style: italic; padding: 15px; background: rgba(139,0,0,0.2); border-left: 4px solid #8B0000; margin: 10px 0;">
+                                "Vous vous demandez pourquoi je vous ai fait venir ici. Pourquoi tout ce cirque.<br><br>
+                                La vérité ? Je voulais que vous me regardiez dans les yeux. Que vous voyiez ce que vous avez fait.<br><br>
+                                Rodrigo... El Serpiente pour vous... était mon frère jumeau. Nous sommes nés ensemble, il y a 28 ans, dans un village que votre armée a brûlé. Nous avons survécu ensemble. Nous étions... une seule personne en deux corps.<br><br>
+                                Quand il est mort à Calavera... une partie de moi est morte aussi. Pas mon corps. Mon âme.<br><br>
+                                Vous comprenez ? Non, bien sûr que non. Comment pourriez-vous ? Vous êtes des héros. Vous tuez les 'méchants' et vous rentrez dormir tranquillement.<br><br>
+                                Mais moi... moi, je ne dors plus. Je vois son visage chaque fois que je ferme les yeux. J'entends sa voix. Il m'appelle.<br><br>
+                                Alors j'ai décidé : si je dois souffrir éternellement, vous devez au moins COMPRENDRE ma souffrance. Ressentir l'impuissance. La peur. Voir des innocents en danger à cause de VOS choix.<br><br>
+                                Maintenant vous savez. Maintenant vous avez ressenti un fragment de ce que j'ai ressenti."
+                            </p>
+                            
+                            <p>Silence. Héros peuvent répondre (roleplay important ici).</p>
+                            
+                            <p><strong>Réactions possibles des héros :</strong></p>
+                            <ul>
+                                <li><strong>Excuses sincères :</strong> <span data-pnj="carmen">Carmen</span> surprise, larmes coulent : "Vous... vous êtes désolés ?"</li>
+                                <li><strong>Justification :</strong> "Ton frère était un meurtrier" → <span data-pnj="carmen">Carmen</span> : "Et je ne le suis pas ?"</li>
+                                <li><strong>Compréhension :</strong> "On comprend ta douleur" → <span data-pnj="carmen">Carmen</span> : "Alors vous comprenez pourquoi je dois faire ça."</li>
+                                <li><strong>Provocation :</strong> "Ton frère était faible" → <span data-pnj="carmen">Carmen</span> ENRAGE, attaque immédiatement</li>
+                            </ul>
+                            
+                            <h4>Phase 3 : Le Duel d'Honneur (00h10-00h25)</h4>
+                            <p><strong><span data-pnj="carmen">Carmen</span> (dégaine fouet et dague) :</strong></p>
+                            <p style="font-style: italic;">
+                                "Je pourrais vous tuer maintenant. Vous êtes fatigués, blessés. Mais ce serait lâche.<br>
+                                Rodrigo m'a appris l'honneur mexicain. Un duel loyal. Si je gagne, je rejoins mon frère en paix. Si vous gagnez... vous aurez mérité votre titre de légendes.<br>
+                                Alors... qui veut danser avec La Víbora ?"
+                            </p>
+                            
+                            <p><strong>Règles du duel (tradition mexicaine) :</strong></p>
+                            <ul>
+                                <li>1 contre 1 si héros l'acceptent (honorable)</li>
+                                <li>Ou tous ensemble si héros refusent (pragmatique mais déshonorant)</li>
+                                <li>Pas d'attaque dos, pas d'otages utilisés</li>
+                                <li>Combat jusqu'à mort ou reddition</li>
+                            </ul>
+                            
+                            <p><strong>Stats de combat <span data-pnj="carmen">Carmen</span> :</strong></p>
+                            <ul>
+                                <li><strong>2 PV (Boss Final)</strong></li>
+                                <li><strong>Fouet empoisonné "La Víbora" :</strong> 4+ pour toucher, portée 3m, 1 dégât + PARALYSIE 1 tour (venin)</li>
+                                <li><strong>Dague rapide :</strong> 5+ pour toucher, corps à corps, 1 dégât + saignement (-1 PV tour suivant)</li>
+                                <li><strong>Esquive acrobatique :</strong> Premier jet raté contre elle → réussit automatiquement (une fois par combat)</li>
+                                <li><strong>Sifflote en combattant :</strong> Déstabilisant (malus -1 premier jet de chaque héros)</li>
+                            </ul>
+                            
+                            <p><strong>Phases du combat :</strong></p>
+                            <ul>
+                                <li><strong>Phase 1 (2 PV) :</strong> <span data-pnj="carmen">Carmen</span> agile, esquive, teste héros. Fouet à distance.</li>
+                                <li><strong>Phase 2 (1 PV) :</strong> <span data-pnj="carmen">Carmen</span> blessée, plus agressive. Dague + fouet combo. "Rodrigo... aide-moi..."</li>
+                                <li><strong>Phase 3 (0 PV) :</strong> <span data-pnj="carmen">Carmen</span> à genoux, désarmée. Choix moral final.</li>
+                            </ul>
+                            
+                            <p><strong>Événements pendant combat :</strong></p>
+                            <ul>
+                                <li>Otages fuient église (sécurisés)</li>
+                                <li><span data-pnj="rosie">Rosie</span> en embuscade avec revolver (prête tirer si héros en danger mortel)</li>
+                                <li>Vitraux brisés créent ombres dansantes (atmosphère)</li>
+                                <li><span data-pnj="carmen">Carmen</span> parle pendant combat : "Rodrigo... tu me manques... je vais te rejoindre..."</li>
+                            </ul>
+                            
+                            <h4>Phase 4 : Le Choix Moral (00h25)</h4>
+                            <p><span data-pnj="carmen">Carmen</span> vaincue, à genoux, désarmée. Sang coule de ses blessures. Lève yeux vers héros.</p>
+                            
+                            <p><strong><span data-pnj="carmen">Carmen</span> (sourit faiblement) :</strong> "Allez-y... finissez-en. Je veux rejoindre Rodrigo... Je suis fatiguée de cette douleur..."</p>
+                            
+                            <p><strong>CHOIX MORAL FINAL :</strong></p>
+                            
+                            <h4>Option A : Tuer <span data-pnj="carmen">Carmen</span></h4>
+                            <p><strong>Description :</strong> Héros exécutent <span data-pnj="carmen">Carmen</span> (balle, lame, etc.)</p>
+                            <p><strong><span data-pnj="carmen">Carmen</span> (derniers mots) :</strong> "Merci... Rodrigo... j'arrive..." (sourire paisible, meurt)</p>
+                            <p><strong>Conséquences :</strong></p>
+                            <ul>
+                                <li>Trilogie Muerte définitivement terminée</li>
+                                <li>Héros = justiciers, pas bourreaux (ambigu)</li>
+                                <li>Citoyens soulagés mais mal à l'aise</li>
+                                <li><span data-pnj="rosie">Rosie</span> : "C'était... nécessaire ?"</li>
+                                <li>Pas de Session 4 avec <span data-pnj="carmen">Carmen</span></li>
+                            </ul>
+                            
+                            <h4>Option B : Épargner <span data-pnj="carmen">Carmen</span></h4>
+                            <p><strong>Description :</strong> Héros abaissent armes : "Tu as assez souffert. Tu mérites un procès équitable."</p>
+                            <p><strong><span data-pnj="carmen">Carmen</span> (choquée, pleure) :</strong> "Pourquoi... ? Je vous ai fait tant de mal..."</p>
+                            <p><strong>Héros :</strong> "Parce que tuer ne ramènera pas Rodrigo. Et parce qu'on comprend ta douleur."</p>
+                            <p><strong><span data-pnj="carmen">Carmen</span> :</strong> "Je... je ne mérite pas votre pitié... mais... merci."</p>
+                            <p><strong>Conséquences :</strong></p>
+                            <ul>
+                                <li><span data-pnj="carmen">Carmen</span> se rend pacifiquement</li>
+                                <li>Procès à venir (Session 4 possible : rédemption <span data-pnj="carmen">Carmen</span>)</li>
+                                <li>Héros = vrais héros (pitié + justice)</li>
+                                <li>Citoyens débattent choix (certains furieux, autres admiratifs)</li>
+                                <li><span data-pnj="rosie">Rosie</span> : "Vous êtes vraiment des légendes..."</li>
+                            </ul>
+                            
+                            <h4>Option C : <span data-pnj="rosie">Rosie</span> Tire</h4>
+                            <p><strong>Description :</strong> Si héros hésitent trop (10+ secondes silence), <span data-pnj="rosie">Rosie</span> agit.</p>
+                            <p>BANG. <span data-pnj="rosie">Rosie</span> tire depuis ombre. <span data-pnj="carmen">Carmen</span> tombe, morte.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (revolver fumant, voix brisée) :</strong> "Elle... elle allait vous tuer... j'ai dû..."</p>
+                            <p>Héros se retournent. <span data-pnj="rosie">Rosie</span> tremble, larmes coulent. Réalise ce qu'elle a fait.</p>
+                            <p><strong>Conséquences :</strong></p>
+                            <ul>
+                                <li><span data-pnj="rosie">Rosie</span> traumatisée (a tué quelqu'un par derrière)</li>
+                                <li>Perte d'innocence brutale (thème Session 4 : PTSD <span data-pnj="rosie">Rosie</span>)</li>
+                                <li>Héros doivent gérer culpabilité (ont mis enfant en position tuer)</li>
+                                <li><span data-pnj="carmen">Carmen</span> morte mais fin amère</li>
+                                <li><span data-pnj="blackman">Blackman</span> (si survit) : "Mon Dieu... qu'avons-nous fait..."</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🌅 Épilogue : L'Aube (6h00 - 24h après évasion)</div>
+                            
+                            <h4>L'Armée Arrive</h4>
+                            <p>Soleil se lève. Poussière horizon : 50 soldats cavalerie approchent.</p>
+                            <p>Commandant (descend cheval) : "Où sont les fugitifs ?"</p>
+                            <p>Héros (montrent prisonniers enchaînés) : "Tous capturés. Sauf celle-ci." (montrent <span data-pnj="carmen">Carmen</span> morte ou prisonnière)</p>
+                            <p>Commandant (inspecte, hoche tête) : "Impressionnant. Mes ordres étaient 'brûler tout'. Vous m'avez épargné un massacre."</p>
+                            <p>Armée repart. <span data-lieu="tecumah_gulch">Tecumah Gulch</span> sauvée.</p>
+                            
+                            <h4><span data-pnj="blackman">Blackman</span> et <span data-pnj="rosie">Rosie</span></h4>
+                            <p><strong>Si <span data-pnj="blackman">Blackman</span> survit :</strong></p>
+                            <p><span data-pnj="blackman">Blackman</span> (bandages poitrine, sourire faible) s'approche <span data-pnj="rosie">Rosie</span>.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Rosie McKenzie. Par le pouvoir qui m'est conféré comme shérif de <span data-lieu="tecumah_gulch">Tecumah Gulch</span>, je te nomme officiellement Deputy. La plus jeune de tout le territoire."</p>
+                            <p>Citoyens applaudissent. <span data-pnj="rosie">Rosie</span> pleure joie (ou culpabilité si Option C).</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Dans 6 mois, je prends ma retraite. Tu seras prête à me remplacer."</p>
+                            
+                            <p><strong>Si <span data-pnj="blackman">Blackman</span> mort (Acte 3) :</strong></p>
+                            <p>Tombe fraîche cimetière. <span data-pnj="rosie">Rosie</span> dépose étoile sur pierre.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Je te promets, Walt... je protégerai cette ville. Comme toi."</p>
+                            
+                            <h4>Récompenses et Reconnaissance</h4>
+                            <ul>
+                                <li><strong>Or :</strong> 800$ par héros (prime prisonniers + remerciement citoyens)</li>
+                                <li><strong>Fouet de <span data-pnj="carmen">Carmen</span> :</strong> Arme légendaire (si morte) → Musée ou héros garde</li>
+                                <li><strong>Réputation :</strong> "Les Légendes de <span data-lieu="tecumah_gulch">Tecumah Gulch</span>" - Nom connu dans 5 états</li>
+                                <li><strong>Maison offerte :</strong> Citoyens cotisent, offrent maison aux héros (base opérations)</li>
+                            </ul>
+                            
+                            <h4>Scène Finale</h4>
+                            <p>Star Saloon, soir. Héros boivent whisky. <span data-pnj="rosie">Rosie</span> (limonade) à côté.</p>
+                            <p>Citoyen lève verre : "Aux héros de <span data-lieu="tecumah_gulch">Tecumah Gulch</span> ! Aux Légendes !"</p>
+                            <p>Tous lèvent verres : "AUX LÉGENDES !"</p>
+                            <p>Camera s'éloigne. Lune pleine. Coyote hurle au loin. FIN.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔮 Hooks pour Session 4 (Optionnel)</div>
+                            <p><strong>Si <span data-pnj="carmen">Carmen</span> survit :</strong></p>
+                            <ul>
+                                <li>Session 4 : "Le Procès de Carmen" - Avocat corrompu, témoins disparus, complot</li>
+                                <li>Arc rédemption <span data-pnj="carmen">Carmen</span> : aide héros contre nouveau danger pour expier</li>
+                            </ul>
+                            
+                            <p><strong>Si <span data-pnj="rosie">Rosie</span> traumatisée (Option C) :</strong></p>
+                            <ul>
+                                <li>Session 4 : "Les Fantômes de Rosie" - PTSD, cauchemars, doit affronter passé</li>
+                            </ul>
+                            
+                            <p><strong>Nouveaux antagonistes :</strong></p>
+                            <ul>
+                                <li>Baron industriel veut exproprier <span data-lieu="tecumah_gulch">Tecumah Gulch</span> (chemin de fer)</li>
+                                <li>Dernier membre Hermanos Muerte cherche vengeance (El Escorpión)</li>
+                                <li>Armée revient : conflit bovins vs Comanches, héros médiateurs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Bâcler dialogue <span data-pnj="carmen">Carmen</span> : C'est COEUR ÉMOTIONNEL de la campagne</li>
+                                <li>Rendre combat trop facile : Boss final doit être challenge</li>
+                                <li>Forcer choix moral : Héros DOIVENT décider eux-mêmes (tuer/épargner)</li>
+                                <li>Oublier <span data-pnj="rosie">Rosie</span> : Elle DOIT avoir moment final (deputy officielle)</li>
+                                <li>Épilogue trop court : Prenez temps, c'est conclusion 3 sessions</li>
+                                <li>Ignorer conséquences choix : Chaque option a impact réel</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- CONSEILS MJ -->
+            <section id="conseils" class="section">
+                <h2>💡 CONSEILS DE MAÎTRE DE JEU</h2>
+                
+                <div class="card">
+                    <h3>🎯 Gestion du Timer 24h</h3>
+                    <p><strong>CRUCIAL :</strong> Le timer est la colonne vertébrale du scénario.</p>
+                    <ul>
+                        <li><strong>Horloge visible :</strong> Afficher timer sur table (téléphone, chrono)</li>
+                        <li><strong>Rappels constants :</strong> "Il est maintenant 10h... 14h reste"</li>
+                        <li><strong>Événements chronométrés :</strong> <span data-pnj="carmen">Carmen</span> pend otage toutes les heures si inaction</li>
+                        <li><strong>Pression narrative :</strong> NPCs rappellent urgence constamment</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🐍 Jouer <span data-pnj="carmen">Carmen</span></h3>
+                    <h4>Clés du personnage :</h4>
+                    <ul>
+                        <li><strong>Voix calme</strong> même en combat (terrifiant)</li>
+                        <li><strong>Sifflote</strong> mélodie mexicaine (marque de fabrique)</li>
+                        <li><strong>Parle d'El Serpiente</strong> constamment (obsession)</li>
+                        <li><strong>Respecte courage</strong> mais méprise lâcheté</li>
+                        <li><strong>Veut souffrance émotionnelle</strong> pas juste mort</li>
+                    </ul>
+                    <h4>Exemples de répliques :</h4>
+                    <ul>
+                        <li>"Rodrigo me manque... vous comprenez ce que ça fait de perdre son âme ?"</li>
+                        <li>"Je pourrais vous tuer maintenant. Mais ce serait trop facile."</li>
+                        <li>"Vous êtes courageux. Rodrigo aurait aimé se battre contre vous."</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⭐ Gérer <span data-pnj="rosie">Rosie</span></h3>
+                    <p><strong>Arc narratif :</strong></p>
+                    <ul>
+                        <li><strong>Acte 1 :</strong> Enthousiaste mais inexpérimentée</li>
+                        <li><strong>Acte 2 :</strong> Capture son premier criminel (fierté)</li>
+                        <li><strong>Acte 3 :</strong> Sauve civil pendant piège (héroïsme)</li>
+                        <li><strong>Acte 4 :</strong> Reçoit étoile de <span data-pnj="blackman">Blackman</span> (responsabilité)</li>
+                        <li><strong>Acte 5 :</strong> Prouve définitivement sa valeur (deputy officielle)</li>
+                    </ul>
+                    <p class="warning"><strong>Important :</strong> <span data-pnj="rosie">Rosie</span> NE DOIT PAS mourir (assommée maximum). Elle DOIT capturer au moins 1 prisonnier et sauver 1 personne.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 Tableau Récapitulatif des 7 Fugitifs</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                        <tr style="background: rgba(255, 87, 34, 0.2);">
+                            <th style="border: 1px solid #654321; padding: 10px;">Nom</th>
+                            <th style="border: 1px solid #654321; padding: 10px;">Danger</th>
+                            <th style="border: 1px solid #654321; padding: 10px;">PV</th>
+                            <th style="border: 1px solid #654321; padding: 10px;">Spécialité</th>
+                            <th style="border: 1px solid #654321; padding: 10px;">Lieu Cache</th>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #654321; padding: 8px;"><span data-pnj="carmen">Carmen Muerte</span></td>
+                            <td style="border: 1px solid #654321; padding: 8px;">⚠️⚠️⚠️ BOSS</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">2</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Fouet empoisonné + tactique</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Église (Acte 4-5)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #654321; padding: 8px;"><span data-pnj="mad_dog">Mad Dog Malone</span></td>
+                            <td style="border: 1px solid #654321; padding: 8px;">⚠️⚠️⚠️</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">2</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Chaînes + chaos</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Toits / Star Saloon</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #654321; padding: 8px;"><span data-pnj="silent_jim">Silent Jim</span></td>
+                            <td style="border: 1px solid #654321; padding: 8px;">⚠️⚠️⚠️</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">1</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Furtivité + assassinat</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Rues sombres / Mine</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #654321; padding: 8px;"><span data-pnj="dolores">Dynamite Dolores</span></td>
+                            <td style="border: 1px solid #654321; padding: 8px;">⚠️⚠️</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">1</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Explosifs</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Ferme Henderson (grange)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #654321; padding: 8px;"><span data-pnj="omalley">Father O'Malley</span></td>
+                            <td style="border: 1px solid #654321; padding: 8px;">⚠️</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">1</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Manipulation sociale</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Chapelle McAllister</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #654321; padding: 8px;"><span data-pnj="two_feathers">Two-Feathers</span></td>
+                            <td style="border: 1px solid #654321; padding: 8px;">⚠️</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">1</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Combat honorable</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Ferme O'Connor</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #654321; padding: 8px;"><span data-pnj="professeur">Le Professeur</span></td>
+                            <td style="border: 1px solid #654321; padding: 8px;">⚠️</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">0</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Négociation</td>
+                            <td style="border: 1px solid #654321; padding: 8px;">Route principale</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="warning">
+                    <strong>❌ ERREURS FATALES À ÉVITER :</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Oublier le timer : Sans pression temporelle, scénario perd impact</li>
+                        <li>Rendre <span data-pnj="carmen">Carmen</span> unidimensionnelle : Elle est complexe, souffrante</li>
+                        <li>Négliger <span data-pnj="rosie">Rosie</span> : C'est SON arc narratif</li>
+                        <li>Tuer <span data-pnj="blackman">Blackman</span> gratuitement : S'il meurt, doit être héroïque</li>
+                        <li>Faire tous prisonniers méchants : Two-Feathers/O'Malley créent dilemmes</li>
+                        <li>Bâcler Acte 5 : C'est le climax de toute la campagne</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p><strong>🌪️ LE CONVOI DES PENDUS - Session 3</strong></p>
+            <p>La Trilogie de Tecumah Gulch</p>
+            <p style="margin-top: 15px; font-size: 0.9em;">Créé par Claude - Scénariste JDR 20 ans d'expérience</p>
+            <p style="font-size: 0.85em; opacity: 0.8;">🐴 Que la légende continue... 💀</p>
+        </footer>
+    </div>
+    
+    <script>
+        // ===== BASE DE DONNÉES TOOLTIPS PNJ =====
+        const pnjData = {
+            "carmen": {
+                nom: "Carmen 'La Víbora' Muerte",
+                surnom: "Le Serpent Vengeur",
+                description: "Sœur jumelle d'El Serpiente, 28 ans. Condamnée pour massacre Red Ridge (16 morts). Veut venger son frère en faisant souffrir les héros émotionnellement.",
+                combat: "BOSS 2 PV - Fouet empoisonné 4+ (paralyse 1 tour) - Dague rapide 5+",
+                role: "Antagoniste principale - Boss final Acte 5 - Orchestre plan depuis ombres"
+            },
+            "blackman": {
+                nom: "Walt Blackman",
+                surnom: "Iron Will",
+                description: "Shérif de Tecumah Gulch, 63 ans. Vieillissant, blessé Session 2, se sent responsable évasion. Blessé gravement Acte 3, passe étoile à Rosie.",
+                role: "Mentor - Passe flambeau - Symbolise génération qui part"
+            },
+            "rosie": {
+                nom: "Rosie 'Red' McKenzie",
+                surnom: "La Petite Légende",
+                description: "Apprentie deputy, 13 ans. Veut prouver sa valeur. Capture premier criminel Acte 2, sauve civil Acte 3, reçoit étoile officielle Acte 5.",
+                role: "Arc narratif principal - Devient deputy la plus jeune du territoire"
+            },
+            "mad_dog": {
+                nom: "'Mad Dog' Malone",
+                surnom: "Le Chien Fou",
+                description: "Psychopathe 35 ans, condamné 9 meurtres. Collectionne étoiles shérif. Dents en acier, chaînes brisées. Attaque Star Saloon Acte 3.",
+                combat: "2 PV - Chaînes 4+ (zone 2m) - Morsure 5+ (rage bestiale)",
+                role: "Mini-boss Acte 3 - Muscle de Carmen - Imprévisible et ultraviolent"
+            },
+            "silent_jim": {
+                nom: "Silent Jim",
+                surnom: "La Lame Muette",
+                description: "Assassin muet 40 ans (langue coupée), 12 contrats. Loyal à Carmen. Tue silencieusement. Attaque Star Saloon Acte 3.",
+                combat: "1 PV - Couteaux lancer 4+ - Furtif 6+ détection - Gorge tranchée 3+ si surprise",
+                role: "Mini-boss Acte 3 - Assassin de Carmen - Terrifiant et efficace"
+            },
+            "dolores": {
+                nom: "'Dynamite' Dolores",
+                surnom: "Poudre et Liberté",
+                description: "Experte explosifs 32 ans, condamnée sabotage mine. Veut liberté, pas vengeance. Pragmatique, peut devenir alliée.",
+                combat: "1 PV - Lance dynamite 4+ (explosion zone 5m) - Piège explosif",
+                role: "Prisonnière capturée Acte 2 - Alliée potentielle - Cache ferme Henderson"
+            },
+            "omalley": {
+                nom: "Father Declan O'Malley",
+                surnom: "Le Prêtre Déchu",
+                description: "Prêtre irlandais 50 ans, condamné incendie église (7 morts). Clame innocence. Manipulateur ou innocent ? Bible toujours en mains.",
+                combat: "1 PV - Non-violent (fuit) - Convainc autres se rendre (jet 6)",
+                role: "Prisonnier capturé Acte 2 - Ambigu - Peut parlementer Acte 4"
+            },
+            "two_feathers": {
+                nom: "Two-Feathers (Deux-Plumes)",
+                surnom: "Le Guerrier Condamné",
+                description: "Guerrier Sioux 26 ans, condamné pour avoir tué 2 soldats violeurs. Honorable, veut procès juste. Fers aux pieds.",
+                combat: "1 PV - Tomahawk improvisé 4+ - Combat loyal (refuse attaquer dos)",
+                role: "Prisonnier capturé Acte 2 - Honorable - Peut devenir allié - Cache ferme O'Connor"
+            },
+            "professeur": {
+                nom: "Le Professeur (Samuel Whitmore)",
+                surnom: "L'Escroc Génial",
+                description: "Escroc intellectuel 55 ans, détournement 50 000$. Cerveau, manipule tous. Offre pot-de-vin. Lunettes réparées ficelle.",
+                combat: "0 PV - Non-combattant - Manipulation sociale (jet 4+)",
+                role: "Prisonnier capturé Acte 2 par Rosie - Info précieuse sur plan Carmen"
+            },
+            "reeves": {
+                nom: "Captain James Reeves",
+                surnom: "Le Gardien Brutal",
+                description: "Commandant pénitentiaire 45 ans. Brutal mais professionnel. Assommé lors évasion. Veut tous reprendre MORT ou VIF. Rival héros.",
+                role: "Allié/Rival - Propose assaut frontal Acte 4 - Finit par respecter héros"
+            },
+            "el_serpiente": {
+                nom: "El Serpiente",
+                surnom: "Mort Session 2",
+                description: "Frère jumeau de Carmen, tué à Calavera par les héros. Leader Hermanos Muerte. Sa mort déclenche vengeance de Carmen.",
+                role: "Décédé - Motivation principale de Carmen - Mentionné constamment"
+            }
+        };
+        
+        // ===== BASE DE DONNÉES TOOLTIPS LIEUX =====
+        const lieuxData = {
+            "tecumah_gulch": {
+                nom: "Tecumah Gulch",
+                localisation: "Ville des héros - En état de siège",
+                description: "Rues désertes barricadées, silence oppressant, patrouilles nerveuses. Star Saloon = QG de crise.",
+                ambiance: "Tension palpable, chaque ombre suspecte. Citoyens terrifiés, attendent issue."
+            },
+            "convoi": {
+                nom: "Le Convoi Abandonné",
+                localisation: "2km ouest Tecumah Gulch",
+                description: "3 chariots-cages renversés, barreaux tordus, 2 gardes morts (gorge tranchée). Fouet Carmen laissé volontairement.",
+                ambiance: "Scène de crime. Traces partent 7 directions (tactique). Témoigne violence évasion."
+            },
+            "eglise": {
+                nom: "L'Église Saint-Michel",
+                localisation: "Centre Tecumah Gulch - Occupée Acte 4",
+                description: "Clocher le plus haut (point vue stratégique). Vitraux brisés, 12 otages. Carmen à l'autel comme juge. Cordes pendus préparées.",
+                ambiance: "Bastion final de Carmen. Symbolique religieuse forte. Tension maximale."
+            },
+            "mine": {
+                nom: "La Mine Abandonnée",
+                localisation: "1km nord Tecumah Gulch",
+                description: "Ancienne mine argent (1843). Tunnels sombres, éboulements dangereux. Parfait embuscade. Mad Dog/Silent Jim peuvent s'y cacher.",
+                ambiance: "Claustrophobe, dangereuse. Risque effondrement si explosion Dolores."
+            },
+            "fermes": {
+                nom: "Les Fermes Environnantes",
+                localisation: "Périphérie 5km Tecumah Gulch",
+                description: "4-5 fermes isolées, familles terrorisées. Granges, silos = cachettes. Two-Feathers (ferme O'Connor), O'Malley (chapelle McAllister).",
+                ambiance: "Isolement, vulnérabilité. Champs maïs = furtivité. Lieux captures Acte 2."
+            },
+            "calavera": {
+                nom: "Calavera",
+                localisation: "Ville fantôme (Session 2)",
+                description: "Ville maudite où El Serpiente est mort il y a 2 mois. Massacre apache 1842. Cimetière or maudit.",
+                ambiance: "Référence passée - Mort El Serpiente déclenche vengeance Carmen"
+            }
+        };
+        
+        // ===== FONCTION CRÉATION TOOLTIP =====
+        function createTooltip(element, data) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            
+            let html = `<div class="tooltip-header">${data.nom}</div>`;
+            
+            if (data.surnom) {
+                html += `<div class="tooltip-surnom">"${data.surnom}"</div>`;
+            }
+            
+            if (data.localisation) {
+                html += `<div class="tooltip-lieu">📍 ${data.localisation}</div>`;
+            }
+            
+            if (data.description) {
+                html += `<div class="tooltip-text">${data.description}</div>`;
+            }
+            
+            if (data.combat) {
+                html += `<div class="tooltip-combat"><strong>⚔️ Combat:</strong> ${data.combat}</div>`;
+            }
+            
+            if (data.role) {
+                html += `<div class="tooltip-role"><strong>🎭 Rôle:</strong> ${data.role}</div>`;
+            }
+            
+            if (data.ambiance) {
+                html += `<div class="tooltip-ambiance"><strong>🌙 Ambiance:</strong> ${data.ambiance}</div>`;
+            }
+            
+            tooltip.innerHTML = html;
+            return tooltip;
+        }
+        
+        // ===== FONCTION POSITIONNEMENT TOOLTIP =====
+        function positionTooltip(event, tooltip) {
+            const padding = 10;
+            let left = event.pageX + padding;
+            let top = event.pageY + padding;
+            
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            if (left + tooltipRect.width > viewportWidth) {
+                left = event.pageX - tooltipRect.width - padding;
+            }
+            
+            if (top + tooltipRect.height > viewportHeight) {
+                top = event.pageY - tooltipRect.height - padding;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+        
+        // ===== INITIALISATION TOOLTIPS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tooltips PNJ
+            document.querySelectorAll('[data-pnj]').forEach(element => {
+                const pnjId = element.getAttribute('data-pnj');
+                const data = pnjData[pnjId];
+                
+                if (data) {
+                    element.classList.add('tooltip-trigger', 'tooltip-trigger-pnj');
+                    
+                    const tooltip = createTooltip(element, data);
+                    document.body.appendChild(tooltip);
+                    
+                    element.addEventListener('mouseenter', function(e) {
+                        tooltip.style.display = 'block';
+                        positionTooltip(e, tooltip);
+                    });
+                    
+                    element.addEventListener('mousemove', function(e) {
+                        positionTooltip(e, tooltip);
+                    });
+                    
+                    element.addEventListener('mouseleave', function() {
+                        tooltip.style.display = 'none';
+                    });
+                }
+            });
+            
+            // Tooltips Lieux
+            document.querySelectorAll('[data-lieu]').forEach(element => {
+                const lieuId = element.getAttribute('data-lieu');
+                const data = lieuxData[lieuId];
+                
+                if (data) {
+                    element.classList.add('tooltip-trigger', 'tooltip-trigger-lieu');
+                    
+                    const tooltip = createTooltip(element, data);
+                    document.body.appendChild(tooltip);
+                    
+                    element.addEventListener('mouseenter', function(e) {
+                        tooltip.style.display = 'block';
+                        positionTooltip(e, tooltip);
+                    });
+                    
+                    element.addEventListener('mousemove', function(e) {
+                        positionTooltip(e, tooltip);
+                    });
+                    
+                    element.addEventListener('mouseleave', function() {
+                        tooltip.style.display = 'none';
+                    });
+                }
+            });
+        });
+        
+        // ===== NAVIGATION =====
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // ===== TIMER =====
+        let timerInterval;
+        let seconds = 0;
+        
+        function startTimer() {
+            if (!timerInterval) {
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            seconds = 0;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            document.getElementById('time-display').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // ===== DICE ROLLER =====
+        function rollDice() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const resultElement = document.getElementById('dice-result');
+            resultElement.textContent = result;
+            resultElement.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                resultElement.style.transform = 'scale(1)';
+            }, 200);
+        }
+    </script>
+</body>
+</html>
