@@ -1,1 +1,1968 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔫 Le Convoi de l'Enfer - Scénario JDR</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Roboto:wght@300;400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #8B4513 100%);
+            color: #2C1810;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 248, 220, 0.95);
+            border: 8px solid #654321;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+        
+        /* HEADER */
+        header {
+            background: linear-gradient(to bottom, #2C1810, #3D2414);
+            color: #FFD700;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid #654321;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '🤠';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+        }
+        
+        header::after {
+            content: '🔫';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+        }
+        
+        h1 {
+            font-family: 'Rye', cursive;
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #DEB887;
+            font-style: italic;
+        }
+        
+        /* TIMER & TOOLS */
+        .tools-bar {
+            background: #8B4513;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 3px solid #654321;
+        }
+        
+        .timer {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #FFD700;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timer-controls button {
+            background: #654321;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+        
+        .timer-controls button:hover {
+            background: #8B6914;
+            transform: scale(1.05);
+        }
+        
+        .dice-roller {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dice-button {
+            background: #DC143C;
+            color: white;
+            border: 3px solid #8B0000;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Rye', cursive;
+        }
+        
+        .dice-button:hover {
+            background: #FF1493;
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .dice-result {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* NAVIGATION */
+        nav {
+            background: #D2691E;
+            padding: 20px 30px;
+            border-bottom: 3px solid #654321;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: #654321;
+            color: #FFD700;
+            border: 2px solid #8B4513;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #8B6914;
+            border-color: #FFD700;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        
+        /* MAIN CONTENT */
+        .content {
+            padding: 40px;
+            min-height: 600px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            font-family: 'Rye', cursive;
+            color: #8B0000;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #654321;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        h3 {
+            font-family: 'Rye', cursive;
+            color: #654321;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #8B4513;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        p, li {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        /* CARDS */
+        .card {
+            background: rgba(255,255,255,0.8);
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* PNJ CARDS - NOUVEAU FORMAT */
+        .pnj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pnj-card {
+            background: linear-gradient(135deg, #FFF8DC 0%, #FFE4B5 100%);
+            border: 4px solid #654321;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pnj-card::before {
+            content: '⭐';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 4em;
+            opacity: 0.1;
+        }
+        
+        .pnj-card:hover {
+            transform: scale(1.03) rotate(1deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: #FFD700;
+        }
+        
+        .pnj-header {
+            margin-bottom: 15px;
+        }
+        
+        .pnj-name {
+            font-family: 'Rye', cursive;
+            font-size: 1.4em;
+            color: #8B0000;
+            margin-bottom: 3px;
+        }
+        
+        .pnj-nickname {
+            color: #654321;
+            font-style: italic;
+            font-size: 1em;
+        }
+        
+        .pnj-presentation {
+            color: #2C1810;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin: 15px 0;
+            padding: 12px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+            border-left: 4px solid #8B4513;
+        }
+        
+        .pnj-section {
+            margin-top: 15px;
+        }
+        
+        .pnj-section-title {
+            font-weight: bold;
+            color: #8B0000;
+            font-size: 1em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .pnj-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .pnj-list li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+        
+        .pnj-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #8B4513;
+            font-weight: bold;
+        }
+        
+        .pnj-combat {
+            background: #DC143C;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .pnj-role {
+            background: #4169E1;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        /* LIEU CARDS - NOUVEAU FORMAT */
+        .lieu-card {
+            background: linear-gradient(135deg, #E6F3FF 0%, #C9E4FF 100%);
+            border: 4px solid #4682B4;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .lieu-title {
+            font-family: 'Rye', cursive;
+            font-size: 1.6em;
+            color: #1E3A5F;
+            margin-bottom: 8px;
+        }
+        
+        .lieu-location {
+            color: #4682B4;
+            font-style: italic;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+        
+        .lieu-ambiance {
+            list-style: none;
+            margin: 15px 0;
+            padding: 0;
+        }
+        
+        .lieu-ambiance li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .lieu-ambiance li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #4682B4;
+            font-size: 1.2em;
+        }
+        
+        /* SCENE CARDS - FORMAT SIMPLIFIÉ SANS TESTS */
+        .scene-card {
+            background: rgba(255,255,255,0.9);
+            border: 4px solid #8B0000;
+            border-radius: 12px;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .scene-header {
+            background: linear-gradient(to right, #8B0000, #DC143C);
+            color: white;
+            padding: 25px;
+        }
+        
+        .scene-title {
+            font-family: 'Rye', cursive;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .scene-synopsis {
+            font-style: italic;
+            font-size: 1.05em;
+            opacity: 0.95;
+        }
+        
+        .scene-body {
+            padding: 25px;
+        }
+        
+        .scene-section {
+            margin-bottom: 25px;
+        }
+        
+        .scene-section-title {
+            font-family: 'Rye', cursive;
+            color: #8B0000;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #8B4513;
+            padding-bottom: 5px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: rgba(139,69,19,0.1);
+            border-left: 4px solid #8B4513;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #8B0000;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: #2C1810;
+            font-size: 1em;
+        }
+        
+        /* WARNINGS */
+        .warning {
+            background: #FFD700;
+            border: 3px solid #FF8C00;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning::before {
+            content: '⚠️ ';
+            font-size: 1.5em;
+        }
+        
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #8B4513;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '⭐';
+            position: absolute;
+            left: -33px;
+            background: #FFD700;
+            border: 3px solid #8B4513;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+        }
+        
+        .timeline-time {
+            font-weight: bold;
+            color: #8B0000;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        
+        /* FOOTER */
+        footer {
+            background: #2C1810;
+            color: #DEB887;
+            padding: 30px;
+            text-align: center;
+            border-top: 5px solid #654321;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .pnj-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tools-bar {
+                flex-direction: column;
+            }
+        }
+        
+        /* INFO-BULLES */
+        .tooltip-trigger {
+            position: relative;
+            cursor: help;
+            border-bottom: 2px dotted #8B4513;
+            font-weight: 600;
+            color: #654321;
+            transition: all 0.2s;
+        }
+        
+        .tooltip-trigger:hover {
+            color: #8B4513;
+            border-bottom-color: #CD853F;
+        }
+        
+        .tooltip-trigger-pnj {
+            color: #B22222;
+        }
+        
+        .tooltip-trigger-lieu {
+            color: #4682B4;
+        }
+        
+        .custom-tooltip {
+            position: absolute;
+            display: none;
+            background: linear-gradient(135deg, #2C1810 0%, #3D2414 100%);
+            border: 3px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 10000;
+            pointer-events: none;
+            animation: tooltipFadeIn 0.2s ease-out;
+        }
+        
+        @keyframes tooltipFadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip-header {
+            font-family: 'Rye', cursive;
+            font-size: 1.2em;
+            color: #FFD700;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .tooltip-surnom {
+            font-size: 0.9em;
+            color: #DEB887;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .tooltip-lieu {
+            font-size: 0.85em;
+            color: #87CEEB;
+            margin-bottom: 10px;
+        }
+        
+        .tooltip-text {
+            color: #FFF8DC;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .tooltip-combat {
+            background: rgba(178, 34, 34, 0.3);
+            border-left: 3px solid #B22222;
+            padding: 8px;
+            margin-top: 8px;
+            color: #FFB6C1;
+            font-size: 0.9em;
+            border-radius: 5px;
+        }
+        
+        .tooltip-role {
+            background: rgba(70, 130, 180, 0.3);
+            border-left: 3px solid #4682B4;
+            padding: 8px;
+            margin-top: 8px;
+            color: #ADD8E6;
+            font-size: 0.9em;
+            border-radius: 5px;
+        }
+        
+        .tooltip-ambiance {
+            background: rgba(139, 69, 19, 0.3);
+            border-left: 3px solid #8B4513;
+            padding: 8px;
+            margin-top: 8px;
+            color: #DEB887;
+            font-size: 0.9em;
+            font-style: italic;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐴 LE CONVOI DE L'ENFER</h1>
+            <p class="subtitle">Scénario Western Spaghetti - Système d6 Cow-boy - Session 1</p>
+            <p class="subtitle" style="margin-top: 5px; font-size: 0.9em;">📍 Tecumah Gulch • 🍺 Star Saloon • 🤠 Shérif Walt Blackman • 📅 1845-1850 (pré-ferroviaire)</p>
+        </header>
+        
+        <div class="tools-bar">
+            <div class="timer">
+                ⏱️ <span id="time-display">00:00</span>
+                <div class="timer-controls">
+                    <button onclick="startTimer()">▶️ Start</button>
+                    <button onclick="pauseTimer()">⏸️ Pause</button>
+                    <button onclick="resetTimer()">🔄 Reset</button>
+                </div>
+            </div>
+            
+            <div class="dice-roller">
+                <button class="dice-button" onclick="rollDice()">🎲 LANCER D6</button>
+                <div class="dice-result" id="dice-result">-</div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('intro')">📋 Introduction</button>
+                <button class="nav-btn" onclick="showSection('pnj')">👥 PNJ</button>
+                <button class="nav-btn" onclick="showSection('lieux')">🗺️ Lieux</button>
+                <button class="nav-btn" onclick="showSection('scene1')">🎬 Scène 1</button>
+                <button class="nav-btn" onclick="showSection('scene2')">🐎 Scène 2</button>
+                <button class="nav-btn" onclick="showSection('scene3')">🚛 Scène 3</button>
+                <button class="nav-btn" onclick="showSection('scene4')">⚖️ Scène 4</button>
+                <button class="nav-btn" onclick="showSection('scene5')">🌅 Scène 5</button>
+                <button class="nav-btn" onclick="showSection('hooks')">🔗 Hooks</button>
+            </div>
+        </nav>
+        
+        <div class="content">
+            <!-- INTRODUCTION -->
+            <section id="intro" class="section active">
+                <h2>📋 INTRODUCTION</h2>
+                
+                <div class="card">
+                    <h3>🎯 Pitch</h3>
+                    <p>Un convoi de 5 chariots lourdement armés traverse l'Arizona avec une cargaison d'or volé et trois prisonniers dangereux. Les Hermanos Muerte, gang le plus redouté du territoire, ont orchestré l'évasion. Dans 4 heures, le convoi franchira la frontière mexicaine. Les joueurs ont une dernière chance d'arrêter ce convoi... ou de mourir en essayant.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📖 Synopsis</h3>
+                    <ul>
+                        <li><strong>Acte I (30 min)</strong> - Le Désespoir de Tecumah Gulch : Le shérif Blackman recrute les joueurs pour une mission suicide</li>
+                        <li><strong>Acte II (45 min)</strong> - La Poursuite Infernale : Course-poursuite à cheval, embuscade dans un canyon</li>
+                        <li><strong>Acte III (45 min)</strong> - L'Assaut du Convoi : Abordage du convoi en mouvement (roulant), fusillade, confrontation finale</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>ℹ️ Informations Générales</h3>
+                    <div class="info-grid">
+                        <div class="info-box">
+                            <div class="info-label">Durée</div>
+                            <div class="info-value">2 heures</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Joueurs</div>
+                            <div class="info-value">3-5 joueurs (11-14 ans)</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Ton</div>
+                            <div class="info-value">Western spaghetti, action épique</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Système</div>
+                            <div class="info-value">d6 simplifié</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🎲 Système d6 - Référence Rapide</h3>
+                    <ul>
+                        <li><strong>Réussite:</strong> 4, 5 ou 6</li>
+                        <li><strong>Échec:</strong> 1, 2 ou 3</li>
+                        <li><strong>À couvert:</strong> Réussite sur 3+</li>
+                        <li><strong>Surpris:</strong> Réussite sur 5+</li>
+                        <li><strong>Joueurs:</strong> 5 PV</li>
+                        <li><strong>Bandits ordinaires:</strong> 1 PV</li>
+                        <li><strong>Boss:</strong> 2 PV</li>
+                        <li><strong>Échec critique:</strong> Jet de 1 = danger supplémentaire</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- PNJ -->
+            <section id="pnj" class="section">
+                <h2>👥 PERSONNAGES NON-JOUEURS</h2>
+                
+                <div class="pnj-grid">
+                    <!-- Blackman -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🤠 Walt Blackman</div>
+                                <div class="pnj-nickname">63 ans - "Le Vieux Clou"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Ancien marshal fédéral recruté comme shérif de Tecumah Gulch il y a 10 ans. Pensait finir sa carrière tranquillement mais l'attaque du Convoi de l'Enfer est sa dernière chance de se racheter avant la retraite. Ne peut plus monter à cheval (dos brisé en 1842).
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Homme bedonnant, moustache grisonnante tombante</li>
+                                <li>Étoile de shérif cabossée sur gilet usé</li>
+                                <li>Regard fatigué mais déterminé</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Prouver qu'il n'est pas trop vieux</li>
+                                <li>Protecteur paternel envers les jeunes</li>
+                                <li>Tactique et calculateur malgré l'âge</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Parler avec lassitude mais sincérité profonde</li>
+                                <li>Montrer la culpabilité d'envoyer des jeunes au danger</li>
+                                <li>Ne jamais forcer, toujours proposer et respecter</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- El Serpiente -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🐍 Rodrigo Muerte</div>
+                                <div class="pnj-nickname">35 ans - "El Serpiente"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Chef des Hermanos Muerte, gang le plus redouté du territoire. Orphelin à 8 ans dans les rues de Mexico City, a survécu en volant et tuant. Son gang est sa seule famille. A une règle absolue : "Toujours tenir parole."
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Cicatrice en zigzag sur la joue gauche</li>
+                                <li>Poncho noir élimé, dents en or qui brillent</li>
+                                <li>Regard glacial et calculateur de prédateur</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Bâtir un empire criminel au Mexique</li>
+                                <li>Impitoyable mais respecte sa parole</li>
+                                <li>Respecte le courage face à la mort</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Parler calmement même dans le danger extrême</li>
+                                <li>Toujours tenir sa parole donnée (code d'honneur tordu)</li>
+                                <li>Montrer du respect pour les adversaires dignes</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-combat">
+                            <strong>BOSS FINAL:</strong> 2 PV | Tireur d'élite (jet à 3+) | Peut utiliser Lucky Jim comme bouclier humain
+                        </div>
+                    </div>
+                    
+                    <!-- Carmen -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🔥 Carmen Muerte</div>
+                                <div class="pnj-nickname">28 ans - "La Bruja"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Sœur cadette d'El Serpiente. Leurs parents assassinés par des rangers corrompus quand elle avait 12 ans. A appris à se battre avant de savoir lire. Traque les hommes de loi avec rage froide depuis 16 ans. Mourrait pour son hermano.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Cheveux noirs de jais jusqu'à la taille</li>
+                                <li>Yeux verts perçants, regard de prédateur</li>
+                                <li>Ceinture garnie de couteaux de lancer</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Protéger son frère à tout prix</li>
+                                <li>Venger la mort de leurs parents</li>
+                                <li>Loyauté absolue envers la famille</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Parler avec fierté et rage à peine contenue</li>
+                                <li>Montrer l'amour fraternel avant toute chose</li>
+                                <li>Ne jamais hésiter une seconde au combat</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-combat">
+                            <strong>BOSS:</strong> 2 PV | Lance 3 couteaux (jets à 4+) | Utilise la fumée comme couverture (jets joueurs à 5+)
+                        </div>
+                    </div>
+                    
+                    <!-- Dientes -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">💀 Pablo Cruz</div>
+                                <div class="pnj-nickname">42 ans - "Dientes"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Ancien prisonnier ayant passé 8 ans dans les mines de Yuma. Les gardes lui ont arraché toutes les dents en torture. S'est fait poser des dents en acier volé et a juré de faire payer chaque représentant de la loi. Psychopathe instable qui collectionne les étoiles de shérif.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Chauve, crâne couvert de cicatrices</li>
+                                <li>Dents en métal qui brillent quand il sourit</li>
+                                <li>Tatouages tribaux sur les bras musclés</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Tuer le maximum de lawmen</li>
+                                <li>Mourir au combat de façon glorieuse</li>
+                                <li>Instable mentalement, rit en combattant</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Rire de façon démente aux moments inappropriés</li>
+                                <li>Montrer du plaisir sadique dans la violence</li>
+                                <li>Être imprévisible et brutalement direct</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-combat">
+                            <strong>BOSS:</strong> 2 PV | Deux revolvers (tire sur 2 cibles par round) | Menace de tuer un otage
+                        </div>
+                    </div>
+                    
+                    <!-- Lucky Jim -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🎰 Jim Patterson</div>
+                                <div class="pnj-nickname">32 ans - "Lucky Jim"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Charretier et mécanicien talentueux qui a perdu son atelier au poker face à El Serpiente. Pour rembourser sa dette, doit conduire le chariot de tête jusqu'au Mexique. N'est pas un criminel dans l'âme, déteste la violence, rêve de s'échapper. Terrorisé par les Hermanos.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Petit homme nerveux, mains calleuses de charretier</li>
+                                <li>Chapeau usé et poussiéreux</li>
+                                <li>Regard fuyant, transpire constamment</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Survivre et retrouver sa liberté</li>
+                                <li>Ouvrir un atelier mécanique honnête</li>
+                                <li>Peur constante de représailles violentes</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Parler vite et bégayer quand nerveux</li>
+                                <li>Montrer des signes physiques de stress (tremblements, sueur)</li>
+                                <li>Chercher désespérément une porte de sortie</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-role">
+                            <strong>Rôle:</strong> Otage/Allié potentiel | Ne combat pas | Peut saboter les chariots si convaincu
+                        </div>
+                    </div>
+                    
+                    <!-- Rosie -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">👧 Rosie McKenzie</div>
+                                <div class="pnj-nickname">10 ans - "Red"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Fille du chef charretier de Tecumah Gulch. A vu les bandits kidnapper son père pour l'obliger à voler l'or. S'est cachée dans un chariot pour le sauver seule. Courageuse mais imprudente. Connaît l'organisation du convoi et peut créer des diversions.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Petite fille maigre, taches de rousseur</li>
+                                <li>Robe déchirée, cheveux roux emmêlés</li>
+                                <li>Regard déterminé malgré la peur visible</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Sauver son papa kidnappé coûte que coûte</li>
+                                <li>Devenir aussi courageuse que lui</li>
+                                <li>Prouver qu'elle n'est pas qu'une enfant</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Alterner entre courage touchant et moments de peur d'enfant</li>
+                                <li>Montrer de l'entêtement attendrissant</li>
+                                <li>Ne jamais abandonner même face au danger mortel</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-role">
+                            <strong>Rôle:</strong> Alliée/Fardeau | 0 PV (ne peut être tuée - juste assommée) | Donne +1 bonus à un jet par joueur | Connaît un raccourci secret
+                        </div>
+                    </div>
+                    
+                    <!-- Scott O'Brian -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🍺 Scott O'Brian</div>
+                                <div class="pnj-nickname">45 ans - "L'Irlandais du Star"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Propriétaire du Star Saloon depuis 15 ans. Immigré irlandais arrivé à Tecumah Gulch en 1830 avec rien. A bâti son saloon à la sueur de son front. Homme d'affaires pragmatique mais a un code d'honneur : respecte le courage, méprise la lâcheté. N'aime pas les Hermanos Muerte (ont terrorisé des clients). Neutre officiellement mais aide discrètement les héros.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Homme robuste, barbe rousse grisonnante</li>
+                                <li>Tablier de barman usé, chemise retroussée</li>
+                                <li>Regard vert perçant, mains calleuses de travailleur</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Protéger son établissement et sa ville</li>
+                                <li>Rester neutre mais aide les justes</li>
+                                <li>Respecter ceux qui prennent des risques</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Accent irlandais léger, parler avec sagesse terre-à-terre</li>
+                                <li>Essuyer verres en parlant (geste habituel)</li>
+                                <li>Montrer respect pour courage, mépris pour lâcheté</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-role">
+                            <strong>Rôle:</strong> Allié discret | Fournit provisions gratuites | Information sur Lucky Jim | Témoin historique (connaît tout le monde)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 30px;">
+                    <h3>Groupe : Bandits Ordinaires (MJ seulement)</h3>
+                    <ul>
+                        <li>Éclaireurs et gardes des Hermanos Muerte</li>
+                        <li>Environ 12 membres répartis dans les 5 chariots</li>
+                        <li>1 PV chacun, éliminés dès qu'ils sont touchés</li>
+                        <li>Nommés : Cicatriz (éclaireur), El Gordo (fusil), Gardes chariot blindé (x2), Lanceurs de charbon (x2)</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- LIEUX -->
+            <section id="lieux" class="section">
+                <h2>🗺️ LIEUX</h2>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Star Saloon - Tecumah Gulch</div>
+                    <div class="lieu-location">Rue principale, Tecumah Gulch, Arizona - Propriétaire : Scott O'Brian</div>
+                    
+                    <div class="pnj-section-title">Architecture & Disposition</div>
+                    <ul class="lieu-ambiance">
+                        <li><strong>Rez-de-chaussée (100m²)</strong> - Grande salle commune avec poutres apparentes, plancher qui grince</li>
+                        <li><strong>Scène</strong> - Coin gauche, souvent inoccupée sauf le samedi soir (piano mécanique, podium)</li>
+                        <li><strong>Tables de jeu</strong> - Coin droit, 4 tables de poker usées par années de paris</li>
+                        <li><strong>Comptoir</strong> - Au fond, long bar en bois massif donne sur réserves (tonneaux whisky, provisions)</li>
+                        <li><strong>Escalier</strong> - Mur gauche, monte à l'étage où logent Scott O'Brian et les travailleuses</li>
+                        <li><strong>Étage</strong> - Une dizaine de chambres petites mais confortables à louer (5$/nuit)</li>
+                        <li><strong>Personnel</strong> - 2 barmans, 3 "vigiles" costauds, prostituées saison agricole</li>
+                    </ul>
+                    
+                    <div class="pnj-section-title">Ambiance Scène 1 (14h00 - Jour du braquage)</div>
+                    <ul class="lieu-ambiance">
+                        <li>Pénombre étouffante, volets mi-fermés contre chaleur écrasante (40°C dehors)</li>
+                        <li>Tic-tac obsédant horloge murale martelant urgence : chaque seconde compte</li>
+                        <li>Salle quasi-déserte : clients habituels ont fui, restent que les trop vieux ou trop lâches</li>
+                        <li>Walt Blackman affalé à table près comptoir, carte déployée, bandage sanglant visible</li>
+                        <li>Avis recherche Hermanos Muerte punaisés au mur : El Serpiente (5000$ prime)</li>
+                        <li>Odeur âcre : sueur ancienne mêlée tabac froid, whisky renversé, sciure au sol</li>
+                        <li>Silence dehors anormal, perturbant - ville entière retient son souffle</li>
+                        <li>Atmosphère lourde de désespoir, peur palpable - convoi s'éloigne à chaque minute</li>
+                        <li>Piano muet dans coin : symbole d'une joie qui ne reviendra pas si or perdu</li>
+                    </ul>
+                    
+                    <div class="pnj-section-title">Détails Utiles pour le MJ</div>
+                    <ul class="lieu-ambiance">
+                        <li><strong>Scott O'Brian</strong> - Propriétaire irlandais (45 ans), neutre mais sympathise héros, offre provisions gratuites</li>
+                        <li><strong>Équipement disponible</strong> - Peut donner gourdes eau, viande séchée, corde (gratuit si pour mission)</li>
+                        <li><strong>Chevaux</strong> - Blackman a préparé 5 chevaux Quarter Horse attachés devant (rapides, endurants)</li>
+                        <li><strong>Tables jeu</strong> - Lieu où Lucky Jim a perdu son atelier au poker face à El Serpiente (3 mois avant)</li>
+                        <li><strong>Étage</strong> - Si héros veulent discrétion, peuvent monter discuter dans chambre vide</li>
+                        <li><strong>Vigiles</strong> - Ne s'impliquent PAS (ordres O'Brian : "Pas nos affaires"), mais respectent courage</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Désert d'Arizona</div>
+                    <div class="lieu-location">Entre Tecumah Gulch et Canyon des Crânes (90 minutes à cheval)</div>
+                    <div class="pnj-section-title">Ambiance et Description</div>
+                    <ul class="lieu-ambiance">
+                        <li>Immensité ocre à perte de vue, cactus saguaros dressés comme sentinelles</li>
+                        <li>Nuage de poussière rouge au loin (le convoi), vautours tournoient paresseusement</li>
+                        <li>Chaleur écrasante donne impression que l'air lui-même repousse</li>
+                        <li>Martèlement sabots sur terre dure, souffle haletant des chevaux</li>
+                        <li>Nuage de poussière du convoi résonne comme un défi moqueur</li>
+                        <li>Poussière sèche brûle narines, sueur et sel coulent dans bouche</li>
+                        <li>Angoisse viscérale du temps qui file - fumée s'éloigne inexorablement</li>
+                        <li>Sensation d'insignifiance face à l'immensité hostile du désert</li>
+                        <li>Vautours créent frisson glacé malgré chaleur - présage de mort</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Canyon des Crânes</div>
+                    <div class="lieu-location">Passage étroit à 2h30 de Tecumah Gulch, lieu idéal embuscade</div>
+                    <div class="pnj-section-title">Ambiance et Description</div>
+                    <ul class="lieu-ambiance">
+                        <li>Ancien lieu bataille apache (1850), crânes blanchis visibles dans parois</li>
+                        <li>Canyon étroit force le convoi à ralentir (passage étroit) - seule opportunité de l'aborder (sauter du cheval au chariot)</li>
+                        <li>Passage secret connu de Rosie (raccourci pêche avec son père)</li>
+                        <li>Vent siffle entre roches comme plaintes de fantômes apaches</li>
+                        <li>Sol instable, chutes de pierres fréquentes sous sabots chevaux</li>
+                        <li>Sensation oppressante d'être observé par esprits anciens</li>
+                        <li>Écho amplifie moindre bruit - impossible d'approcher silencieusement</li>
+                        <li>Parfait pour embuscade mais dangereux (chariots peuvent accélérer en prairie après)</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Le Convoi de l'Enfer - 5 Chariots</div>
+                    <div class="lieu-location">Convoi de 5 chariots chargés d'or traversant Arizona vers frontière mexicaine à 8-10 km/h</div>
+                    
+                    <h4 style="color: #1E3A5F; margin-top: 20px;">Chariot 5 - Chariot Arrière Arrière</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Fracas assourdissant roues sur rails martèle les tympans</li>
+                        <li>Vibrations violentes remontent jambes, déséquilibrent constamment</li>
+                        <li>Caisses empilées en désordre, bâches claquant au vent</li>
+                        <li>Vent arrache presque les chapeaux à chaque instant</li>
+                        <li>Poussière charbon se dépose sur langue à chaque respiration</li>
+                        <li>Échelle menant au toit visible au fond (option tactique)</li>
+                        <li>Ombres mouvantes entre caisses font battre le cœur - danger partout</li>
+                    </ul>
+                    
+                    <h4 style="color: #1E3A5F; margin-top: 20px;">Chariot 4 - Chariot Blindé (L'Or - 50 000$)</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Espace confiné crée sensation immédiate de piège</li>
+                        <li>Coffre-fort massif au centre attire regard comme aimant morbide</li>
+                        <li>Lanternes à huile se balancent dangereusement, ombres dansantes</li>
+                        <li>Bruit métallique amplifié résonne dans espace clos</li>
+                        <li>Respiration d'un garde quelque part dans l'ombre</li>
+                        <li>Chaleur plus intense, odeur métal chaud et huile de lampe</li>
+                        <li>Sensation de tentation et de danger mêlées</li>
+                    </ul>
+                    
+                    <h4 style="color: #1E3A5F; margin-top: 20px;">Chariot 3 - Chariot Passagers (Les Otages)</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Gémissements étouffés des otages, pleurs déchirants d'enfant</li>
+                        <li>Sang séché sur plancher rappelle que bandits n'hésitent pas à tuer</li>
+                        <li>Regards suppliants des 10 civils attachés serrent le cœur</li>
+                        <li>Père de Rosie (Douglas McKenzie) yeux écarquillés de terreur</li>
+                        <li>Rires cruels venant de l'avant (Dientes) provoquent rage froide</li>
+                        <li>Banquettes velours rouge déchirées, vitres fissurées</li>
+                        <li>Puanteur de peur et urgence émotionnelle maximale</li>
+                    </ul>
+                    
+                    <h4 style="color: #1E3A5F; margin-top: 20px;">Chariot 2 - Chariot Arsenal (Charbon et Eau)</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Fumée âcre noire suffocante rend air difficilement respirable</li>
+                        <li>Chaleur de la chaudière se sent même à distance - infernale</li>
+                        <li>Visibilité réduite, silhouettes menaçantes sur le toit</li>
+                        <li>Monticule charbon brillant, réservoir eau cylindrique (explosif si percé)</li>
+                        <li>Rugissement chaudière toute proche, sifflements vapeur stridents</li>
+                        <li>Craquements du charbon sous chaque pas</li>
+                        <li>Carmen et bandits utilisent fumée comme couverture tactique</li>
+                    </ul>
+                    
+                    <h4 style="color: #1E3A5F; margin-top: 20px;">Chariot 1 - Chariot de Tête (Confrontation Finale)</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Vacarme assourdissant de la machine couvre tout autre son</li>
+                        <li>Chaleur comme un four, impression d'être cuit vivant</li>
+                        <li>Tremblements de Lucky Jim aux commandes transmettent sa terreur</li>
+                        <li>El Serpiente debout derrière lui, revolver pointé sur tempe</li>
+                        <li>Flammes visibles dans chaudière ouverte rappellent danger explosion</li>
+                        <li>Cadrans de pression oscillent dangereusement</li>
+                        <li>Regard glacial d'El Serpiente malgré chaleur étouffante</li>
+                        <li>Vibrations maximales, difficile de tenir debout et viser</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 1 -->
+            <section id="scene1" class="section">
+                <h2>🎬 SCÈNES</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 1 : LE DÉSESPOIR DE DUSTY CREEK</div>
+                        <div class="scene-synopsis">Les joueurs arrivent à Tecumah Gulch au moment où le shérif Blackman tente désespérément de recruter un groupe pour arrêter le convoi. Tous les adultes refusent. Il n'a plus que des gamins... et 2 heures devant lui.</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Date</div>
+                                    <div class="info-value">14 jours après le vol de l'or à Phoenix</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">11h45 du matin</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Soleil de plomb, 40°C à l'ombre</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">20-25 minutes maximum (urgence constante)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieu</div>
+                            <p><strong><span data-lieu="star_saloon">Star Saloon</span></strong> (voir section Lieux pour description complète)</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Personnages</div>
+                            <ul>
+                                <li><span data-pnj="walt_blackman">Shérif Blackman</span> (désespéré, s'accrochant à son dernier espoir)</li>
+                                <li>2-3 citoyens refusant la mission (fermier tremblant, commerçant paniqué)</li>
+                                <li><span data-pnj="rosie">Rosie</span> (cachée sous le bureau, écoutant tout, se révèle au moment clé)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Recruter les joueurs en montrant l'urgence absolue de la situation</li>
+                                <li>Établir les enjeux (l'or, les vies, devenir des légendes)</li>
+                                <li>Présenter l'ennemi (montrer dangerosité des Hermanos via récits)</li>
+                                <li>Révéler Rosie comme future alliée/problème moral</li>
+                                <li>Donner le matériel nécessaire (armes, chevaux, informations tactiques)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Informations à Révéler</div>
+                            <ul>
+                                <li>Le convoi passe dans 1h15 sans s'arrêter</li>
+                                <li>Il traverse le <span data-lieu="canyon">Canyon des Crânes</span> dans 2h30 (lieu idéal embuscade)</li>
+                                <li>Les Hermanos sont au moins 12 dans le convoi</li>
+                                <li>5 chariots : chariot de tête, chariot arsenal, chariot blindé (or), chariot passagers (otages), chariot arrière arrière</li>
+                                <li><span data-pnj="lucky_jim">Lucky Jim</span> est le charretier - "pas un méchant, mais un lâche" selon <span data-pnj="walt_blackman">Blackman</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Les joueurs acceptent →</strong> <span data-pnj="walt_blackman">Blackman</span> les équipe immédiatement et les envoie</li>
+                                <li><strong>Les joueurs hésitent →</strong> <span data-pnj="rosie">Rosie</span> surgit et supplie, créant déclic émotionnel</li>
+                                <li><strong>Les joueurs refusent →</strong> <span data-pnj="walt_blackman">Blackman</span> s'effondre, <span data-pnj="rosie">Rosie</span> part seule (culpabilité maximale)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Faire traîner la scène : l'urgence doit être constante</li>
+                                    <li>Rendre <span data-pnj="walt_blackman">Blackman</span> pathétique : il est désespéré, pas larmoyant</li>
+                                    <li>Oublier l'horloge : rappeler le temps qui passe toutes les 5 minutes</li>
+                                    <li>Forcer les joueurs : ils doivent VOULOIR cette mission</li>
+                                    <li>Négliger <span data-pnj="rosie">Rosie</span> : elle est la clé émotionnelle de toute l'aventure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 2 -->
+            <section id="scene2" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 2 : LA POURSUITE INFERNALE</div>
+                        <div class="scene-synopsis">Les joueurs galopent dans le désert pour rattraper le convoi avant qu'il n'atteigne le Canyon des Crânes. Course contre la montre, obstacles naturels, et premiers affrontements avec les éclaireurs des Hermanos.</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">12h00-13h30</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Soleil écrasant, mirages à l'horizon</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">45 minutes maximum (action constante)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieux</div>
+                            <p><strong>Désert d'Arizona puis Canyon des Crânes</strong> (voir section Lieux pour descriptions complètes)</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Personnages</div>
+                            <ul>
+                                <li>2 Éclaireurs des Hermanos (bandits à cheval chargés de repérer poursuivants)</li>
+                                <li>Rosie (si elle a suivi - cramponnée à un joueur ou sur son poney)</li>
+                                <li>Lucky Jim (visible parfois à fenêtre chariot de tête)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Créer la tension de la course-poursuite haletante</li>
+                                <li>Premier combat contre les éclaireurs (test des capacités)</li>
+                                <li>Tester les capacités des joueurs (équitation, tir)</li>
+                                <li>Rattraper le convoi au Canyon des Crânes (moment critique)</li>
+                                <li>Établir Rosie comme atout (raccourci) ou fardeau (à protéger)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Informations à Révéler</div>
+                            <ul>
+                                <li>Le convoi avance à 8-10 km/h (rapide pour des chariots) - difficile mais pas impossible à rattraper</li>
+                                <li>Canyon des Crânes est étroit - convoi doit ralentir (opportunité unique)</li>
+                                <li>Bandits ont laissé éclaireurs pour éliminer poursuivants</li>
+                                <li>Il y a passage secret dans canyon (Rosie le connaît)</li>
+                                <li>Lucky Jim semble nerveux à la fenêtre - pourrait être retourné</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Succès complet →</strong> Tous joueurs sur le convoi, devant ou sur chariot arrière (Chariot 5)</li>
+                                <li><strong>Succès partiel →</strong> Certains montés, d'autres doivent encore tenter chance</li>
+                                <li><strong>Échec →</strong> Convoi leur échappe → doivent trouver autre moyen (faire sauter pont devant ?)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Faire durer poursuite trop longtemps : Max 45 minutes</li>
+                                    <li>Tuer les chevaux des joueurs : Ça stoppe net l'action</li>
+                                    <li>Oublier la météo : Le soleil, la soif, l'épuisement</li>
+                                    <li>Rendre le convoi impossible à attraper : Laissez toujours une chance</li>
+                                    <li>Négliger descriptions sensorielles : C'est ce qui rend scène vivante</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 3 -->
+            <section id="scene3" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 3 : L'ASSAUT DU CONVOI</div>
+                        <div class="scene-synopsis">Les joueurs sont sur le convoi. Il faut progresser de chariot en chariot, affronter les bandits, libérer les otages, et atteindre la chariot de tête avant la frontière mexicaine.</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">13h30-14h30</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Convoi</div>
+                                    <div class="info-value">60 km/h, vibrations constantes, vent violent</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">45 minutes (8-10 min par chariot)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieu</div>
+                            <p><strong>Les 5 Chariots du Convoi</strong> (voir section Lieux pour descriptions détaillées)</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Personnages</div>
+                            <ul>
+                                <li><strong>Chariot 5:</strong> Vide ou 1 bandit retardataire (1 PV)</li>
+                                <li><strong>Chariot 4:</strong> 2 gardes (1 PV chacun, fusils) + le coffre-fort</li>
+                                <li><strong>Chariot 3:</strong> Pablo "Dientes" (2 PV BOSS) + 1 bandit + 10 otages dont père de Rosie</li>
+                                <li><strong>Chariot 2:</strong> Carmen "La Bruja" (2 PV BOSS sur toit) + 2 bandits lanceurs charbon</li>
+                                <li><strong>Chariot 1:</strong> El Serpiente (2 PV BOSS FINAL) + Lucky Jim (otage)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Progresser de chariot en chariot en éliminant résistance</li>
+                                <li>Libérer les otages (choix moral : maintenant ou après avoir sécurisé le convoi ?)</li>
+                                <li>Affronter les trois boss (Dientes, Carmen, El Serpiente)</li>
+                                <li>Arrêter le convoi avant la frontière (1h restante)</li>
+                                <li>Récupérer l'or (optionnel mais tentant)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Informations à Révéler</div>
+                            <ul>
+                                <li>Lucky Jim veut aider mais terrorisé - un joueur doit le convaincre</li>
+                                <li>L'or peut être laissé pour plus tard - priorité aux vies</li>
+                                <li>Dientes est psychopathe - tuera un otage si provoqué</li>
+                                <li>Carmen protégera son frère jusqu'à la mort</li>
+                                <li>El Serpiente respecte courage - on peut négocier (mais risqué)</li>
+                                <li>Frontière dans 20 minutes de temps de jeu</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>El Serpiente vaincu →</strong> Convoi sécurisé, Lucky Jim aide à l'arrêter</li>
+                                <li><strong>El Serpiente s'échappe →</strong> Il saute du convoi avec sac d'or, poursuite à cheval</li>
+                                <li><strong>Négociation réussie →</strong> Il part sans l'or, promettant de revenir un jour</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Tuer tous les PNJ importants : Gardez-en pour la suite</li>
+                                    <li>Rendre El Serpiente stupide : C'est un boss intelligent</li>
+                                    <li>Oublier les otages : Ils créent de la tension constamment</li>
+                                    <li>Négliger l'environnement : Le convoi bouge, vibre, peut dérailler</li>
+                                    <li>Faire durer combat final trop longtemps : 15 minutes max</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 4 -->
+            <section id="scene4" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 4 : LE CHOIX</div>
+                        <div class="scene-synopsis">Le convoi est arrêté à 500 mètres de la frontière. Les joueurs doivent faire des choix : que faire de l'or ? Des bandits capturés ? De leur avenir ?</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">15h45</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Soleil déclinant, vent qui se lève</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">5-10 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieu</div>
+                            <p><strong>Convoi arrêté</strong>, paysage mexicain visible au loin</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Personnages</div>
+                            <ul>
+                                <li>Blackman (arrive avec renforts)</li>
+                                <li>El Serpiente (si capturé/mort)</li>
+                                <li>Carmen (si vivante)</li>
+                                <li>Lucky Jim</li>
+                                <li>Rosie et son père réunis</li>
+                                <li>Citoyens de Tecumah Gulch (certains arrivent)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Résoudre les destins : El Serpiente (mort/capturé/échappé), Carmen, Dientes</li>
+                                <li>Décider du sort de l'or : Le rendre ou en garder une part ?</li>
+                                <li>Consolider les liens : Rosie et son père, Lucky Jim</li>
+                                <li>Planter les graines de la suite de campagne</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Choix et Conséquences</div>
+                            
+                            <h4>Choix A - L'Or (50 000$)</h4>
+                            <ul>
+                                <li><strong>Tout rendre →</strong> Récompense 500$ + respect total Blackman et territoire</li>
+                                <li><strong>En garder 10% →</strong> 5000$ + Blackman ferme les yeux ("Vous l'avez mérité")</li>
+                                <li><strong>Tout garder →</strong> 50 000$ + recherchés par la loi (hook pour campagne)</li>
+                            </ul>
+                            
+                            <h4>Choix B - El Serpiente (si capturé)</h4>
+                            <ul>
+                                <li><strong>Le livrer à la justice →</strong> Pendu à Tucson, fin définitive du gang</li>
+                                <li><strong>Le laisser partir →</strong> Il jure une dette de sang envers joueurs (allié futur ?)</li>
+                                <li><strong>Le tuer sur place →</strong> Vengeance rapide mais Carmen jure de traquer joueurs</li>
+                            </ul>
+                            
+                            <h4>Choix C - Lucky Jim</h4>
+                            <ul>
+                                <li><strong>Le pardonner →</strong> Il devient mécanicien de Tecumah Gulch, allié technique</li>
+                                <li><strong>Le livrer →</strong> Prison légère (6 mois) mais garde rancune</li>
+                                <li><strong>L'exiler →</strong> Il disparaît, pourrait revenir en ennemi</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Vers Scène 5 (Épilogue) →</strong> Retour triomphal à Tecumah Gulch</li>
+                                <li><strong>Vers future session →</strong> Hooks activés selon choix</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Forcer un choix "moral" : Laisser joueurs décider librement</li>
+                                    <li>Punir trop durement la cupidité : C'est western spaghetti, pas moraliste</li>
+                                    <li>Oublier l'impact émotionnel : Rosie retrouve son père (moment clé)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 5 -->
+            <section id="scene5" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 5 : ÉPILOGUE - RETOUR À DUSTY CREEK</div>
+                        <div class="scene-synopsis">Les héros rentrent en ville. Accueil triomphal. Blackman leur remet leurs récompenses et leurs badges. Le début d'une légende.</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Coucher de soleil, 18h00</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Ciel orange et pourpre, vent doux</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">5 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieu</div>
+                            <p><strong>Tecumah Gulch transformée</strong></p>
+                            <ul class="lieu-ambiance">
+                                <li>Toute la ville dans la rue pour accueillir les héros</li>
+                                <li>Enfants qui courent vers eux avec admiration</li>
+                                <li>Musique de saloon qui reprend joyeusement</li>
+                                <li>Drapeaux qui flottent, décorations improvisées</li>
+                                <li>Sentiment de victoire et d'espoir retrouvé</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Célébrer la victoire des joueurs</li>
+                                <li>Distribuer les récompenses finales</li>
+                                <li>Créer un moment émotionnel fort</li>
+                                <li>Laisser porte ouverte pour futures aventures</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Récompenses Finales</div>
+                            
+                            <h4>💰 Argent</h4>
+                            <ul>
+                                <li>500$ de base (100$ par joueur si 5 joueurs)</li>
+                                <li>+200$ si tous les otages survivent</li>
+                                <li>+100$ si El Serpiente capturé vivant</li>
+                                <li>+50$ par boss éliminé</li>
+                            </ul>
+                            
+                            <h4>⭐ Réputation</h4>
+                            <ul>
+                                <li>Titre : "Les Arrêteurs de Convoi"</li>
+                                <li>Badge honorifique de deputy</li>
+                                <li>Respect universel dans tout le territoire</li>
+                            </ul>
+                            
+                            <h4>🎁 Objets</h4>
+                            <ul>
+                                <li>Montre à gousset de Blackman (cadeau personnel)</li>
+                                <li>Photo du groupe prise par photographe de la ville</li>
+                                <li>Chanson composée en leur honneur (jouée au saloon)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Fin de la session</strong> si one-shot</li>
+                                <li><strong>Hooks pour Session 2</strong> si campagne</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Bâcler l'épilogue : C'est le moment de gloire des joueurs</li>
+                                    <li>Oublier Rosie : Sa réunion avec son père est le cœur émotionnel</li>
+                                    <li>Négliger Blackman : Sa fierté paternelle est touchante</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- HOOKS -->
+            <section id="hooks" class="section">
+                <h2>🔗 HOOKS POUR SUITE DE CAMPAGNE</h2>
+                
+                <div class="card">
+                    <ol>
+                        <li>El Serpiente revient avec nouveau gang encore plus dangereux</li>
+                        <li>Carmen traque les joueurs pour venger son frère (si mort)</li>
+                        <li>L'or était maudit - d'anciens propriétaires le réclament</li>
+                        <li>Lucky Jim a découvert un plan secret pendant sa captivité</li>
+                        <li>Rosie veut devenir chasseuse de primes et supplie de l'entraîner</li>
+                        <li>Un marshal fédéral arrive pour enquêter sur l'incident</li>
+                        <li>Le vrai propriétaire de l'or : un baron mexicain qui veut le récupérer</li>
+                        <li>Un survivant du gang révèle existence d'un trésor encore plus grand</li>
+                        <li>Blackman reçoit une menace : "Les Hermanos ne pardonnent jamais"</li>
+                        <li>Une mystérieuse femme prétend être la mère d'El Serpiente</li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <h3>📚 Équipement des Joueurs</h3>
+                    
+                    <h4>Donné par Blackman</h4>
+                    <ul>
+                        <li>1 Colt .45 par joueur (6 balles)</li>
+                        <li>1 Fusil à pompe pour le groupe</li>
+                        <li>12 cartouches supplémentaires</li>
+                        <li>1 Lasso</li>
+                        <li>1 Gourde d'eau</li>
+                        <li>1 Boussole</li>
+                        <li>Chevaux (Quarter Horses rapides)</li>
+                    </ul>
+                    
+                    <h4>Trouvable dans l'aventure</h4>
+                    <ul>
+                        <li>Dynamite (chariot 4)</li>
+                        <li>Winchester de Dientes (trophée)</li>
+                        <li>Couteaux de Carmen (trophées)</li>
+                        <li>Poncho d'El Serpiente (trophée légendaire)</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p><strong>🐴 LE CONVOI DE L'ENFER</strong></p>
+            <p>Scénario Western Spaghetti pour système d6 Cow-boy - Session 1</p>
+            <p>Durée: 2 heures | Joueurs: 3-5 (11-14 ans) | Époque: 1845-1850 (pré-ferroviaire)</p>
+            <p style="margin-top: 10px; font-style: italic;">📍 Tecumah Gulch • 🍺 Star Saloon • 🤠 Shérif Walt Blackman</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Timer fonctionnel
+        let timerSeconds = 0;
+        let timerInterval = null;
+        
+        function startTimer() {
+            if (!timerInterval) {
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 0;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            document.getElementById('time-display').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // Lanceur de dés
+        function rollDice() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const resultElement = document.getElementById('dice-result');
+            
+            resultElement.textContent = '🎲';
+            resultElement.style.transform = 'scale(1.3) rotate(360deg)';
+            
+            setTimeout(() => {
+                resultElement.textContent = result;
+                resultElement.style.transform = 'scale(1)';
+                
+                if (result >= 4) {
+                    resultElement.style.background = 'rgba(0,128,0,0.8)';
+                } else {
+                    resultElement.style.background = 'rgba(139,0,0,0.8)';
+                }
+                
+                setTimeout(() => {
+                    resultElement.style.background = 'rgba(0,0,0,0.3)';
+                }, 1000);
+            }, 300);
+        }
+        
+        // Navigation
+        function showSection(sectionId) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Désactiver tous les boutons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Activer la section sélectionnée
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activer le bouton correspondant
+            event.target.classList.add('active');
+            
+            // Scroll vers le haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // ===== SYSTÈME D'INFO-BULLES =====
+        const pnjData = {
+            "walt_blackman": {
+                nom: "Walt Blackman",
+                surnom: "63 ans - Le Vieux Clou",
+                description: "Ancien marshal fédéral, shérif de Tecumah Gulch. Blessé au flanc, ne peut plus chevaucher. Recrute des jeunes au Star Saloon par désespoir.",
+                physique: "Homme bedonnant, moustache grisonnante, étoile cabossée"
+            },
+            "el_serpiente": {
+                nom: "Rodrigo 'El Serpiente' Muerte",
+                surnom: "35 ans - Le Serpent du Désert",
+                description: "Chef des Hermanos Muerte. Code d'honneur tordu : tient toujours parole, respecte le courage.",
+                combat: "BOSS FINAL - 2 PV, Fouet 3m désarme 4+, Revolver 4+"
+            },
+            "carmen": {
+                nom: "Carmen 'La Bruja' Muerte",
+                surnom: "28 ans - La Sorcière Rouge",
+                description: "Sœur d'El Serpiente. Haine viscérale de l'autorité. Experte couteaux de lancer.",
+                combat: "BOSS - 2 PV, Lance 3 couteaux/tour 4+"
+            },
+            "dientes": {
+                nom: "Pablo 'Dientes' Cruz",
+                surnom: "42 ans - Dents d'Acier",
+                description: "Psychopathe sadique. Dents en acier. Garde les otages, menace de les tuer.",
+                combat: "BOSS - 2 PV, Deux revolvers 4+, utilise otages boucliers"
+            },
+            "lucky_jim": {
+                nom: "Jim 'Lucky Jim' Patterson",
+                surnom: "32 ans",
+                description: "Charretier forcé de conduire. Dette de jeu face à El Serpiente. Terrorisé mais peut devenir allié.",
+                role: "Otage/Allié potentiel - Peut saboter chariots si convaincu"
+            },
+            "rosie": {
+                nom: "Rosie 'Red' McKenzie",
+                surnom: "10 ans - La Rousse",
+                description: "Fille courageuse. Père otage. Connaît raccourci Canyon. Imprudente mais déterminée.",
+                role: "Alliée/Fardeau - 0 PV (assommée seulement), +1 bonus/joueur"
+            },
+            "scott_obrian": {
+                nom: "Scott O'Brian",
+                surnom: "45 ans - L'Irlandais du Star",
+                description: "Propriétaire Star Saloon. Immigré irlandais. Respecte courage, méprise lâcheté. Aide discrètement héros.",
+                role: "Allié discret - Fournit provisions gratuites"
+            }
+        };
+
+        const lieuxData = {
+            "star_saloon": {
+                nom: "Star Saloon - Tecumah Gulch",
+                lieu: "Rue principale, Tecumah Gulch",
+                description: "RDC 100m² : scène, tables jeu, comptoir. Étage : 10 chambres. Personnel : 2 barmans, 3 vigiles. Propriétaire : Scott O'Brian.",
+                ambiance: "Pénombre étouffante, horloge martèle urgence, salle quasi-déserte, Blackman blessé à table"
+            },
+            "desert": {
+                nom: "Désert d'Arizona",
+                lieu: "Entre Tecumah Gulch et Canyon",
+                description: "Immensité ocre, chaleur 45°C, nuage poussière convoi visible 3-4km.",
+                ambiance: "Vautours tournoient, sensation suivi, angoisse temps qui file"
+            },
+            "canyon": {
+                nom: "Canyon des Crânes",
+                lieu: "Raccourci secret - 2h30 de Tecumah",
+                description: "Gorge étroite 30m, crânes incrustés parois, passage 2 chevaux front.",
+                ambiance: "Rosie guide, vent siffle, rochers instables, économise 1h mais jets 5+"
+            },
+            "route": {
+                nom: "Route vers Frontière",
+                lieu: "Dernière ligne droite Mexique",
+                description: "Route poussiéreuse, rivière à traverser (convoi ralentit), montée difficile, prairie finale.",
+                ambiance: "Traces fraîches chariots, soleil descend, tension maximale"
+            }
+        };
+
+        function createTooltip(element, data) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            
+            if (data.combat || data.role) { // PNJ
+                tooltip.innerHTML = `
+                    <div class="tooltip-header">${data.nom}</div>
+                    <div class="tooltip-surnom">${data.surnom}</div>
+                    <div class="tooltip-text">${data.description}</div>
+                    ${data.combat ? `<div class="tooltip-combat">⚔️ ${data.combat}</div>` : ''}
+                    ${data.role ? `<div class="tooltip-role">📋 ${data.role}</div>` : ''}
+                `;
+            } else { // Lieu
+                tooltip.innerHTML = `
+                    <div class="tooltip-header">${data.nom}</div>
+                    <div class="tooltip-lieu">📍 ${data.lieu}</div>
+                    <div class="tooltip-text">${data.description}</div>
+                    <div class="tooltip-ambiance">🎭 ${data.ambiance}</div>
+                `;
+            }
+            
+            document.body.appendChild(tooltip);
+            
+            element.addEventListener('mouseenter', (e) => {
+                tooltip.style.display = 'block';
+                positionTooltip(e, tooltip);
+            });
+            
+            element.addEventListener('mousemove', (e) => {
+                positionTooltip(e, tooltip);
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        }
+
+        function positionTooltip(e, tooltip) {
+            const padding = 15;
+            let x = e.pageX + padding;
+            let y = e.pageY + padding;
+            
+            // Ajuster si déborde à droite
+            if (x + tooltip.offsetWidth > window.innerWidth + window.scrollX) {
+                x = e.pageX - tooltip.offsetWidth - padding;
+            }
+            
+            // Ajuster si déborde en bas
+            if (y + tooltip.offsetHeight > window.innerHeight + window.scrollY) {
+                y = e.pageY - tooltip.offsetHeight - padding;
+            }
+            
+            tooltip.style.left = x + 'px';
+            tooltip.style.top = y + 'px';
+        }
+
+        // Initialisation des info-bulles
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ajouter les info-bulles PNJ
+            document.querySelectorAll('[data-pnj]').forEach(element => {
+                const pnjId = element.getAttribute('data-pnj');
+                if (pnjData[pnjId]) {
+                    element.classList.add('tooltip-trigger', 'tooltip-trigger-pnj');
+                    createTooltip(element, pnjData[pnjId]);
+                }
+            });
+            
+            // Ajouter les info-bulles Lieux
+            document.querySelectorAll('[data-lieu]').forEach(element => {
+                const lieuId = element.getAttribute('data-lieu');
+                if (lieuxData[lieuId]) {
+                    element.classList.add('tooltip-trigger', 'tooltip-trigger-lieu');
+                    createTooltip(element, lieuxData[lieuId]);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
