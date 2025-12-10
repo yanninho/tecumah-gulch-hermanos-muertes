@@ -1,1 +1,2769 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇲🇽 La Traque au-delà du Rio Grande - Scénario JDR</title>
+    
+    <!-- ============================================
+         STYLES CSS
+         ============================================ -->
+    <style>
+        /* === FONTS === */
+        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Bitter:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+        
+        /* === CSS VARIABLES === */
+        :root {
+            --primary-bg: #1a0f0a;
+            --secondary-bg: #3d2817;
+            --accent-red: #B8001A;
+            --accent-gold: #D4AF37;
+            --accent-turquoise: #40E0D0;
+            --text-light: #F5DEB3;
+            --text-sand: #DEB887;
+            --border-dark: #654321;
+            --shadow-heavy: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* === BODY === */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 50%, var(--primary-bg) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        /* === CONTAINER === */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(26, 15, 10, 0.95);
+            border: 8px solid var(--accent-red);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px var(--shadow-heavy);
+            overflow: hidden;
+        }
+        
+        /* === HEADER === */
+        header {
+            background: linear-gradient(to bottom, #0f0a08, var(--primary-bg));
+            color: var(--accent-gold);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-red);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '🇲🇽';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: wave 3s ease-in-out infinite;
+        }
+        
+        header::after {
+            content: '🌵';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: sway 4s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+            50% { transform: translateY(-55%) rotate(5deg); }
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            50% { transform: translateY(-50%) rotate(3deg); }
+        }
+        
+        h1 {
+            font-family: 'Rye', cursive;
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(184, 0, 26, 0.9);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: var(--accent-turquoise);
+            font-style: italic;
+        }
+        
+        .context-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(184, 0, 26, 0.2);
+            border-left: 4px solid var(--accent-red);
+            font-size: 0.95em;
+            text-align: left;
+            color: var(--text-sand);
+        }
+        
+        /* === TOOLS BAR === */
+        .tools-bar {
+            background: var(--secondary-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 3px solid var(--accent-red);
+        }
+        
+        .timer {
+            background: rgba(184, 0, 26, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: var(--accent-gold);
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timer-controls button {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+        
+        .timer-controls button:hover {
+            background: #D4001F;
+            transform: scale(1.05);
+        }
+        
+        .dice-roller {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dice-button {
+            background: var(--accent-turquoise);
+            color: var(--primary-bg);
+            border: 3px solid #2A9D8F;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Rye', cursive;
+        }
+        
+        .dice-button:hover {
+            background: #5FF5E5;
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .dice-result {
+            background: rgba(184, 0, 26, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* === NAVIGATION === */
+        nav {
+            background: #2d1810;
+            padding: 20px 30px;
+            border-bottom: 3px solid var(--accent-red);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: var(--secondary-bg);
+            color: var(--text-sand);
+            border: 2px solid var(--border-dark);
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--accent-red);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(184, 0, 26, 0.4);
+        }
+        
+        /* === CONTENT === */
+        .content {
+            padding: 40px;
+            min-height: 600px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* === TYPOGRAPHY === */
+        h2 {
+            font-family: 'Rye', cursive;
+            color: var(--accent-gold);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--accent-red);
+            padding-bottom: 10px;
+            text-shadow: 2px 2px 4px var(--shadow-heavy);
+        }
+        
+        h3 {
+            font-family: 'Bitter', serif;
+            color: var(--accent-turquoise);
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: var(--accent-gold);
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        p, li {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        /* === CARDS === */
+        .card {
+            background: rgba(61, 40, 23, 0.4);
+            border: 3px solid var(--accent-red);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(184, 0, 26, 0.4);
+            border-color: var(--accent-gold);
+        }
+        
+        /* === PNJ CARDS === */
+        .pnj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .pnj-card {
+            background: linear-gradient(135deg, rgba(61, 40, 23, 0.6) 0%, rgba(26, 15, 10, 0.8) 100%);
+            border: 3px solid var(--accent-red);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pnj-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+        
+        .pnj-card:hover::before {
+            top: 100%;
+            right: 100%;
+        }
+        
+        .pnj-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 40px rgba(184, 0, 26, 0.5);
+        }
+        
+        .pnj-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        
+        .pnj-name {
+            font-family: 'Rye', cursive;
+            font-size: 1.8em;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .pnj-nickname {
+            font-style: italic;
+            color: var(--accent-turquoise);
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .pnj-description {
+            color: var(--text-sand);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .pnj-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-block {
+            background: rgba(184, 0, 26, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-red);
+        }
+        
+        .stat-title {
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        
+        .stat-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.9em;
+        }
+        
+        .stat-list li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .stat-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-turquoise);
+        }
+        
+        /* === LIEU CARDS === */
+        .lieu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .lieu-card {
+            background: linear-gradient(135deg, rgba(61, 40, 23, 0.5) 0%, rgba(26, 15, 10, 0.7) 100%);
+            border: 3px solid var(--accent-turquoise);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.4s;
+        }
+        
+        .lieu-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 40px rgba(64, 224, 208, 0.3);
+        }
+        
+        .lieu-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        
+        .lieu-name {
+            font-family: 'Bitter', serif;
+            font-size: 1.8em;
+            color: var(--accent-turquoise);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .lieu-location {
+            color: var(--text-sand);
+            text-align: center;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .lieu-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* === SCENE CARDS === */
+        .scene-card {
+            background: rgba(61, 40, 23, 0.3);
+            border: 4px solid var(--accent-red);
+            border-radius: 15px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .scene-header {
+            background: linear-gradient(135deg, var(--accent-red) 0%, #8B0000 100%);
+            padding: 25px;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+        
+        .scene-title {
+            font-family: 'Rye', cursive;
+            font-size: 2em;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .scene-synopsis {
+            color: var(--text-sand);
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+        
+        .scene-body {
+            padding: 30px;
+        }
+        
+        .scene-section {
+            margin-bottom: 30px;
+        }
+        
+        .scene-section-title {
+            font-family: 'Bitter', serif;
+            font-size: 1.5em;
+            color: var(--accent-turquoise);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(64, 224, 208, 0.3);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: rgba(184, 0, 26, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-red);
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .info-value {
+            color: var(--text-light);
+            font-size: 1.05em;
+        }
+        
+        .warning {
+            background: rgba(184, 0, 26, 0.3);
+            border-left: 4px solid var(--accent-red);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        
+        .warning strong {
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        /* === TOOLTIPS === */
+        [data-pnj],
+        [data-lieu] {
+            color: var(--accent-gold);
+            cursor: help;
+            border-bottom: 2px dotted var(--accent-turquoise);
+            transition: all 0.2s;
+        }
+        
+        [data-pnj]:hover,
+        [data-lieu]:hover {
+            color: var(--accent-turquoise);
+            border-bottom-color: var(--accent-gold);
+        }
+        
+        .custom-tooltip {
+            position: fixed;
+            background: linear-gradient(135deg, rgba(26, 15, 10, 0.98) 0%, rgba(61, 40, 23, 0.98) 100%);
+            border: 3px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 400px;
+            z-index: 10000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .custom-tooltip.visible {
+            opacity: 1;
+        }
+        
+        .tooltip-header {
+            font-family: 'Rye', cursive;
+            font-size: 1.3em;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 8px;
+        }
+        
+        .tooltip-nickname {
+            font-style: italic;
+            color: var(--accent-turquoise);
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+        
+        .tooltip-description {
+            color: var(--text-sand);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .tooltip-info {
+            color: var(--text-light);
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        /* === FOOTER === */
+        footer {
+            background: var(--primary-bg);
+            color: var(--text-sand);
+            padding: 30px;
+            text-align: center;
+            border-top: 5px solid var(--accent-red);
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tools-bar {
+                flex-direction: column;
+            }
+            
+            .pnj-grid,
+            .lieu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================
+             HEADER
+             ============================================ -->
+        <header>
+            <h1>🇲🇽 LA TRAQUE AU-DELÀ DU RIO GRANDE</h1>
+            <p class="subtitle">Session 2 Alternative - Système d6 Cow-boy - Durée 2h30</p>
+            <div class="context-info">
+                <strong>Contexte :</strong> Les <span data-pnj="hermanos">Hermanos Muerte</span> ont réussi leur évasion lors du Convoi de l'Enfer. Ils ont franchi le Rio Grande avec l'or maudit et se cachent au Mexique. Les héros doivent les traquer en territoire hostile, sans juridiction, où <span data-pnj="serpiente">El Serpiente</span> règne en maître. Une course contre la montre commence avant que le cartel ne devienne intouchable.
+            </div>
+        </header>
+        
+        <!-- ============================================
+             TOOLS BAR
+             ============================================ -->
+        <div class="tools-bar">
+            <div class="timer">
+                ⏱️ <span id="time-display">00:00:00</span>
+                <div class="timer-controls">
+                    <button onclick="startTimer()">▶️ Start</button>
+                    <button onclick="pauseTimer()">⏸️ Pause</button>
+                    <button onclick="resetTimer()">🔄 Reset</button>
+                </div>
+            </div>
+            <div class="dice-roller">
+                <button class="dice-button" onclick="rollDice()">🎲 Lancer D6</button>
+                <div class="dice-result" id="dice-result">-</div>
+            </div>
+        </div>
+        
+        <!-- ============================================
+             NAVIGATION
+             ============================================ -->
+        <nav>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('introduction')">📖 Introduction</button>
+                <button class="nav-btn" onclick="showSection('pnj')">👥 PNJ</button>
+                <button class="nav-btn" onclick="showSection('lieux')">📍 Lieux</button>
+                <button class="nav-btn" onclick="showSection('scene1')">🌅 Scène 1</button>
+                <button class="nav-btn" onclick="showSection('scene2')">🐴 Scène 2</button>
+                <button class="nav-btn" onclick="showSection('scene3')">🏜️ Scène 3</button>
+                <button class="nav-btn" onclick="showSection('scene4')">💀 Scène 4</button>
+                <button class="nav-btn" onclick="showSection('scene5')">⚔️ Scène 5</button>
+                <button class="nav-btn" onclick="showSection('conseils')">💡 Conseils MJ</button>
+            </div>
+        </nav>
+        
+        <!-- ============================================
+             CONTENT SECTIONS
+             ============================================ -->
+        <div class="content">
+            
+            <!-- INTRODUCTION -->
+            <section id="introduction" class="section active">
+                <h2>📖 INTRODUCTION</h2>
+                
+                <div class="card">
+                    <h3>🎯 Pitch</h3>
+                    <p>Deux jours après l'échec du Convoi de l'Enfer, les <span data-pnj="hermanos">Hermanos Muerte</span> se cachent au Mexique avec 50 000$ d'or maudit. <span data-pnj="blackman">Walt Blackman</span>, humilié, rassemble ses meilleurs pistoleros pour une mission suicide : traverser le Rio Grande, infiltrer le territoire d'<span data-pnj="serpiente">El Serpiente</span>, et ramener les bandits VIVANTS pour le procès. Mais au Mexique, les héros n'ont aucune autorité, et le cartel a des yeux partout. Une course contre la montre où chaque minute rapproche <span data-pnj="serpiente">El Serpiente</span> de devenir intouchable.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📜 Synopsis des 5 Actes</h3>
+                    <ul>
+                        <li><strong>Acte I - L'Humiliation (0h-6h) :</strong> Aube à <span data-lieu="tecumah">Tecumah Gulch</span>. <span data-pnj="blackman">Blackman</span> blessé, furieux, rassemble héros Star Saloon. <span data-pnj="rosie">Rosie</span> révèle pisteur secret : <span data-pnj="coyote">Juan "El Coyote" Ramirez</span>, contrebandier retraité. Mission : traverser Rio Grande discrètement.</li>
+                        
+                        <li><strong>Acte II - Le Passage de la Frontière (6h-12h) :</strong> Midi brûlant. Héros traversent <span data-lieu="rio_grande">Rio Grande</span> avec <span data-pnj="coyote">El Coyote</span>. Embuscade <span data-pnj="federales">Federales corrompus</span> (payés par <span data-pnj="serpiente">El Serpiente</span>). Combat/négociation. Arrivée village fantôme <span data-lieu="santa_muerte">Santa Muerte</span> : première piste.</li>
+                        
+                        <li><strong>Acte III - Le Village de la Peur (12h-18h) :</strong> <span data-lieu="santa_muerte">Santa Muerte</span>, village terrorisé. <span data-pnj="hermanos">Hermanos</span> ont massacré 3 familles refusant hospitalité. <span data-pnj="maria">Maria Alvarez</span> (veuve) révèle : <span data-pnj="serpiente">El Serpiente</span> parti vers <span data-lieu="hacienda">Hacienda del Diablo</span> avec or. Héros doivent gagner confiance villageois.</li>
+                        
+                        <li><strong>Acte IV - L'Assaut de l'Hacienda (18h-23h) :</strong> Crépuscule. <span data-lieu="hacienda">Hacienda fortifiée</span>, 15 sicarios, <span data-pnj="hermanos">Hermanos</span> retranchés. Héros infiltrent/assaillent. Combats intenses chariot par chariot (flashback Session 1). <span data-pnj="serpiente">El Serpiente</span> fuit vers crypte secrète.</li>
+                        
+                        <li><strong>Acte V - Le Duel des Calaveras (23h-Minuit) :</strong> Minuit. Crypte sous Hacienda, autels aztèques, or empilé. <span data-pnj="serpiente">El Serpiente</span> rituel sanglant : "Cet or appartient aux morts !". Duel final 2 PV. Choix : tuer (vengeance) ou capturer (justice). Épilogue : retour triomphal ou fuite éperdue selon issues.</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎲 Mécaniques Spéciales</h3>
+                    <ul>
+                        <li><strong>Chaleur Mexicaine :</strong> Jets Constitution 5+ toutes les 2h ou malus −1 (déshydratation)</li>
+                        <li><strong>Barrière Linguistique :</strong> Sans interprète, jets Diplomatie 6+ au lieu 5+</li>
+                        <li><strong>Territoire Hostile :</strong> Aucun renfort possible, soins limités</li>
+                        <li><strong>Traque Inversée :</strong> <span data-pnj="serpiente">El Serpiente</span> sait qu'ils viennent (espions partout)</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔗 Continuité Session 1</h3>
+                    <p><strong>Si héros ont échoué Session 1 :</strong> Cette session est leur rédemption. <span data-pnj="blackman">Blackman</span> leur donne UNE dernière chance.</p>
+                    <p><strong>Si <span data-pnj="rosie">Rosie McKenzie</span> a participé Session 1 :</strong> Elle a maintenant 11 ans (2 mois après), insiste pour venir. Arc narratif : prouver qu'elle n'est pas qu'une enfant.</p>
+                    <p><strong>Or maudit :</strong> Révélé Session 3 (Calavera). Ici, juste "or volé", mais ambiance surnaturelle crypte préfigure malédiction.</p>
+                </div>
+            </section>
+            
+            <!-- PNJ -->
+            <section id="pnj" class="section">
+                <h2>👥 PERSONNAGES NON-JOUEURS</h2>
+                
+                <div class="pnj-grid">
+                    <!-- PNJ 1 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🐍</span>
+                        <div class="pnj-name">Rodrigo "El Serpiente" Muerte</div>
+                        <div class="pnj-nickname">"Le Serpent"</div>
+                        <div class="pnj-description">Chef des Hermanos Muerte, 28 ans. A réussi son évasion Session 1 et règne maintenant sur son territoire mexicain. Calculateur, cruel, mais honorable selon son propre code. Sait que les héros viennent le chercher et a préparé sa défense. L'or représente sa fortune mais aussi sa malédiction (révélé plus tard). Duel final inévitable.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme hispanique 28 ans</li>
+                                    <li>Cicatrice serpent cou→joue</li>
+                                    <li>Veste cuir noire cloutée</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Venger son honneur (échec S1)</li>
+                                    <li>Paranoïaque (espions partout)</li>
+                                    <li>Obsédé par l'or maudit</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>2 PV (Boss Final)</li>
+                                    <li>Double Colt 4+ (tir 2x/tour)</li>
+                                    <li>Coup de tête 5+ (1 dégât)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Sifflote mélodies mexicaines</li>
+                                    <li>Parle lentement, menaces calmes</li>
+                                    <li>Respecte courage, méprise lâcheté</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 2 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">👴</span>
+                        <div class="pnj-name">Walt Blackman</div>
+                        <div class="pnj-nickname">"Le Shérif Brisé"</div>
+                        <div class="pnj-description">Shérif de Tecumah Gulch, 63 ans. Blessé et humilié par l'échec Session 1. Veut sa revanche avant retraite. Obsédé par l'idée de capturer El Serpiente VIVANT pour procès public et restaurer son honneur. Prêt à tout risquer, y compris sa vie. Relation paternelle avec héros et Rosie. Blessure jambe le ralentit (ne participera pas assaut final).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme blanc 63 ans, barbe grise</li>
+                                    <li>Étoile ternie, bandage jambe</li>
+                                    <li>Regard fatigué mais déterminé</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Restaurer son honneur perdu</li>
+                                    <li>Obsessionnel (revanche)</li>
+                                    <li>Protecteur envers Rosie</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (blessé Session 1)</li>
+                                    <li>Fusil 5+ (−1 mobilité)</li>
+                                    <li>Ne participe pas assaut final</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Voix grave, autoritaire</li>
+                                    <li>Tousse souvent (blessure)</li>
+                                    <li>Phrases courtes, directes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 3 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">👧</span>
+                        <div class="pnj-name">Rosie McKenzie</div>
+                        <div class="pnj-nickname">"La Gamine Têtue"</div>
+                        <div class="pnj-description">11 ans (2 mois après Session 1). Fille du palefrenier tué par Hermanos. A participé Session 1 malgré interdiction Blackman. Maintenant apprentie deputy officieuse. Veut prouver qu'elle n'est pas qu'une enfant. Excellente tireuse (entraînée par Blackman). Arc narratif : capture son premier criminel solo lors Acte III. NE DOIT PAS mourir (scénario échoue si morte).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Fille 11 ans, cheveux roux courts</li>
+                                    <li>Trop grande pour son âge</li>
+                                    <li>Badge deputy bricolé (fer blanc)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Venger son père (tué S1)</li>
+                                    <li>Prouver sa valeur adultes</li>
+                                    <li>Admirative héros (modèles)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (enfant fragile)</li>
+                                    <li>Pistolet léger 5+ (entraînée)</li>
+                                    <li>Furtive 4+ (petite taille)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Voix aigüe, parle vite</li>
+                                    <li>Courageuse jusqu'à l'inconscience</li>
+                                    <li>Imite langage adultes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 4 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🦊</span>
+                        <div class="pnj-name">Juan "El Coyote" Ramirez</div>
+                        <div class="pnj-nickname">"Le Passeur"</div>
+                        <div class="pnj-description">Contrebandier mexicain retraité, 45 ans. Connaît chaque passage secret Rio Grande. Recruté par Blackman (via Rosie qui le connaît). Cynique, mercenaire, mais code d'honneur bizarre : "Si je guide, je guide jusqu'au bout." Connaît terrain, langue, coutumes. Indispensable Acte II. Peut trahir si menacé (jet 6 Persuasion pour le garder loyal).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme mexicain 45 ans, maigre</li>
+                                    <li>Poncho usé, chapeau large</li>
+                                    <li>Cicatrices multiples (vie dure)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Survivre avant tout</li>
+                                    <li>Cynique mais honorable</li>
+                                    <li>Loyauté conditionnelle (argent)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (évite combats)</li>
+                                    <li>Couteau 5+ (défense seulement)</li>
+                                    <li>Fuite 3+ (expert survie)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Accent mexicain prononcé</li>
+                                    <li>Sarcasmes constants</li>
+                                    <li>Crache par terre souvent</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 5 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">💀</span>
+                        <div class="pnj-name">Diego "El Machete" Torres</div>
+                        <div class="pnj-nickname">"La Lame"</div>
+                        <div class="pnj-description">Lieutenant d'El Serpiente, 32 ans. Bras droit loyal. Machete de 60cm, ne rate jamais en combat rapproché. A massacré 3 familles Santa Muerte pour terroriser village. Boss intermédiaire Acte IV (combat avant El Serpiente). Si capturé, révèle emplacement crypte secrète sous torture morale (menace sa famille au Mexique). 2 PV.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme hispanique 32 ans, massif</li>
+                                    <li>Machete géant à ceinture</li>
+                                    <li>Tatouage crâne poitrine</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Loyauté absolue El Serpiente</li>
+                                    <li>Sadique (aime terreur)</li>
+                                    <li>Craint pour sa famille</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>2 PV (mini-boss)</li>
+                                    <li>Machete 4+ (2 dégâts si 6)</li>
+                                    <li>Charge brutale 5+ (renverse)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Rit en combattant</li>
+                                    <li>Aiguise machete constamment</li>
+                                    <li>Insultes crues en espagnol</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 6 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🕯️</span>
+                        <div class="pnj-name">Maria Alvarez</div>
+                        <div class="pnj-nickname">"La Veuve de Santa Muerte"</div>
+                        <div class="pnj-description">Veuve mexicaine, 38 ans. Mari tué par Diego devant ses yeux. Seule à oser parler aux héros à Santa Muerte (autres villageois terrifiés). Révèle emplacement Hacienda del Diablo et nombre sicarios. Demande vengeance : "Tuez-les tous." Si héros épargnent Diego, devient hostile. Peut devenir alliée puissante si héros vendent justice.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Femme mexicaine 38 ans</li>
+                                    <li>Robe noire deuil, foulard</li>
+                                    <li>Yeux rouges (pleurs constants)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Venger son mari tué</li>
+                                    <li>Brisée (perte récente)</li>
+                                    <li>Courage du désespoir</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>0 PV (civile)</li>
+                                    <li>Peut fournir infos cruciales</li>
+                                    <li>Cache provisions héros</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Voix brisée, pleure souvent</li>
+                                    <li>Mélange prières + malédictions</li>
+                                    <li>Regarde héros comme sauveurs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 7 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🎖️</span>
+                        <div class="pnj-name">Capitán Esteban Rojas</div>
+                        <div class="pnj-nickname">"Le Federale Corrompu"</div>
+                        <div class="pnj-description">Officier Federales mexicains, 40 ans. Payé par El Serpiente pour "ne rien voir". Intercepte héros Acte II au Rio Grande. Propose marché : 1000$ et il les laisse passer. Si refus, combat 10 soldats. Si acceptent, peut les trahir plus tard (envoie message El Serpiente). Lâche : fuit si perd 3+ soldats. Peut être capturé/interrogé.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme mexicain 40 ans, bedonnant</li>
+                                    <li>Uniforme Federales débraillé</li>
+                                    <li>Moustache épaisse cirée</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Enrichissement personnel</li>
+                                    <li>Lâche (fuit danger)</li>
+                                    <li>Méprise gringos</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (+ 10 soldats 0 PV)</li>
+                                    <li>Pistolet 5+ (tire depuis arrière)</li>
+                                    <li>Fuite 4+ si 3+ soldats tombés</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Sourire faux permanent</li>
+                                    <li>Parle fort, gestes amples</li>
+                                    <li>Sue abondamment (nerveux)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 8 (Groupe) -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">💀</span>
+                        <div class="pnj-name">Les Hermanos Muerte (Reste)</div>
+                        <div class="pnj-nickname">"Les Frères Survivants"</div>
+                        <div class="pnj-description">3-4 membres survivants Session 1. Noms : Carlos, Javier, Miguel. Loyaux à El Serpiente. Se battent jusqu'à la mort ou jusqu'à ce qu'El Serpiente ordonne reddition. Positionnés Hacienda Acte IV. 1 PV chacun. Combat standard mais déterminés. Si capturés, révèlent peu (terrifiés vengeance Serpiente).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>3-4 bandits mexicains 25-35 ans</li>
+                                    <li>Armés revolvers/fusils/couteaux</li>
+                                    <li>Bandanas rouges (symbole gang)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Loyauté terrifiée El Serpiente</li>
+                                    <li>Détermination survivre</li>
+                                    <li>Méfiance totale gringos</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV chacun</li>
+                                    <li>Armes variées 5+ standard</li>
+                                    <li>Se battent jusqu'ordre retraite</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Crient ordres espagnol</li>
+                                    <li>Coordonnent tirs (tactiques)</li>
+                                    <li>Supplications si capturés</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- LIEUX -->
+            <section id="lieux" class="section">
+                <h2>📍 LIEUX PRINCIPAUX</h2>
+                
+                <div class="lieu-grid">
+                    <!-- LIEU 1 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🏜️</span>
+                        <div class="lieu-name">Tecumah Gulch</div>
+                        <div class="lieu-location">Point de départ, Texas</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Ville humiliée après échec Session 1. Aube grise, citoyens silencieux. Star Saloon fermé (deuil). Blackman convoque héros bureau shérif privé.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Rues vides, volets clos, drapeaux mi-mât</li>
+                                <li>Son : Silence pesant, juste vent qui siffle</li>
+                                <li>Odorat : Poussière sèche, relents whisky</li>
+                                <li>Toucher : Air frais aube, tension palpable</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 2 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🌊</span>
+                        <div class="lieu-name">Le Rio Grande</div>
+                        <div class="lieu-location">Frontière Texas-Mexique, 30km sud Tecumah Gulch</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Midi brûlant (45°C). Fleuve large 50m, courant traître. Rives broussailleuses. El Coyote connaît gué secret 2km en aval. Embuscade Federales possible si héros bruyants.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Eau boueuse, rochers affleurants, rives épineuses</li>
+                                <li>Son : Courant qui gronde, insectes qui bourdonnent</li>
+                                <li>Odorat : Vase, sueur chevaux, poudre</li>
+                                <li>Toucher : Chaleur écrasante, eau froide choc</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 3 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">⛪</span>
+                        <div class="lieu-name">Santa Muerte (Village)</div>
+                        <div class="lieu-location">15km sud Rio Grande, Mexique</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Village fantôme terrorisé. 30 habitants cachés maisons. 3 corps pendus place centrale (familles massacrées Diego). Église vandalisée. Silence mortel. Maria Alvarez seule à oser sortir.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Maisons adobe délabrées, corps pendus, sang séché</li>
+                                <li>Son : Silence absolu, juste corde qui grince au vent</li>
+                                <li>Odorat : Putréfaction, encens église, peur</li>
+                                <li>Toucher : Soleil plomb, vent chaud poussière</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 4 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🏰</span>
+                        <div class="lieu-name">Hacienda del Diablo</div>
+                        <div class="lieu-location">8km ouest Santa Muerte, territoire Serpiente</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Hacienda fortifiée coloniale espagnole. Murs épais 3m, tour guet, portail fer forgé. 15 sicarios patrouillent. Hermanos retranchés intérieur. Or empilé salle principale. Crypte secrète sous cave (entrée derrière tapisserie).
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Murs ocres crépis, drapeaux rouges, armes partout</li>
+                                <li>Son : Rires sicarios, musique mexicaine, aboiements chiens</li>
+                                <li>Odorat : Cuir, poudre, viande grillée, tequila</li>
+                                <li>Toucher : Pierre fraîche murs, métal brûlant armes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 5 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">💀</span>
+                        <div class="lieu-name">La Crypte des Calaveras</div>
+                        <div class="lieu-location">Sous Hacienda del Diablo, 10m profondeur</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Crypte aztèque ancienne. Autels pierre sculptés crânes. Or empilé centre comme offrande. Torches murales. El Serpiente y pratique rituel sanglant final. Ambiance surnaturelle (préfigure Session 3 Calavera). Unique sortie : escalier mène cave Hacienda.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Pierre noire, crânes gravés, or qui luit, ombres dansantes</li>
+                                <li>Son : Chants El Serpiente, écho inquiétant, silence pesant</li>
+                                <li>Odorat : Encens copal, sang frais, moisi séculaire</li>
+                                <li>Toucher : Air froid humide, pierre rugueuse, oppression</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 6 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🏜️</span>
+                        <div class="lieu-name">Le Désert de Chihuahua</div>
+                        <div class="lieu-location">Entre Rio Grande et Hacienda, 25km traversée</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Désert hostile. Chaleur 45°C jour, 5°C nuit. Cactus géants, rochers rouges, serpents. Pas d'eau sur 15km. El Coyote indispensable navigation. Tempêtes sable possibles. Danger déshydratation constant (jets Constitution 5+ toutes 2h).
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Horizon ondulant chaleur, ciel bleu aveuglant, mirages</li>
+                                <li>Son : Silence écrasant, cliquetis serpents, vent sec</li>
+                                <li>Odorat : Terre brûlée, sueur acide, créosote</li>
+                                <li>Toucher : Chaleur suffocante, sable brûlant, soif douloureuse</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 1 -->
+            <section id="scene1" class="section">
+                <h2>🌅 SCÈNE 1 : L'HUMILIATION (0h-6h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE I - La Mission Suicide</div>
+                        <div class="scene-synopsis">Aube grise à <span data-lieu="tecumah">Tecumah Gulch</span>. Deux jours après l'échec du Convoi de l'Enfer. <span data-pnj="blackman">Walt Blackman</span>, blessé et humilié, convoque les héros à son bureau. L'atmosphère est lourde : la ville est sous le choc, les familles pleurent leurs morts. Blackman révèle que les <span data-pnj="hermanos">Hermanos Muerte</span> se cachent au Mexique avec l'or. Il propose une mission suicide : traverser le Rio Grande, infiltrer territoire ennemi, capturer El Serpiente VIVANT. <span data-pnj="rosie">Rosie McKenzie</span> arrive avec <span data-pnj="coyote">El Coyote</span>, le passeur qu'elle a recruté en secret. Préparatifs, équipement, départ à l'aube.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Date</div>
+                                    <div class="info-value">2 jours après Session 1</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Aube (5h00-6h00)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Bureau Shérif Blackman, Tecumah Gulch</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">20 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Établir conséquences échec Session 1 (ville endeuillée, Blackman brisé)</li>
+                                <li>Présenter mission : traverser frontière, capturer El Serpiente VIVANT</li>
+                                <li>Introduire <span data-pnj="coyote">El Coyote</span> (guide indispensable)</li>
+                                <li>Montrer évolution <span data-pnj="rosie">Rosie</span> (11 ans, plus mature, déterminée)</li>
+                                <li>Créer tension : mission sans autorité légale, territoire hostile</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement</div>
+                            
+                            <h4>5h00 - Convocation Bureau Blackman</h4>
+                            <p>Héros arrivent bureau shérif. Blackman assis, jambe bandée, bouteille whisky vide sur bureau. Carte Texas-Mexique étalée. Regard fatigué mais déterminé.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (voix grave) :</strong> "Asseyez-vous. On a merdé. Trois morts, cinquante mille dollars envolés, et ces salopards rient de nous depuis le Mexique."</p>
+                            <p>Pointe carte : "Ils se cachent quelque part dans ce triangle. Mon contact dit qu'El Serpiente prépare quelque chose. Dans une semaine, il sera intouchable."</p>
+                            
+                            <h4>5h15 - La Proposition</h4>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Je vous propose une dernière chance. On traverse le Rio Grande. On infiltre. On capture El Serpiente VIVANT. Je veux un procès public. Je veux que cette ville voie justice être rendue."</p>
+                            <p>Hésite, puis : "Mais... on n'a aucune autorité là-bas. Si on se fait prendre, le gouvernement mexicain nous pendra. Et je ne peux pas venir." (Tape jambe) "Cette blessure me ralentirait."</p>
+                            <p><strong>Réactions héros :</strong> Accepter (honneur), Refuser (suicidaire), Négocier (compensation), Conditions (garanties)</p>
+                            
+                            <h4>5h30 - L'Arrivée de Rosie et El Coyote</h4>
+                            <p>Porte s'ouvre. <span data-pnj="rosie">Rosie McKenzie</span> entre, suivie d'un homme maigre en poncho.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (fière) :</strong> "Shérif Blackman, je vous présente Juan Ramirez. Il connaît chaque passage du Rio Grande."</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (surpris) :</strong> "Rosie ? Comment tu as...?"</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Papa me parlait toujours d'El Coyote quand il voyageait. Je l'ai retrouvé."</p>
+                            <p><strong><span data-pnj="coyote">El Coyote</span> (voix traînante, accent) :</strong> "Buenos días, gringos. La petite dit que vous payez 500 dollars pour traverser. Je dis 1000."</p>
+                            <p><strong>Négociation :</strong> Jet 5+ Persuasion → 750$ | Échec → 1000$ ou menace physique (El Coyote part)</p>
+                            
+                            <h4>5h45 - Préparatifs</h4>
+                            <p><strong><span data-pnj="blackman">Blackman</span> fournit :</strong></p>
+                            <ul>
+                                <li>Carte détaillée (villages, haciendas, points eau)</li>
+                                <li>3 gourdes eau supplémentaires (désert hostile)</li>
+                                <li>Avis de recherche El Serpiente (5000$ mort ou vif)</li>
+                                <li>Lettre scellée pour gouverneur Texas (si capturé, preuve mission officieuse)</li>
+                            </ul>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Je viens aussi."</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Non ! C'est trop dangereux !"</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Vous m'aviez promis de me former deputy. Je viens."</p>
+                            <p><strong>Choix héros :</strong> Autoriser Rosie (alliée fragile 1 PV) | Refuser (elle suit quand même en secret, arrive Acte III)</p>
+                            
+                            <h4>6h00 - Départ</h4>
+                            <p>Soleil se lève. Héros montent chevaux. <span data-pnj="coyote">El Coyote</span> en tête.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (main sur épaule héros) :</strong> "Ramenez-moi ce fils de pute. Vivant. Pour tous ceux qu'ils ont tués."</p>
+                            <p>Galop vers sud. <span data-lieu="tecumah">Tecumah Gulch</span> disparaît derrière colline poussiéreuse.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Héros acceptent + Rosie vient →</strong> Départ immédiat Acte II (Rio Grande 6h)</li>
+                                <li><strong>Héros refusent mission →</strong> Blackman supplie, offre 2000$ total, menace démission</li>
+                                <li><strong>El Coyote part (menaces) →</strong> Traversée Rio Grande jet 6 Navigation (échec = embuscade)</li>
+                                <li><strong>Rosie refusée mais suit quand même →</strong> Elle arrive Acte III Santa Muerte (a suivi traces)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Minimiser conséquences Session 1 : Ville DOIT être endeuillée, Blackman brisé</li>
+                                <li>Forcer mission : Héros doivent accepter volontairement (honneur/rédemption)</li>
+                                <li>Oublier Rosie : Son évolution 10→11 ans est arc narratif central</li>
+                                <li>Rendre El Coyote trop coopératif : Il est cynique, mercenaire, loyauté conditionnelle</li>
+                                <li>Bâcler préparatifs : Carte, provisions, équipement = survie Actes II-III</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 2 -->
+            <section id="scene2" class="section">
+                <h2>🐴 SCÈNE 2 : LE PASSAGE (6h-12h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE II - La Frontière Hostile</div>
+                        <div class="scene-synopsis">6h00 du matin. Les héros galopent vers le sud avec <span data-pnj="coyote">El Coyote</span> en tête. Chaleur commence déjà à monter (30°C). Après 4 heures de chevauchée intense à travers le <span data-lieu="desert">désert de Chihuahua</span>, ils atteignent le <span data-lieu="rio_grande">Rio Grande</span> à midi pile. <span data-pnj="coyote">El Coyote</span> connaît un gué secret 2km en aval. MAIS : <span data-pnj="rojas">Capitán Rojas</span> et 10 Federales corrompus (payés par <span data-pnj="serpiente">El Serpiente</span>) les attendent en embuscade. Négociation tendue : 1000$ pour passage ou combat sanglant. Traversée périlleuse du fleuve. Arrivée <span data-lieu="santa_muerte">Santa Muerte</span> en début d'après-midi : village fantôme avec 3 cadavres pendus place centrale.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">6h00-12h00 (matin→midi)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieux</div>
+                                    <div class="info-value">Désert → Rio Grande → Santa Muerte</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Chaleur montante 30°C→45°C midi</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">40 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Établir danger chaleur mexicaine (jets Constitution 5+ toutes 2h)</li>
+                                <li>Confrontation Federales corrompus : choix moral pot-de-vin vs combat</li>
+                                <li>Montrer utilité <span data-pnj="coyote">El Coyote</span> (navigation, interprète, connaissance terrain)</li>
+                                <li>Traversée périlleuse Rio Grande (courant, crocodiles potentiels)</li>
+                                <li>Découverte horreur <span data-lieu="santa_muerte">Santa Muerte</span> (3 pendus, village terrorisé)</li>
+                                <li>Première piste concrète vers <span data-pnj="serpiente">El Serpiente</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement de la Scène</div>
+                            
+                            <h4>Phase 1 : Chevauchée Désertique (6h-10h)</h4>
+                            <p>Héros galopent plein sud. <span data-pnj="coyote">El Coyote</span> connaît chaque rocher, chaque point d'eau. Soleil monte rapidement.</p>
+                            
+                            <p><strong>8h00 - Premier Jet Chaleur :</strong></p>
+                            <p>Température 35°C. Jets Constitution 5+ tous héros.</p>
+                            <ul>
+                                <li><strong>Réussite :</strong> Tiennent le coup, continuent normalement</li>
+                                <li><strong>Échec :</strong> Malus −1 tous jets jusqu'à boire gourde (déshydratation légère)</li>
+                                <li><strong>Si <span data-pnj="rosie">Rosie</span> présente :</strong> Elle échoue automatiquement (enfant fragile), héros doivent la surveiller</li>
+                            </ul>
+                            
+                            <p><strong>9h30 - Rencontre Serpent à Sonnette :</strong></p>
+                            <p>Cheval héros piétine serpent. Morsure potentielle cheval (jet 4+ Équitation pour éviter). Si morsure : cheval boiteux (−1 vitesse), arrive Rio Grande 1h retard (Federales plus nerveux).</p>
+                            
+                            <p><strong><span data-pnj="coyote">El Coyote</span> (crache, rit) :</strong> "Bienvenue au Mexique, gringos. Ici, même la terre veut vous tuer."</p>
+                            
+                            <h4>Phase 2 : L'Embuscade des Federales (10h30, Rio Grande)</h4>
+                            <p>Héros arrivent rive nord Rio Grande. Fleuve large 50m, eau boueuse, courant rapide. <span data-pnj="coyote">El Coyote</span> pointe gué secret 2km en aval : rochers affleurants permettent traversée.</p>
+                            
+                            <p><strong>SOUDAIN :</strong> Coup de feu ! Balle siffle au-dessus têtes.</p>
+                            
+                            <p>10 soldats Federales sortent broussailles, fusils pointés. <span data-pnj="rojas">Capitán Rojas</span>, bedonnant, uniforme débraillé, s'avance en souriant.</p>
+                            
+                            <p><strong><span data-pnj="rojas">Capitán Rojas</span> (accent épais, sourire gras) :</strong></p>
+                            <p style="font-style: italic; padding: 15px; background: rgba(184, 0, 26, 0.2); border-left: 4px solid #B8001A; margin: 10px 0;">
+                                "Buenos días, amigos ! Vous pensez traverser le Rio Grande comme ça ? Sans PERMISSION ?"<br><br>
+                                (Rit, tapote son ventre) "Vous savez, je suis officier. J'ai RESPONSABILITÉS. Frontière, sécurité, tout ça."<br><br>
+                                (Se penche, chuchote exagérément) "Mais... je suis homme raisonnable. Disons... mille dollars américains ? Et je regarde ailleurs. Qué piensas ?"
+                            </p>
+                            
+                            <p><strong>Statistiques Embuscade :</strong></p>
+                            <ul>
+                                <li><span data-pnj="rojas">Capitán Rojas</span> : 1 PV, pistolet 5+, fuit si 3+ soldats tombent</li>
+                                <li>10 Soldats Federales : 0 PV chacun, fusils 5+, positionnés couvert</li>
+                                <li>Terrain : Broussailles (couvert partiel), fleuve derrière héros (retraite difficile)</li>
+                            </ul>
+                            
+                            <h4>Phase 3 : Choix Tactique - Pot-de-Vin ou Combat</h4>
+                            
+                            <p><strong>OPTION A : Accepter Pot-de-Vin (1000$)</strong></p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Aucune violence, traversée immédiate autorisée</li>
+                                <li><span data-pnj="rojas">Rojas</span> leur donne même "conseil" : "Évitez Santa Muerte. Mauvaises choses là-bas."</li>
+                                <li>Économie munitions + aucune blessure</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li>Perte 1000$ (budget serré mission)</li>
+                                <li><span data-pnj="rojas">Rojas</span> envoie messager à <span data-pnj="serpiente">El Serpiente</span> : "Les gringos arrivent" (El Serpiente préparé)</li>
+                                <li>Si <span data-pnj="rosie">Rosie</span> présente : "Vous avez PAYÉ les méchants ?!" (perd respect héros temporairement)</li>
+                            </ul>
+                            
+                            <p><strong>OPTION B : Négocier à la Baisse</strong></p>
+                            <p>Jet 5+ Persuasion (−1 si pas <span data-pnj="coyote">El Coyote</span> comme interprète).</p>
+                            <ul>
+                                <li><strong>Réussite :</strong> 500$ acceptés, <span data-pnj="rojas">Rojas</span> grogne mais accord tenu</li>
+                                <li><strong>Échec :</strong> <span data-pnj="rojas">Rojas</span> insulté : "Vous insultez officier mexicain ? SOLDADOS, PRÉPAREZ ARMES !"</li>
+                            </ul>
+                            
+                            <p><strong>OPTION C : Refuser et Combattre</strong></p>
+                            <p><strong>Déroulement Combat :</strong></p>
+                            <ul>
+                                <li><strong>Tour 1-2 :</strong> Échange tirs. Soldats 0 PV tombent facilement (jet 5+). Héros en couvert broussailles.</li>
+                                <li><strong>Tour 3 :</strong> Si 3+ soldats tombés → <span data-pnj="rojas">Rojas</span> panique : "RETIRADA ! RETIRADA !" Fuit vers sud à cheval.</li>
+                                <li><strong>Conséquences :</strong> Victoire héros, mais <span data-pnj="rojas">Rojas</span> prévient quand même <span data-pnj="serpiente">El Serpiente</span> (pire : "Ils ont TUÉ mes hommes !").</li>
+                                <li><strong>Butin :</strong> 200$ sur cadavres, munitions supplémentaires, carte Chihuahua annotée</li>
+                            </ul>
+                            
+                            <p><strong>OPTION D : Capturer Rojas (Difficile)</strong></p>
+                            <p>Tuer soldats puis jet 6 Poursuite pour rattraper <span data-pnj="rojas">Rojas</span> fuyant.</p>
+                            <ul>
+                                <li><strong>Si capturé :</strong> Interrogatoire. <span data-pnj="rojas">Rojas</span> supplie, révèle : "El Serpiente paye mille pesos par mois ! Hacienda del Diablo, 20km sud-ouest ! Pitié, j'ai famille !"</li>
+                                <li><strong>Avantage énorme :</strong> Emplacement précis Hacienda (gagne 2h recherche Acte III)</li>
+                                <li><strong>Choix moral :</strong> Le tuer (témoin gênant) ou relâcher (pourrait alerter quand même)</li>
+                            </ul>
+                            
+                            <p><strong>Rôle <span data-pnj="coyote">El Coyote</span> :</strong> Si combat, reste en retrait (lâche). Si négociation, traduit et conseille : "Payez, amigos. Sang attire plus sang."</p>
+                            
+                            <h4>Phase 4 : Traversée du Rio Grande (11h00)</h4>
+                            <p>Après résolution Federales, héros traversent fleuve via gué secret <span data-pnj="coyote">El Coyote</span>.</p>
+                            
+                            <p><strong>Dangers Traversée :</strong></p>
+                            <ul>
+                                <li><strong>Courant traître :</strong> Jets 4+ Équitation (−1 si cheval blessé serpent). Échec = cheval perd équilibre, héros trempé, équipement mouillé (poudre humide : malus −1 tirs pendant 1h).</li>
+                                <li><strong>Crocodile (optionnel, si MJ veut tension) :</strong> 1 crocodile 1 PV, morsure 4+ (1 dégât). Jet 5+ Perception pour voir avant attaque (sinon surprise).</li>
+                                <li><strong>Profondeur :</strong> Eau monte jusqu'à poitrail chevaux. Rochers glissants. 10 minutes traversée lente.</li>
+                            </ul>
+                            
+                            <p><strong><span data-pnj="coyote">El Coyote</span> (guide chevaux) :</strong> "Doucement ! Un pas à la fois ! Le río ne pardonne pas précipitation !"</p>
+                            
+                            <p><strong>Si <span data-pnj="rosie">Rosie</span> présente :</strong> Cheval plus petit, eau monte jusqu'à selle. Jet 5+ ou cheval perd pied. Héros doivent la sauver (moment héroïque si réussissent).</p>
+                            
+                            <h4>Phase 5 : Deuxième Jet Chaleur (11h30)</h4>
+                            <p>Rive sud atteinte. Mexique officiel. Température 45°C (midi approche). Jets Constitution 5+ tous héros.</p>
+                            <ul>
+                                <li><strong>Réussite :</strong> Résistent</li>
+                                <li><strong>Échec :</strong> Malus −1 cumulatif (déshydratation sérieuse)</li>
+                                <li><strong>2 échecs consécutifs :</strong> 1 dégât (coup de chaleur) + hallucinations mineures</li>
+                            </ul>
+                            
+                            <p><strong><span data-pnj="coyote">El Coyote</span> :</strong> "Santa Muerte 5km nord. Là-bas, ombre, eau puits. Mais... lugar maldito. Endroit maudit."</p>
+                            
+                            <h4>Phase 6 : Arrivée Santa Muerte (12h00)</h4>
+                            <p>Héros approchent village. Silence ABSOLU. Aucun bruit animal, enfant, activité. Juste vent chaud qui siffle ruelles adobe.</p>
+                            
+                            <p><strong>Première vision :</strong> Place centrale. 3 corps pendus à gibet improvisé. Homme 40 ans, femme 35 ans, jeune homme 20 ans. Pendus depuis 2-3 jours (odeur putréfaction). Pancartes autour cous : "TRAIDORES" (Traîtres).</p>
+                            
+                            <p><strong>Atmosphère :</strong></p>
+                            <ul>
+                                <li>Vue : Maisons adobe portes/fenêtres closes. Sang séché murs. Cordes pendus grincent vent.</li>
+                                <li>Son : SILENCE écrasant. Juste corde, vent, mouches bourdonnant cadavres.</li>
+                                <li>Odorat : Putréfaction, poussière, encens église (quelqu'un prie encore).</li>
+                                <li>Toucher : Chaleur plomb, air immobile, oppression palpable.</li>
+                            </ul>
+                            
+                            <p><strong><span data-pnj="coyote">El Coyote</span> (crache, fait signe croix) :</strong> "Dios mío... Diego est passé ici. El Machete. Main droite Serpiente."</p>
+                            
+                            <p>Héros avancent lentement place. Rideaux bougent fenêtres (villageois espionnent, terrifiés).</p>
+                            
+                            <p><strong>Soudain :</strong> Porte église s'ouvre. Femme noire deuil sort lentement. <span data-pnj="maria">Maria Alvarez</span>.</p>
+                            
+                            <p><strong><span data-pnj="maria">Maria</span> (voix brisée, espagnol) :</strong> "¿Quién es usted? Vous êtes... gringos ?"</p>
+                            
+                            <p><strong><span data-pnj="coyote">El Coyote</span> (traduit) :</strong> "Elle demande qui vous êtes. Elle a peur mais... elle espère."</p>
+                            
+                            <p><strong>Fin Scène 2 :</strong> <span data-pnj="maria">Maria</span> fixe héros. Larmes coulent. Montre pendus : "Mi esposo. Mon mari. Diego l'a tué... devant mes yeux."</p>
+                            
+                            <p>Transition Acte III : <span data-pnj="maria">Maria</span> invite héros église (seul endroit sûr parler). Va révéler tout ce qu'elle sait sur <span data-pnj="serpiente">El Serpiente</span> et Hacienda.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">⚔️ Stats de Combat</div>
+                            
+                            <h4><span data-pnj="rojas">Capitán Esteban Rojas</span></h4>
+                            <ul>
+                                <li><strong>1 PV</strong></li>
+                                <li><strong>Pistolet :</strong> 5+ pour toucher, tire depuis arrière (lâche)</li>
+                                <li><strong>Fuite :</strong> 4+ pour s'échapper si 3+ soldats tombés</li>
+                                <li><strong>Capturable :</strong> Jet 6 Poursuite si fuit, révèle Hacienda si torturé</li>
+                                <li><strong>Tactique :</strong> Reste derrière soldats, ordres criés, sue abondamment</li>
+                            </ul>
+                            
+                            <h4>10 Soldats Federales</h4>
+                            <ul>
+                                <li><strong>0 PV chacun</strong> (tombent premier coup)</li>
+                                <li><strong>Fusils :</strong> 5+ pour toucher, portée longue</li>
+                                <li><strong>Positionnement :</strong> Couverts broussailles, formation arc de cercle</li>
+                                <li><strong>Moral :</strong> Si 3 tombent rapidement, autres hésitent (jets 5+ pour continuer)</li>
+                                <li><strong>Tactique :</strong> Tirs coordonnés, rechargement tour par tour</li>
+                            </ul>
+                            
+                            <h4>Crocodile (Optionnel)</h4>
+                            <ul>
+                                <li><strong>1 PV</strong></li>
+                                <li><strong>Morsure :</strong> 4+ pour toucher, 1 dégât + grappin (héros immobilisé 1 tour)</li>
+                                <li><strong>Surprise :</strong> Jet 5+ Perception ou attaque surprise (croco frappe premier)</li>
+                                <li><strong>Fuite :</strong> Si blessé, plonge et disparaît</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Combat Federales gagné, Rojas capturé →</strong> Emplacement Hacienda révélé (gagne 2h Acte III)</li>
+                                <li><strong>Pot-de-vin payé →</strong> <span data-pnj="serpiente">El Serpiente</span> alerté, prépare défense Hacienda (+2 sicarios Acte IV)</li>
+                                <li><strong>Héros déshydratés (2+ échecs) →</strong> Doivent se reposer Santa Muerte 1h (perd temps)</li>
+                                <li><strong><span data-pnj="rosie">Rosie</span> sauvée noyade →</strong> Gratitude immense, bonus +1 loyauté</li>
+                                <li><strong><span data-pnj="coyote">El Coyote</span> impressionné courage héros →</strong> Loyauté renforcée, révèle raccourci Hacienda</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Oublier jets Constitution chaleur : Déshydratation DOIT être menace réelle</li>
+                                <li>Rendre Federales trop agressifs : <span data-pnj="rojas">Rojas</span> veut argent, pas mourir</li>
+                                <li>Bâcler traversée Rio Grande : Moment tension important (eau, courant, danger)</li>
+                                <li>Minimiser horreur Santa Muerte : 3 pendus DOIVENT choquer héros</li>
+                                <li>Forcer choix pot-de-vin ou combat : Héros décident, conséquences égales</li>
+                                <li>Oublier <span data-pnj="coyote">El Coyote</span> : Il commente, guide, traduit CONSTAMMENT</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SCÈNE 3 -->
+            <section id="scene3" class="section">
+                <h2>🏜️ SCÈNE 3 : LA PEUR (12h-18h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE III - Le Village Terrorisé</div>
+                        <div class="scene-synopsis">12h00. <span data-lieu="santa_muerte">Santa Muerte</span>, village fantôme de 30 habitants terrifiés. <span data-pnj="maria">Maria Alvarez</span>, veuve brisée, raconte l'horreur : <span data-pnj="diego">Diego "El Machete" Torres</span> a massacré 3 familles (pendus place centrale) il y a 2 jours pour "exemple". Ceux qui refusaient d'héberger les <span data-pnj="hermanos">Hermanos Muerte</span>. Le village sait où se cache <span data-pnj="serpiente">El Serpiente</span> mais PERSONNE n'ose parler (terreur absolue). Les héros doivent gagner confiance villageois pour obtenir infos cruciales. Chaleur écrasante 45°C. Si <span data-pnj="rosie">Rosie</span> présente, elle capture son premier criminel : bandit hermano blessé caché église. Révélation finale : <span data-lieu="hacienda">Hacienda del Diablo</span>, 8km ouest, 15 sicarios, El Serpiente retranche avec or.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">12h00-18h00 (après-midi)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Santa Muerte (village terrorisé)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Chaleur maximale 45°C, soleil plomb</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">30 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Montrer horreur massacres <span data-pnj="diego">Diego</span> (terreur psychologique villageois)</li>
+                                <li>Gagner confiance villageois pour obtenir infos <span data-lieu="hacienda">Hacienda</span></li>
+                                <li>Révéler personnalité <span data-pnj="maria">Maria Alvarez</span> (veuve vengeresse, informatrice clé)</li>
+                                <li>Arc <span data-pnj="rosie">Rosie</span> : capture son premier criminel (bandit blessé église)</li>
+                                <li>Découverte emplacement précis <span data-lieu="hacienda">Hacienda del Diablo</span> + forces ennemies</li>
+                                <li>Choix moral : promettre vengeance (tuer Diego) ou justice (procès)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement de la Scène</div>
+                            
+                            <h4>Phase 1 : L'Église (12h00-12h30)</h4>
+                            <p><span data-pnj="maria">Maria Alvarez</span> guide héros vers église Santa Muerte. Petite église adobe, crucifix brisé, bancs renversés. Fraîcheur relative (20°C intérieur) après fournaise extérieure.</p>
+                            
+                            <p><strong><span data-pnj="maria">Maria</span> (s'assied banc avant, sanglote) :</strong></p>
+                            <p style="font-style: italic; padding: 15px; background: rgba(184, 0, 26, 0.2); border-left: 4px solid #B8001A; margin: 10px 0;">
+                                "Il y a deux jours... ils sont arrivés. Los Hermanos Muerte. Douze hommes armés, chevaux épuisés.<br><br>
+                                Ils demandaient nourriture, eau, abri. Mon mari... Pedro... il a dit non. 'Nous sommes pauvres, nous n'avons rien.'<br><br>
+                                Alors... Diego... El Machete... il a souri. Sorti son machete. Et devant TOUT LE VILLAGE..."<br><br>
+                                (Pleure, mains tremblent) "Il l'a décapité. Sur place centrale. Comme exemple."<br><br>
+                                "Puis deux autres familles. Les Hernandez, les Gomez. Pendus pour 'trahison'. Mais quelle trahison ? REFUSER de nourrir assassins ?"
+                            </p>
+                            
+                            <p><strong>Héros peuvent réagir :</strong></p>
+                            <ul>
+                                <li><strong>Compassion :</strong> "Nous sommes désolés. Nous allons les arrêter." → <span data-pnj="maria">Maria</span> s'accroche à espoir</li>
+                                <li><strong>Promesse vengeance :</strong> "Nous tuerons Diego pour vous." → <span data-pnj="maria">Maria</span> : "Sí... TUEZ-LES TOUS."</li>
+                                <li><strong>Interrogation :</strong> "Où sont-ils maintenant ?" → <span data-pnj="maria">Maria</span> hésite (terreur répercussions)</li>
+                            </ul>
+                            
+                            <h4>Phase 2 : Gagner la Confiance (12h30-13h30)</h4>
+                            <p><span data-pnj="maria">Maria</span> sait où est <span data-pnj="serpiente">El Serpiente</span>, mais TERRIFIÉE révéler (Diego a menacé : "Si vous parlez aux gringos, je reviens finir travail").</p>
+                            
+                            <p><strong>Options pour gagner confiance :</strong></p>
+                            
+                            <p><strong>Option A : Persuasion Émotionnelle (Jet 5+)</strong></p>
+                            <p>"Maria, votre mari est mort en héros. Il a dit NON aux bandits. Aidez-nous à finir ce qu'il a commencé. Pour Pedro. Pour justice."</p>
+                            <ul>
+                                <li><strong>Réussite :</strong> <span data-pnj="maria">Maria</span> pleure, hoche tête : "D'accord... pour Pedro..."</li>
+                                <li><strong>Échec :</strong> Trop terrifiée, secoue tête : "Non... Diego reviendra... il TUERA tout le monde..."</li>
+                            </ul>
+                            
+                            <p><strong>Option B : Promesse Protection</strong></p>
+                            <p>"Nous protégerons village. Diego ne reviendra JAMAIS. Vous avez notre parole."</p>
+                            <ul>
+                                <li><span data-pnj="maria">Maria</span> regarde héros longtemps. Jet 4+ Sincérité (ou automatique si héros ont déjà prouvé courage)</li>
+                                <li><strong>Si accepte :</strong> "Vous... resteriez ici ? Protéger nous ?" Héros doivent laisser 1 personne village ou promettre retour après mission</li>
+                            </ul>
+                            
+                            <p><strong>Option C : Montrer Lettre Blackman</strong></p>
+                            <p>Sortir lettre scellée gouverneur Texas (preuve mission officielle). <span data-pnj="coyote">El Coyote</span> traduit espagnol.</p>
+                            <ul>
+                                <li><span data-pnj="maria">Maria</span> : "Vous êtes... lawmen américains ? Officiels ?" (Impressionnée autorité)</li>
+                                <li>Accepte parler si héros promettent procès équitable (pas juste vengeance sauvage)</li>
+                            </ul>
+                            
+                            <p><strong>Option D : <span data-pnj="rosie">Rosie</span> Parle (Si Présente)</strong></p>
+                            <p><span data-pnj="rosie">Rosie</span> s'approche <span data-pnj="maria">Maria</span>, prend sa main.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (voix douce) :</strong> "Mon papa aussi est mort. Les Hermanos l'ont tué. Je sais ce que vous ressentez. S'il vous plaît... aidez-nous à les arrêter. Pour tous les papas."</p>
+                            <ul>
+                                <li><span data-pnj="maria">Maria</span> regarde enfant, fond en larmes, serre <span data-pnj="rosie">Rosie</span> dans bras</li>
+                                <li><strong>Réussite automatique :</strong> Connection émotionnelle trop forte</li>
+                            </ul>
+                            
+                            <h4>Phase 3 : Les Révélations (13h30-14h30)</h4>
+                            <p>Une fois confiance gagnée, <span data-pnj="maria">Maria</span> révèle TOUT ce qu'elle sait :</p>
+                            
+                            <p><strong>Informations Cruciales :</strong></p>
+                            <ul>
+                                <li><strong>Emplacement :</strong> "Hacienda del Diablo. 8 kilomètres ouest d'ici. Grande hacienda coloniale, murs rouges."</li>
+                                <li><strong>Forces :</strong> "J'ai compté... quinze, peut-être vingt hommes armés. Sicarios. El Serpiente les paye bien."</li>
+                                <li><strong>Défenses :</strong> "Murs épais trois mètres. Tour de guet. Chiens de garde. Portail fer forgé."</li>
+                                <li><strong>Or :</strong> "Ils ont apporté caisses lourdes. Beaucoup. Empilées dans grande salle."</li>
+                                <li><strong>Diego :</strong> "El Machete reste là-bas. Bras droit Serpiente. Il... il aime tuer. Sourit en tuant."</li>
+                                <li><strong>Routine :</strong> "Patrouilles jour et nuit. Changement garde coucher soleil. Moment faible."</li>
+                            </ul>
+                            
+                            <p><span data-pnj="maria">Maria</span> dessine carte approximative sable église. Montre chemins approche, position tour guet, portail principal.</p>
+                            
+                            <p><strong><span data-pnj="maria">Maria</span> (saisit main héros) :</strong> "Une chose encore... sous hacienda... crypte. Ancienne. Pedro disait que Serpiente faisait... rituels là-bas. Avec crânes, sang. Chose MAUVAISE."</p>
+                            
+                            <h4>Phase 4 : Jets Chaleur + Repos (14h30-15h00)</h4>
+                            <p>Après 2h supplémentaires, jets Constitution 5+ tous héros (3ème série).</p>
+                            <ul>
+                                <li><strong>Réussite :</strong> Tiennent coup</li>
+                                <li><strong>Échec :</strong> Malus −1 cumulatif, vertiges</li>
+                                <li><strong>2+ échecs cumulés :</strong> 1 dégât (coup chaleur sérieux), hallucinations légères</li>
+                            </ul>
+                            
+                            <p><span data-pnj="maria">Maria</span> offre eau puits, tortillas, haricots. Héros peuvent se reposer 30 min église (fraîcheur).</p>
+                            
+                            <p><strong><span data-pnj="coyote">El Coyote</span> :</strong> "Amigos, nous attaquer hacienda maintenant = suicide. Attendre coucher soleil. Changement garde, moment faible."</p>
+                            
+                            <h4>Phase 5 : Découverte de Rosie - Le Bandit Blessé (15h00-16h00)</h4>
+                            <p><strong>Si <span data-pnj="rosie">Rosie</span> présente :</strong> Pendant que héros discutent tactique, <span data-pnj="rosie">Rosie</span> explore église (curiosité enfant).</p>
+                            
+                            <p><strong>SOUDAIN :</strong> Cri <span data-pnj="rosie">Rosie</span> depuis sacristie arrière !</p>
+                            
+                            <p>Héros se précipitent. <span data-pnj="rosie">Rosie</span> pointe pistolet homme recroquevillé coin : bandit <span data-pnj="hermanos">Hermanos</span> (Miguel), 28 ans, blessé balle jambe (infection), fièvre, terrifié.</p>
+                            
+                            <p><strong><span data-pnj="rosie">Rosie</span> (pistolet tremblant mais voix ferme) :</strong> "J'ai trouvé un ! Il était caché derrière autel ! Ne bougez pas ou je tire !"</p>
+                            
+                            <p><strong>Miguel (mains levées, supplie espagnol) :</strong> "¡No dispare! ¡Por favor! Je suis blessé ! Diego m'a laissé ici mourir !"</p>
+                            
+                            <p><strong>Interrogatoire Miguel :</strong></p>
+                            <ul>
+                                <li><strong>Histoire :</strong> Blessé lors combat Federales (stray bullet). Diego a refusé le soigner ("Tu ralentis groupe"). Abandonné Santa Muerte église. Cache depuis 2 jours, terreur villageois le tuent.</li>
+                                <li><strong>Révélations :</strong> "Serpiente... devient fou. Parle aux crânes. Dit que or est maudit. Fait rituels sang crypte toutes nuits." (Préfigure Session 3 Calavera)</li>
+                                <li><strong>Défenses Hacienda :</strong> Confirme 15 sicarios, position tour guet, rotation gardes 18h.</li>
+                                <li><strong>Passage secret :</strong> "Il y a... fenêtre arrière cuisine, toujours ouverte. Trop petite pour homme... mais enfant pourrait passer..." (Regarde <span data-pnj="rosie">Rosie</span>)</li>
+                            </ul>
+                            
+                            <p><strong>Choix Moral - Que Faire de Miguel :</strong></p>
+                            
+                            <p><strong>Option A : Capturer pour Procès</strong></p>
+                            <ul>
+                                <li>Ligoter, ramener Tecumah Gulch après mission</li>
+                                <li><span data-pnj="rosie">Rosie</span> fière : "J'ai capturé mon premier criminel !"</li>
+                                <li><span data-pnj="maria">Maria</span> neutre (veut vengeance mais respecte justice)</li>
+                            </ul>
+                            
+                            <p><strong>Option B : Laisser Villageois Décider</strong></p>
+                            <ul>
+                                <li><span data-pnj="maria">Maria</span> appelle villageois. 10 personnes sortent maisons (courage héros inspire).</li>
+                                <li>Villageois votent : 7 veulent le pendre, 3 veulent procès.</li>
+                                <li>Si héros laissent pendre : <span data-pnj="rosie">Rosie</span> traumatisée (voit pendaison), <span data-pnj="maria">Maria</span> satisfaite</li>
+                                <li>Si héros empêchent : Village hostile temporairement</li>
+                            </ul>
+                            
+                            <p><strong>Option C : Laisser Partir (Clémence)</strong></p>
+                            <ul>
+                                <li>"Tu es blessé, abandonné. Va-t'en. Ne reviens jamais."</li>
+                                <li>Miguel pleure gratitude, s'enfuit vers sud</li>
+                                <li><span data-pnj="rosie">Rosie</span> confuse : "Mais... c'est un méchant ?"</li>
+                                <li><span data-pnj="maria">Maria</span> déçue : "Il a aidé tuer mon mari..."</li>
+                            </ul>
+                            
+                            <p><strong>Option D : Exécution Sommaire</strong></p>
+                            <ul>
+                                <li>Héros tirent Miguel. Mort instantanée.</li>
+                                <li><span data-pnj="rosie">Rosie</span> HORRIFIÉE (si présente) : "Vous... vous l'avez tué ?! Il était désarmé !"</li>
+                                <li><span data-pnj="maria">Maria</span> satisfaite mais choquée brutalité</li>
+                                <li><span data-pnj="coyote">El Coyote</span> : "Ustedes son como ellos..." (Vous êtes comme eux)</li>
+                            </ul>
+                            
+                            <p><strong>Conséquence Arc Rosie :</strong></p>
+                            <ul>
+                                <li><strong>Si capture (Option A) :</strong> <span data-pnj="rosie">Rosie</span> mature +10%, fière accomplissement, prouve valeur</li>
+                                <li><strong>Si pendaison (Option B) :</strong> Traumatisme léger, cauchemars Session 3</li>
+                                <li><strong>Si clémence (Option C) :</strong> <span data-pnj="rosie">Rosie</span> apprend nuance morale (bandits = humains aussi)</li>
+                                <li><strong>Si exécution (Option D) :</strong> Perd innocence brutalement, remet en question héros</li>
+                            </ul>
+                            
+                            <h4>Phase 6 : Préparatifs Assaut (16h00-18h00)</h4>
+                            <p>Héros planifient infiltration/assaut Hacienda avec infos <span data-pnj="maria">Maria</span> + Miguel.</p>
+                            
+                            <p><strong>Ressources Disponibles :</strong></p>
+                            <ul>
+                                <li><strong>Carte dessinée :</strong> Position tour guet, portail, murs, fenêtre cuisine</li>
+                                <li><strong>Timing optimal :</strong> Attaque 18h (coucher soleil, changement garde)</li>
+                                <li><strong>Passage enfant :</strong> Fenêtre cuisine (si <span data-pnj="rosie">Rosie</span> accepte risque)</li>
+                                <li><strong>Allié local :</strong> <span data-pnj="maria">Maria</span> connaît sentier discret approche ouest</li>
+                            </ul>
+                            
+                            <p><strong>Approches Possibles (Décision Héros) :</strong></p>
+                            <ul>
+                                <li><strong>Infiltration nocturne :</strong> Attendre nuit (20h), escalader murs discrètement</li>
+                                <li><strong>Assaut crépuscule :</strong> 18h, profiter changement garde, force brute</li>
+                                <li><strong>Diversion + Infiltration :</strong> Groupe A attaque portail, Groupe B escalade mur arrière</li>
+                                <li><strong>Rosie par fenêtre :</strong> Elle entre, ouvre portail de l'intérieur (risqué !)</li>
+                            </ul>
+                            
+                            <p><strong><span data-pnj="coyote">El Coyote</span> :</strong> "Moi, je reste ici. Je suis guide, pas soldat. Bonne chance, amigos."</p>
+                            
+                            <p><strong>17h30 - Départ pour Hacienda :</strong></p>
+                            <p>Soleil commence descendre (température baisse 35°C). Héros montent chevaux. <span data-pnj="maria">Maria</span> bénit héros église.</p>
+                            
+                            <p><strong><span data-pnj="maria">Maria</span> (fait signe croix) :</strong> "Que Dios vous protège. Et s'il vous plaît... tuez Diego. Pour Pedro."</p>
+                            
+                            <p>Galop vers ouest. 8km. Hacienda del Diablo visible horizon : murs rouges, tour guet, drapeaux.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">⚔️ Stats de Combat</div>
+                            
+                            <h4>Miguel (Bandit Blessé)</h4>
+                            <ul>
+                                <li><strong>0 PV</strong> (blessé, infection, fièvre)</li>
+                                <li><strong>Désarmé :</strong> Pistolet perdu, couteau rouillé seulement</li>
+                                <li><strong>Incapable combattre :</strong> Peut juste supplier ou ramper</li>
+                                <li><strong>Infos précieuses :</strong> Confirme défenses Hacienda, révèle passage secret fenêtre</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong><span data-pnj="rosie">Rosie</span> capture Miguel (Option A) →</strong> Arc narratif progressé, +1 Confiance héros</li>
+                                <li><strong>Miguel pendu villageois (Option B) →</strong> <span data-pnj="rosie">Rosie</span> traumatisée, cauchemars Session 3</li>
+                                <li><strong>Miguel exécuté héros (Option D) →</strong> <span data-pnj="rosie">Rosie</span> remet en question héros, tension morale</li>
+                                <li><strong>Infos complètes Hacienda →</strong> Bonus +1 Planification Acte IV (meilleure stratégie)</li>
+                                <li><strong>Promesse tuer Diego à <span data-pnj="maria">Maria</span> →</strong> DOIT être respectée Acte IV (sinon Maria hostile)</li>
+                                <li><strong>Héros trop déshydratés →</strong> Repos forcé 2h Santa Muerte (attaque Hacienda 20h nuit noire)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Minimiser terreur villageois : Ils DOIVENT être paralysés peur (3 pendus = traumatisme)</li>
+                                <li>Rendre <span data-pnj="maria">Maria</span> trop coopérative : Elle hésite longtemps avant parler (peur Diego)</li>
+                                <li>Oublier arc <span data-pnj="rosie">Rosie</span> : Capture Miguel = MOMENT CLÉ croissance personnage</li>
+                                <li>Forcer choix moral Miguel : Héros décident, conséquences réelles chaque option</li>
+                                <li>Bâcler infos Hacienda : Carte, défenses, timing = essentiels succès Acte IV</li>
+                                <li>Ignorer chaleur : 3ème série jets Constitution DOIT affaiblir certains héros</li>
+                                <li>Rendre passage fenêtre trop évident : Miguel révèle seulement si interrogé intelligemment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SCÈNE 4 -->
+            <section id="scene4" class="section">
+                <h2>💀 SCÈNE 4 : L'ASSAUT (18h-23h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE IV - La Forteresse Sanglante</div>
+                        <div class="scene-synopsis">18h00. Crépuscule. Les héros arrivent en vue de l'<span data-lieu="hacienda">Hacienda del Diablo</span>. Murs rouges 3m, tour guet, portail fer forgé, 15 sicarios patrouillent. Changement de garde en cours (moment faible). Héros infiltrent/assaillent selon plan choisi Acte III. Combats progressifs : cour extérieure (5 sicarios), salle principale (6 sicarios + <span data-pnj="hermanos">Hermanos</span> restants), escalier tour (3 sicarios), confrontation <span data-pnj="diego">Diego "El Machete" Torres</span> (boss intermédiaire 2 PV, machete 60cm). Si <span data-pnj="diego">Diego</span> capturé vivant, révèle sous torture morale entrée crypte secrète derrière tapisserie cave. <span data-pnj="serpiente">El Serpiente</span> s'est enfui vers crypte avec or dès premiers coups de feu. Course-poursuite finale commence.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">18h00-23h00 (crépuscule→nuit)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Hacienda del Diablo (forteresse)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Crépuscule orange, nuit fraîche 15°C</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">45 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Infiltration/Assaut spectaculaire hacienda fortifiée (choix tactique héros)</li>
+                                <li>Combats progressifs crescendo : sicarios standard → <span data-pnj="hermanos">Hermanos</span> → <span data-pnj="diego">Diego</span> boss</li>
+                                <li>Boss fight <span data-pnj="diego">Diego "El Machete"</span> (2 PV, brutal, sadique)</li>
+                                <li>Découverte crypte secrète (révélation <span data-pnj="diego">Diego</span> si capturé)</li>
+                                <li>Fuite <span data-pnj="serpiente">El Serpiente</span> vers crypte (setup Acte V)</li>
+                                <li>Si <span data-pnj="rosie">Rosie</span> présente : moment héroïque sauver héros piégé</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement de la Scène</div>
+                            
+                            <h4>Phase 1 : Approche (18h00-18h15)</h4>
+                            <p>Héros arrivent colline 500m hacienda. Soleil couchant orange, ombres longues. Vue complète forteresse.</p>
+                            
+                            <p><strong>Ce qu'ils voient :</strong></p>
+                            <ul>
+                                <li><strong>Murs extérieurs :</strong> Adobe rouge 3m haut, crénelés sommet</li>
+                                <li><strong>Tour guet :</strong> 8m haut, coin nord-est, 2 gardes visibles fusils</li>
+                                <li><strong>Portail principal :</strong> Fer forgé 4m large, 2 gardes devant, barre intérieure</li>
+                                <li><strong>Cour intérieure :</strong> Visible par portail entrouvert, 5-6 silhouettes bougent</li>
+                                <li><strong>Bâtiment principal :</strong> Deux étages, balcon, lumières fenêtres</li>
+                                <li><strong>Fenêtre cuisine :</strong> Arrière bâtiment, petite (50cm), entrouverte (fumée sort)</li>
+                                <li><strong>Changement garde :</strong> EN COURS, confusion temporaire (3-4 hommes discutent cour)</li>
+                            </ul>
+                            
+                            <p><strong>Observations Jet 5+ Perception :</strong></p>
+                            <ul>
+                                <li>Chiens de garde enchaînés cour (2-3, aboient si approche bruyante)</li>
+                                <li>Caisses empilées près portail (or ? munitions ? couvert potentiel)</li>
+                                <li>Échelle appuyée mur ouest (maintenance récente, escalade facilitée)</li>
+                                <li>Porte arrière cuisine (en plus fenêtre, accès discret)</li>
+                            </ul>
+                            
+                            <h4>Phase 2 : Choix Tactique - Infiltration ou Assaut</h4>
+                            
+                            <p><strong>OPTION A : Assaut Frontal (Force Brute)</strong></p>
+                            <p><strong>Plan :</strong> Charger portail, défoncer, combat ouvert cour.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Rapide, direct, pas de jet furtivité raté</li>
+                                <li>Surprise partielle (changement garde = confusion)</li>
+                                <li>Peut utiliser chevaux (charges, mobilité)</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li>Tous sicarios alertés immédiatement (combat 15 vs héros)</li>
+                                <li>Tour guet tire d'en haut (malus couvert)</li>
+                                <li><span data-pnj="serpiente">El Serpiente</span> a 2-3 minutes fuir crypte (plus difficile rattraper)</li>
+                            </ul>
+                            
+                            <p><strong>OPTION B : Infiltration Nocturne (Furtivité)</strong></p>
+                            <p><strong>Plan :</strong> Attendre nuit noire (20h), escalader mur ouest via échelle, progression silencieuse.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Surprise totale, éliminations silencieuses possibles</li>
+                                <li>Peut éviter 5-10 sicarios (endormis/ivres)</li>
+                                <li>Accès direct bâtiment principal sans combat cour</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li>Jets 5+ Furtivité chaque phase (échec = alarme)</li>
+                                <li>Nuit = visibilité réduite (malus −1 tirs)</li>
+                                <li>Si <span data-pnj="rosie">Rosie</span> présente : difficulté escalade (enfant)</li>
+                            </ul>
+                            
+                            <p><strong>OPTION C : Diversion + Infiltration (Tactique Mixte)</strong></p>
+                            <p><strong>Plan :</strong> Groupe A (2 héros) attaque portail bruyamment. Groupe B (reste) escalade mur opposé discrètement.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Sicarios focalisent portail, ignorent mur arrière</li>
+                                <li>Groupe B accède bâtiment sans combat</li>
+                                <li>Peut ouvrir portail de l'intérieur (pincent sicarios)</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li>Groupe A très exposé (5-6 sicarios concentrés sur eux)</li>
+                                <li>Coordination difficile (timing crucial)</li>
+                                <li>Si Groupe B détecté = échec total plan</li>
+                            </ul>
+                            
+                            <p><strong>OPTION D : Rosie par Fenêtre (Risqué)</strong></p>
+                            <p><strong>Plan :</strong> <span data-pnj="rosie">Rosie</span> entre par fenêtre cuisine 50cm, ouvre porte arrière de l'intérieur.</p>
+                            <p><strong>Avantages :</strong></p>
+                            <ul>
+                                <li>Accès discret garanti (fenêtre trop petite adultes)</li>
+                                <li>Surprise totale, héros entrent cuisine sans combat</li>
+                                <li><span data-pnj="rosie">Rosie</span> moment héroïque (prouve valeur)</li>
+                            </ul>
+                            <p><strong>Inconvénients :</strong></p>
+                            <ul>
+                                <li><span data-pnj="rosie">Rosie</span> SEULE intérieur 2-3 minutes (danger immense)</li>
+                                <li>Si découverte = otage potentiel (catastrophe narrative)</li>
+                                <li>Jet 6 Furtivité <span data-pnj="rosie">Rosie</span> (enfant maladroite sous stress)</li>
+                            </ul>
+                            
+                            <h4>Phase 3 : Combat Cour Extérieure (18h30-19h30)</h4>
+                            <p><strong>Quelle que soit méthode entrée, combat cour inévitable.</strong></p>
+                            
+                            <p><strong>Ennemis Cour (5 Sicarios) :</strong></p>
+                            <ul>
+                                <li>0 PV chacun, revolvers/fusils 5+</li>
+                                <li>Positionnés : 2 portail, 2 caisses (couvert), 1 tour guet (descend rapidement)</li>
+                                <li>Chiens de garde : 2 chiens 0 PV, morsure 4+ (1 dégât), libérés si alarme</li>
+                            </ul>
+                            
+                            <p><strong>Tactiques Sicarios :</strong></p>
+                            <ul>
+                                <li>Crient alarme immédiatement : "¡INTRUSOS! ¡INTRUSOS!"</li>
+                                <li>Se replient vers bâtiment principal (couvert portes/fenêtres)</li>
+                                <li>Tour guet tire d'en haut (malus −1 toucher mais couvert total)</li>
+                            </ul>
+                            
+                            <p><strong>Terrain Cour :</strong></p>
+                            <ul>
+                                <li>Caisses empilées : Couvert partiel, explosent si dynamite/tir chanceux</li>
+                                <li>Puits central : Obstacle, peut se cacher derrière</li>
+                                <li>Chevaux attachés écuries : Paniquent coups feu (peuvent piétiner)</li>
+                            </ul>
+                            
+                            <p><strong>Moment Rosie (Si présente) :</strong></p>
+                            <p>Sicario vise héros dos, héros pas vu. <span data-pnj="rosie">Rosie</span> crie "NON !" et tire. Jet 5+ : touche sicario, sauve héros. Échec : rate, mais alerte héros qui esquive.</p>
+                            
+                            <h4>Phase 4 : Combat Salle Principale (19h30-21h00)</h4>
+                            <p>Héros entrent bâtiment principal. Grande salle coloniale : plafond voûté, tapisseries, table longue. Or empilé coins (caisses ouvertes).</p>
+                            
+                            <p><strong>Ennemis Salle (6 Sicarios + 2-3 Hermanos) :</strong></p>
+                            <ul>
+                                <li>Sicarios : 0 PV, armes variées, retranchés meubles</li>
+                                <li><span data-pnj="hermanos">Hermanos</span> (Carlos, Javier) : 1 PV chacun, loyaux mort, bandanas rouges</li>
+                                <li>Positionnés : escalier (bloquent accès tour), table (couvert), balcon étage (tirs plongeants)</li>
+                            </ul>
+                            
+                            <p><strong>Combat Intense :</strong></p>
+                            <ul>
+                                <li>Tables volent, tapisseries arrachées, lustres tombent</li>
+                                <li><span data-pnj="hermanos">Hermanos</span> combattent désespérément : "¡POUR EL SERPIENTE!"</li>
+                                <li>Or brille coins (tentation looter pendant combat = distraction dangereuse)</li>
+                            </ul>
+                            
+                            <p><strong>TWIST :</strong> Escalier mène tour guet. En haut : <span data-pnj="diego">Diego "El Machete" Torres</span> attend, machete en main, sourire sadique.</p>
+                            
+                            <h4>Phase 5 : Boss Fight - Diego "El Machete" (21h00-22h00)</h4>
+                            <p>Héros montent escalier étroit. Débouchent plateforme tour : vue panoramique désert nocturne, lune pleine. <span data-pnj="diego">Diego</span> adossé parapet, aiguise machete 60cm.</p>
+                            
+                            <p><strong><span data-pnj="diego">Diego</span> (rit, espagnol guttural) :</strong></p>
+                            <p style="font-style: italic; padding: 15px; background: rgba(184, 0, 26, 0.2); border-left: 4px solid #B8001A; margin: 10px 0;">
+                                "Ah... los gringos valientes. Vous avez tué mes hommes. Impressionnant."<br><br>
+                                (Crache, lève machete) "Mais MOI... je suis différent. J'ai tué cinquante hommes avec cette lame. CINQUANTE."<br><br>
+                                (Avance lentement) "Vous voulez El Serpiente ? Il est parti. Crypte secrète. Vous ne le trouverez JAMAIS."<br><br>
+                                (Sourire dément) "Mais d'abord... je vais vous découper. Lentement. Comme Pedro à Santa Muerte. Vous vous souvenez Pedro ?"
+                            </p>
+                            
+                            <p><strong>Stats Combat Diego :</strong></p>
+                            <ul>
+                                <li><strong>2 PV</strong> (mini-boss, massif, résistant)</li>
+                                <li><strong>Machete géant :</strong> 4+ toucher, 1 dégât (2 dégâts si jet 6), portée 2m</li>
+                                <li><strong>Charge brutale :</strong> 5+ toucher, renverse cible (au sol 1 tour, désarmé)</li>
+                                <li><strong>Régénération rage :</strong> Si tombe 1 PV, entre frénésie (bonus +1 attaque, malus −1 défense)</li>
+                                <li><strong>Zone restreinte :</strong> Plateforme tour 4x4m, peut pousser héros parapet (chute mortelle si jet 5+ raté)</li>
+                            </ul>
+                            
+                            <p><strong>Phases Combat Diego :</strong></p>
+                            
+                            <p><strong>Phase 1 (2 PV) :</strong> Méthodique, aiguise machete entre coups, parle : "Pedro a supplié ! Il a pleuré comme bébé !"</p>
+                            
+                            <p><strong>Phase 2 (1 PV) :</strong> Blessé, enragé. Rit maniacalement, charge sans défense : "VOUS MOURREZ TOUS !"</p>
+                            
+                            <p><strong>Phase 3 (0 PV) :</strong> À genoux, machete tombe. Sang coule. Lève yeux vers héros.</p>
+                            
+                            <p><strong><span data-pnj="diego">Diego</span> (sourit, sang dents) :</strong> "Tuez-moi... comme j'ai tué Pedro... Allez..."</p>
+                            
+                            <h4>Phase 6 : Choix Moral - Tuer ou Capturer Diego</h4>
+                            
+                            <p><strong>OPTION A : Tuer Diego (Vengeance)</strong></p>
+                            <p>Héros exécutent <span data-pnj="diego">Diego</span>. Balle tête, lame cœur, pendaison symbolique.</p>
+                            <ul>
+                                <li><strong>Conséquence :</strong> <span data-pnj="maria">Maria</span> satisfaite (promesse tenue)</li>
+                                <li><strong>Problème :</strong> Diego mort = ne révèle PAS crypte. Héros doivent chercher 1h (fouille hacienda, jet 6 Perception pour tapisserie cache-porte)</li>
+                                <li><strong>Si <span data-pnj="rosie">Rosie</span> présente :</strong> Regarde exécution, mélange soulagement + malaise</li>
+                            </ul>
+                            
+                            <p><strong>OPTION B : Capturer Diego (Justice)</strong></p>
+                            <p>Ligoter, soigner minimalement, interroger.</p>
+                            <p><strong><span data-pnj="diego">Diego</span> (crache) :</strong> "Je ne parle PAS aux gringos !"</p>
+                            <p><strong>Torture Morale :</strong> Héros mentionnent famille Diego (infos <span data-pnj="rojas">Rojas</span> Acte II). "Tu as femme ? Enfants ? Au Mexique ?"</p>
+                            <p><strong><span data-pnj="diego">Diego</span> (pâlit) :</strong> "Ne... ne touchez pas ma famille..."</p>
+                            <p><strong>Héros :</strong> "Alors PARLE. Où est la crypte ?"</p>
+                            <ul>
+                                <li><strong>Jet 5+ Intimidation :</strong> <span data-pnj="diego">Diego</span> cède, révèle : "Cave... derrière tapisserie rouge... escalier descend... là... Serpiente fait rituels maudits..."</li>
+                                <li><strong>Avantage :</strong> Gain 30 minutes (accès direct crypte)</li>
+                                <li><strong>Si <span data-pnj="rosie">Rosie</span> présente :</strong> "Vous l'avez forcé à parler sans le tuer. C'est... bien ?" (apprend nuance)</li>
+                            </ul>
+                            
+                            <p><strong>OPTION C : Laisser Villageois Décider (Report)</strong></p>
+                            <p>Ramener <span data-pnj="diego">Diego</span> vivant Santa Muerte après mission. <span data-pnj="maria">Maria</span> + villageois décideront.</p>
+                            <ul>
+                                <li>Diego ligoté hacienda (gardé sicario capturé)</li>
+                                <li>Héros continuent vers crypte (cherchent 1h si Diego ne parle pas)</li>
+                            </ul>
+                            
+                            <h4>Phase 7 : Découverte Crypte (22h00-22h30)</h4>
+                            <p>Cave hacienda. Tapisserie rouge arrachée. Porte pierre 2m cachée derrière. Symboles aztèques gravés. Escalier descend 10m profondeur.</p>
+                            
+                            <p><strong>Atmosphère :</strong></p>
+                            <ul>
+                                <li>Air froid remonte (10°C vs 20°C cave)</li>
+                                <li>Odeur encens copal + sang frais</li>
+                                <li>Chants lointains écho escalier (voix <span data-pnj="serpiente">El Serpiente</span>)</li>
+                                <li>Lueur orange tremblante (torches crypte)</li>
+                            </ul>
+                            
+                            <p><strong>Héros descendent escalier. Débouchent crypte aztèque ancienne. <span data-pnj="serpiente">El Serpiente</span> au centre, agenouillé devant autel crânes, or empilé derrière lui. Chante rituel sang.</strong></p>
+                            
+                            <p><strong>Transition Acte V :</strong> <span data-pnj="serpiente">El Serpiente</span> se retourne lentement. Sourire calme. "Bienvenue, gringos. J'attendais ce moment."</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">⚔️ Stats de Combat</div>
+                            
+                            <h4>Sicarios Standard (15 total)</h4>
+                            <ul>
+                                <li><strong>0 PV chacun</strong></li>
+                                <li><strong>Armes variées :</strong> Revolvers 5+, fusils 5+, couteaux 4+ corps à corps</li>
+                                <li><strong>Répartition :</strong> 5 cour, 6 salle principale, 2 tour guet, 2 étages</li>
+                                <li><strong>Tactique :</strong> Couverts, tirs coordonnés, repli défensif</li>
+                            </ul>
+                            
+                            <h4>Hermanos Muerte Restants (2-3)</h4>
+                            <ul>
+                                <li><strong>1 PV chacun</strong></li>
+                                <li><strong>Armes :</strong> Revolvers 5+, couteaux 4+</li>
+                                <li><strong>Loyauté :</strong> Combattent jusqu'à mort, pas de reddition</li>
+                                <li><strong>Bandanas rouges :</strong> Faciles identifier (cibles prioritaires)</li>
+                            </ul>
+                            
+                            <h4>Chiens de Garde (2-3)</h4>
+                            <ul>
+                                <li><strong>0 PV chacun</strong></li>
+                                <li><strong>Morsure :</strong> 4+ toucher, 1 dégât</li>
+                                <li><strong>Rapides :</strong> Attaquent premiers, peuvent désarmer (jet 5+ ou arme tombe)</li>
+                            </ul>
+                            
+                            <h4><span data-pnj="diego">Diego "El Machete" Torres</span> (Boss)</h4>
+                            <ul>
+                                <li><strong>2 PV</strong></li>
+                                <li><strong>Machete géant 60cm :</strong> 4+ toucher, 1 dégât (2 si jet 6)</li>
+                                <li><strong>Charge brutale :</strong> 5+ toucher, renverse + désarme cible</li>
+                                <li><strong>Frénésie (1 PV) :</strong> +1 attaque, −1 défense, rit maniacalement</li>
+                                <li><strong>Zone restreinte :</strong> Peut pousser héros parapet tour (chute 8m = 2 dégâts si jet 5+ raté)</li>
+                                <li><strong>Sadique :</strong> Parle pendant combat, provoque, insulte</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Diego tué →</strong> Héros cherchent crypte 1h (jet 6 Perception tapisserie), retardent Acte V</li>
+                                <li><strong>Diego capturé, révèle crypte →</strong> Accès direct, gain 30 min, +1 préparation Acte V</li>
+                                <li><strong><span data-pnj="rosie">Rosie</span> sauve héros →</strong> Loyauté +10, prouve valeur définitivement</li>
+                                <li><strong>Assaut frontal (Option A) →</strong> Combat épuisant, héros −1 tous jets Acte V (fatigue)</li>
+                                <li><strong>Infiltration réussie (Option B) →</strong> Héros frais, surprise <span data-pnj="serpiente">El Serpiente</span> (bonus +1 initiative Acte V)</li>
+                                <li><strong>Promesse <span data-pnj="maria">Maria</span> tenue (Diego tué) →</strong> Village allié, peut devenir refuge Session 3</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Forcer tactique spécifique : Héros DOIVENT choisir approche (chacune viable)</li>
+                                <li>Rendre combat trop facile : 15 sicarios + <span data-pnj="diego">Diego</span> = défi sérieux</li>
+                                <li>Minimiser danger <span data-pnj="rosie">Rosie</span> Option D : Elle PEUT mourir si découverte (tension réelle)</li>
+                                <li>Bâcler boss fight <span data-pnj="diego">Diego</span> : Mini-boss important, doit être mémorable</li>
+                                <li>Oublier choix moral Diego : Tuer vs Capturer = conséquences narratives Session 3</li>
+                                <li>Révéler crypte trop facilement : Si Diego mort, DOIVENT chercher (jet difficile)</li>
+                                <li>Négliger atmosphère crypte : Préfigure Acte V, ambiance surnaturelle essentielle</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SCÈNE 5 -->
+            <section id="scene5" class="section">
+                <h2>⚔️ SCÈNE 5 : LE DUEL DES CALAVERAS (23h-Minuit)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE V - Le Rituel du Serpent</div>
+                        <div class="scene-synopsis">23h00. Les héros descendent dans la <span data-lieu="crypte">Crypte des Calaveras</span>, sanctuaire aztèque ancestral 10m sous l'hacienda. <span data-pnj="serpiente">Rodrigo "El Serpiente" Muerte</span> les attend, agenouillé devant un autel de crânes sculptés. L'or volé est empilé derrière lui comme offrande aux morts. Il chante un rituel sanglant en nahuatl, se taillade poignet, sang coule sur or. "Cet or appartient aux morts. Je leur rends ce qui est à eux." Il révèle sa douleur : l'or est maudit (préfigure Session 3 Calavera), il a perdu tout ce qu'il aimait, ne cherche plus gloire mais rédemption par mort honorable. Propose duel loyal selon tradition mexicaine : un contre un, à mort ou reddition. Combat épique 2 PV, double Colt, coup de tête. Choix moral final : tuer (vengeance cycle continue) ou capturer vivant (justice, procès public <span data-lieu="tecumah">Tecumah Gulch</span>). Épilogue varie selon issue : triomphe ou fuite, <span data-pnj="blackman">Blackman</span> rédemption ou déception, <span data-pnj="rosie">Rosie</span> devient deputy officielle.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">23h00-Minuit (nuit profonde)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Crypte des Calaveras (sous hacienda)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Ambiance</div>
+                                    <div class="info-value">Surnaturelle, oppressante, sacrée</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">30 minutes (climax campagne)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Clôturer arc <span data-pnj="serpiente">El Serpiente</span> dignement (antagoniste Session 1-2)</li>
+                                <li>Humaniser <span data-pnj="serpiente">El Serpiente</span> : pas monstre, homme brisé cherchant rédemption</li>
+                                <li>Duel épique boss final 2 PV digne climax</li>
+                                <li>Révéler malédiction or (setup Session 3 Calavera)</li>
+                                <li>Choix moral impactant : tuer (vengeance) ou capturer (justice)</li>
+                                <li>Épilogue satisfaisant : retour <span data-lieu="tecumah">Tecumah Gulch</span>, <span data-pnj="blackman">Blackman</span> rédemption, <span data-pnj="rosie">Rosie</span> deputy</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement de la Scène</div>
+                            
+                            <h4>Phase 1 : Descente aux Enfers (23h00-23h15)</h4>
+                            <p>Héros descendent escalier pierre étroit. 10 mètres profondeur, 50 marches usées. Air de plus en plus froid (10°C), humide.</p>
+                            
+                            <p><strong>Atmosphère Descente :</strong></p>
+                            <ul>
+                                <li><strong>Vue :</strong> Torches murales projettent ombres dansantes. Symboles aztèques gravés murs (serpents, crânes, soleil noir).</li>
+                                <li><strong>Son :</strong> Chant lointain nahuatl, écho inquiétant. Gouttes eau tombent plafond.</li>
+                                <li><strong>Odorat :</strong> Encens copal (odeur sucrée-âcre), sang frais, moisi séculaire.</li>
+                                <li><strong>Toucher :</strong> Froid mordant, pierre rugueuse, oppression poitrine (air raréfié).</li>
+                            </ul>
+                            
+                            <p><strong>Si <span data-pnj="rosie">Rosie</span> présente :</strong> Elle tremble (froid + peur). Héros peuvent la renvoyer (refuse : "Je suis deputy maintenant !") ou la protéger centre groupe.</p>
+                            
+                            <p>Dernière marche. Héros débouchent crypte.</p>
+                            
+                            <h4>Phase 2 : La Crypte des Calaveras (23h15)</h4>
+                            <p><strong>Description Crypte :</strong></p>
+                            <ul>
+                                <li><strong>Dimensions :</strong> Salle circulaire 10m diamètre, plafond voûté 5m haut</li>
+                                <li><strong>Autel central :</strong> Pierre noire 2m, sculpté centaines crânes (aztèques), sang frais coule rigoles</li>
+                                <li><strong>Or empilé :</strong> 50 000$ en pièces/lingots derrière autel, pile 1,5m haut, luit lumière torches</li>
+                                <li><strong>Torches murales :</strong> 12 torches disposées cercle, fumée noire monte fissures plafond</li>
+                                <li><strong>Sol :</strong> Dalles gravées glyphes aztèques, taches sang partout</li>
+                                <li><strong>Murs :</strong> Niches contiennent crânes humains véritables (20-30), certains récents</li>
+                            </ul>
+                            
+                            <p><strong>Au centre, agenouillé devant autel : <span data-pnj="serpiente">El Serpiente</span>.</strong></p>
+                            
+                            <p>Torse nu, cicatrice serpent cou→torse visible. Couteau obsidienne main gauche, sang coule poignet tailladé sur autel. Chante rituel nahuatl, yeux fermés, en transe.</p>
+                            
+                            <p>Héros avancent. Bruits bottes résonnent. <span data-pnj="serpiente">El Serpiente</span> arrête chanter. Ouvre yeux lentement. Se lève, fait face héros. Sourire calme, résigné.</p>
+                            
+                            <h4>Phase 3 : Le Discours du Serpent (23h20-23h30)</h4>
+                            <p><strong><span data-pnj="serpiente">El Serpiente</span> (voix calme, accent mexicain doux) :</strong></p>
+                            <p style="font-style: italic; padding: 15px; background: rgba(184, 0, 26, 0.2); border-left: 4px solid #B8001A; margin: 10px 0;">
+                                "Bienvenue, gringos. Je savais que vous viendriez. J'ai entendu vos coups de feu là-haut. Diego est mort, n'est-ce pas ?"<br><br>
+                                (Silence, puis sourire triste) "Bien. Il méritait. Il aimait trop la violence. Moi... je ne tue que par nécessité."<br><br>
+                                (Montre or) "Vous voyez cet or ? Vous pensez que je l'ai volé pour richesse ? Pour gloire ?"<br><br>
+                                (Rit amèrement) "Non. Cet or est MAUDIT. Les Aztèques l'ont enterré ici il y a 300 ans. Offrande aux dieux de la mort. Quetzalcoatl. Mictlantecuhtli."<br><br>
+                                (Voix se brise) "Quand j'ai volé cet or... ma mère est morte. Mon frère Carlos... tué. Ma sœur... disparue. TOUT ce que j'aimais, arraché."<br><br>
+                                (Regarde héros intensément) "Alors je suis venu ici. Rendre aux morts ce qui leur appartient. Peut-être... peut-être ils me pardonneront."<br><br>
+                                (Sifflote mélodie mexicaine triste) "Mais vous... vous ne comprenez pas. Vous voulez me ramener. Procès. Pendaison. Justice américaine."<br><br>
+                                (Dégaine double Colt) "Je préfère mort mexicaine. Honorable. Duel loyal. Un contre un. Jusqu'à mort ou reddition."<br><br>
+                                "Qui de vous est assez courageux ?"
+                            </p>
+                            
+                            <p><strong>Réactions Possibles Héros :</strong></p>
+                            <ul>
+                                <li><strong>Accepter duel :</strong> <span data-pnj="serpiente">El Serpiente</span> hoche tête respectueux : "Courage. J'apprécie."</li>
+                                <li><strong>Refuser, exiger reddition :</strong> <span data-pnj="serpiente">El Serpiente</span> : "Alors vous me forcez main. Dommage." (Attaque quand même)</li>
+                                <li><strong>Parler malédiction :</strong> Jet 5+ Empathie, <span data-pnj="serpiente">El Serpiente</span> s'ouvre davantage : "Vous... croyez aux malédictions ?"</li>
+                                <li><strong>Tous attaquer ensemble :</strong> <span data-pnj="serpiente">El Serpiente</span> déçu : "Lâches. Comme tous gringos." (Combat déloyal, malus moral héros)</li>
+                            </ul>
+                            
+                            <h4>Phase 4 : Le Duel d'Honneur (23h30-23h50)</h4>
+                            <p><strong>Règles Duel (Si accepté) :</strong></p>
+                            <ul>
+                                <li>1 héros vs <span data-pnj="serpiente">El Serpiente</span> (choix héros qui combat)</li>
+                                <li>Autres héros spectateurs (ne peuvent intervenir sauf héros mourant)</li>
+                                <li>Armes feu autorisées (tradition western, pas aztèque)</li>
+                                <li>Combat jusqu'à mort OU reddition volontaire</li>
+                                <li>Pas d'attaque dos, pas de ruse (honneur mexicain)</li>
+                            </ul>
+                            
+                            <p><strong>Si duel refusé :</strong> <span data-pnj="serpiente">El Serpiente</span> combat tous héros simultanément (difficile mais faisable pour lui).</p>
+                            
+                            <p><strong>Stats Combat El Serpiente :</strong></p>
+                            <ul>
+                                <li><strong>2 PV</strong> (Boss Final, résistant, agile)</li>
+                                <li><strong>Double Colt :</strong> 4+ toucher, tire 2 fois par tour (peut viser 2 cibles différentes)</li>
+                                <li><strong>Coup de tête :</strong> 5+ toucher, 1 dégât + étourdi 1 tour (si corps à corps)</li>
+                                <li><strong>Esquive acrobatique :</strong> Premier jet raté contre lui chaque tour = esquive automatique (une fois/tour)</li>
+                                <li><strong>Sifflote en combattant :</strong> Déstabilisant, malus −1 premier jet chaque héros</li>
+                                <li><strong>Respect courage :</strong> Si héros combat honorablement (duel 1v1), <span data-pnj="serpiente">El Serpiente</span> plus enclin se rendre à 0 PV</li>
+                            </ul>
+                            
+                            <p><strong>Phases Combat :</strong></p>
+                            
+                            <p><strong>Phase 1 (2 PV) :</strong></p>
+                            <p><span data-pnj="serpiente">El Serpiente</span> agile, esquive, teste héros. Tire précisément, vise membres (désarmer). Sifflote mélodie mexicaine.</p>
+                            <p><strong>Dialogue combat :</strong> "Tu tires bien, gringo. Qui t'a appris ? Ton père ?"</p>
+                            
+                            <p><strong>Phase 2 (1 PV) :</strong></p>
+                            <p>Blessé sérieusement. Sang coule. Plus agressif, désespéré. Double Colt sans relâche. Recule vers autel.</p>
+                            <p><strong>Dialogue :</strong> "Je... ne peux pas perdre... Pas maintenant... Les morts m'attendent..."</p>
+                            
+                            <p><strong>Phase 3 (0 PV) :</strong></p>
+                            <p><span data-pnj="serpiente">El Serpiente</span> tombe genoux, Colts tombent. Sang coule bouche. Lève yeux vers héros. Sourire faible.</p>
+                            
+                            <h4>Phase 5 : Le Choix Moral Final (23h50)</h4>
+                            <p><strong><span data-pnj="serpiente">El Serpiente</span> (respiration difficile) :</strong></p>
+                            <p style="font-style: italic; padding: 15px; background: rgba(184, 0, 26, 0.2); border-left: 4px solid #B8001A; margin: 10px 0;">
+                                "Vous... avez gagné. Bien joué."<br><br>
+                                (Tousse sang) "Alors... qu'allez-vous faire ? Me tuer ici ? Comme chien ?"<br><br>
+                                (Regarde or) "Ou... me traîner à votre ville ? Procès public ? Pendaison devant foule ?"<br><br>
+                                (Sourire) "Peu importe. Je suis déjà mort. Les morts... m'appellent depuis longtemps."<br><br>
+                                (Ferme yeux) "Faites ce que vous devez faire."
+                            </p>
+                            
+                            <p><strong>CHOIX MORAL FINAL :</strong></p>
+                            
+                            <h4>Option A : Tuer El Serpiente (Vengeance)</h4>
+                            <p><strong>Description :</strong> Héros exécutent <span data-pnj="serpiente">El Serpiente</span>. Balle tête, rapide, indolore.</p>
+                            <p><strong><span data-pnj="serpiente">El Serpiente</span> (derniers mots) :</strong> "Gracias... Dites à ma sœur... que je l'aimais..." (Meurt, sourire paisible)</p>
+                            <p><strong>Conséquences :</strong></p>
+                            <ul>
+                                <li>Or récupéré (50 000$), mais malédiction reste (Session 3 Calavera déclenchée)</li>
+                                <li>Retour <span data-lieu="tecumah">Tecumah Gulch</span> triomphants mais vides</li>
+                                <li><span data-pnj="blackman">Blackman</span> DÉÇU : "Je voulais procès... justice publique... pas vengeance privée."</li>
+                                <li><span data-pnj="rosie">Rosie</span> : "C'était... nécessaire ?" (Doute moral)</li>
+                                <li>Citoyens soulagés mais mal à l'aise (exécution sans procès)</li>
+                                <li><strong>Hook Session 3 :</strong> Sœur <span data-pnj="serpiente">El Serpiente</span> (Carmen) cherchera vengeance</li>
+                            </ul>
+                            
+                            <h4>Option B : Capturer Vivant (Justice)</h4>
+                            <p><strong>Description :</strong> Ligoter, soigner, ramener vivant pour procès.</p>
+                            <p><strong><span data-pnj="serpiente">El Serpiente</span> :</strong> "Vous... m'épargnez ? Pourquoi ?"</p>
+                            <p><strong>Héros :</strong> "Parce que justice n'est pas vengeance. Tu mérites procès équitable."</p>
+                            <p><strong><span data-pnj="serpiente">El Serpiente</span> (larme coule) :</strong> "Je... ne mérite pas votre pitié. Mais... merci."</p>
+                            <p><strong>Conséquences :</strong></p>
+                            <ul>
+                                <li>Retour <span data-lieu="tecumah">Tecumah Gulch</span> triomphants + <span data-pnj="serpiente">El Serpiente</span> prisonnier</li>
+                                <li><span data-pnj="blackman">Blackman</span> FIER : "Vous avez fait ce qu'il fallait. Justice, pas meurtre."</li>
+                                <li>Procès public 1 semaine après (foule immense, verdict : pendaison)</li>
+                                <li><span data-pnj="rosie">Rosie</span> : "Vous êtes de vrais héros. Vous auriez pu le tuer, mais..."</li>
+                                <li>Citoyens admiratifs (héros = symboles justice)</li>
+                                <li><strong>Hook Session 3 :</strong> Carmen assiste procès, jure vengeance APRÈS pendaison légale (plus complexe moralement)</li>
+                            </ul>
+                            
+                            <h4>Option C : Laisser Se Suicider (Rédemption)</h4>
+                            <p><strong>Description :</strong> Héros abaissent armes. "Tu veux mort honorable ? Fais-le toi-même."</p>
+                            <p>Donnent pistolet chargé 1 balle à <span data-pnj="serpiente">El Serpiente</span>. Reculent.</p>
+                            <p><strong><span data-pnj="serpiente">El Serpiente</span> (prend arme, main tremblante) :</strong></p>
+                            <p>"Vous... me faites confiance ? Même maintenant ?"</p>
+                            <p><strong>Héros :</strong> "Tu as dit vouloir rédemption. La voici."</p>
+                            <p><strong><span data-pnj="serpiente">El Serpiente</span> :</strong> "Je... Gracias. Vraiment."</p>
+                            <p>Se lève péniblement. S'agenouille devant autel. Prie nahuatl. Lève pistolet tempe. BANG. Corps s'effondre sur or.</p>
+                            <p><strong>Conséquences :</strong></p>
+                            <ul>
+                                <li>Fin poétique, tragique, honorable</li>
+                                <li><span data-pnj="blackman">Blackman</span> confus : "Je... ne sais pas quoi penser."</li>
+                                <li><span data-pnj="rosie">Rosie</span> pleure : "Il était méchant... mais aussi triste..."</li>
+                                <li>Citoyens débattent choix (certains scandalisés, autres respectent)</li>
+                                <li><strong>Hook Session 3 :</strong> Carmen voit suicide comme trahison, vengeance dirigée héros ET mémoire frère</li>
+                            </ul>
+                            
+                            <h4>Option D : Rosie Tire (Si Hésitation)</h4>
+                            <p><strong>Si héros hésitent 10+ secondes réelles :</strong> <span data-pnj="rosie">Rosie</span>, caché derrière colonne, agit.</p>
+                            <p>BANG. Coup feu résonne. <span data-pnj="serpiente">El Serpiente</span> tombe, balle dos. Mort instantanée.</p>
+                            <p>Héros se retournent choqués. <span data-pnj="rosie">Rosie</span> sort ombre, pistolet fumant, larmes coulent.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (voix brisée) :</strong> "Il... il allait vous tuer... Je devais..."</p>
+                            <p>Réalise ce qu'elle a fait. Lâche arme, sanglote. Héros la prennent bras.</p>
+                            <p><strong>Conséquences :</strong></p>
+                            <ul>
+                                <li><span data-pnj="rosie">Rosie</span> traumatisée profondément (a tué quelqu'un par derrière)</li>
+                                <li>Perte innocence brutale (thème Session 3 : PTSD <span data-pnj="rosie">Rosie</span>, cauchemars)</li>
+                                <li>Héros culpabilité immense (ont mis enfant position tuer)</li>
+                                <li><span data-pnj="blackman">Blackman</span> : "Mon Dieu... qu'ai-je fait en l'emmenant..."</li>
+                                <li>Fin amère malgré victoire</li>
+                            </ul>
+                            
+                            <h4>Phase 6 : Récupération Or + Sortie Crypte (23h55)</h4>
+                            <p>Quelle que soit issue, héros récupèrent or (50 000$ = très lourd, 4 caisses).</p>
+                            <p><strong>Moment étrange :</strong> Quand héros touchent or, sensation FROIDE désagréable. Whispers lointains (hallucination ?). Si <span data-pnj="rosie">Rosie</span> touche : frissonne violemment.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Cet or... il est bizarre... Je l'aime pas..."</p>
+                            <p>(Préfigure Session 3 Calavera : or vraiment maudit)</p>
+                            
+                            <p>Remontent escalier. Laissent crypte derrière (scellée symboliquement ?). Sortent hacienda. Minuit. Lune pleine. Vent frais.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🌅 Épilogue : Le Retour (3 Jours Après)</div>
+                            
+                            <h4>Retour à Tecumah Gulch</h4>
+                            <p>3 jours voyage désert. Héros épuisés, blessés, mais vivants. <span data-pnj="serpiente">El Serpiente</span> prisonnier (ou cadavre) sur cheval. 4 caisses or attachées mulets.</p>
+                            
+                            <p><strong>Aube. Tecumah Gulch visible horizon.</strong></p>
+                            
+                            <p>Citoyens sortent rues. Silence d'abord. Puis applaudissements éclatent. "ILS L'ONT EU ! ILS ONT RAMENÉ EL SERPIENTE !"</p>
+                            
+                            <h4>Réunion avec Blackman</h4>
+                            <p>Bureau shérif. <span data-pnj="blackman">Blackman</span> assis, jambe bandée, attend.</p>
+                            
+                            <p><strong>Si <span data-pnj="serpiente">El Serpiente</span> vivant :</strong></p>
+                            <p><span data-pnj="blackman">Blackman</span> se lève péniblement, serre mains héros. Larmes coulent.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Vous... avez fait ce que je n'ai pas pu. Ramené justice. VRAIE justice. Merci."</p>
+                            <p>Épingle étoile deputy officielle sur <span data-pnj="rosie">Rosie</span> : "Rosie McKenzie. Tu es officiellement deputy de Tecumah Gulch. La plus jeune du territoire."</p>
+                            
+                            <p><strong>Si <span data-pnj="serpiente">El Serpiente</span> mort :</strong></p>
+                            <p><span data-pnj="blackman">Blackman</span> regarde cadavre, soupire lourdement.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Je... voulais procès. Mais je comprends. Mission dangereuse. Vous avez fait ce qu'il fallait."</p>
+                            <p>(Moins enthousiaste, mais accepte)</p>
+                            
+                            <h4>Le Procès (1 Semaine Après, Si Vivant)</h4>
+                            <p>Place publique. Gibet construit. 500 personnes assemblées. <span data-pnj="serpiente">El Serpiente</span> amené menottes.</p>
+                            <p>Juge lit accusations : "Vol, meurtre, banditisme. Verdict : PENDAISON."</p>
+                            <p><span data-pnj="serpiente">El Serpiente</span> calme, accepte. Regarde héros une dernière fois. Hoche tête respect.</p>
+                            <p>Capuche mise. Trappe s'ouvre. Corde se tend. Mort rapide.</p>
+                            <p><strong>Foule :</strong> Silence pesant. Puis : "Justice est faite."</p>
+                            
+                            <h4>L'Or Maudit (2 Semaines Après)</h4>
+                            <p>Or distribué : Héros 10 000$ chacun, reste banque ville.</p>
+                            <p><strong>Mais...</strong> Accidents étranges commencent :</p>
+                            <ul>
+                                <li>Banquier touche or, meurt crise cardiaque 2 jours après</li>
+                                <li>Citoyen achète maison avec pièces or, maison brûle nuit suivante</li>
+                                <li>Héros font cauchemars récurrents : crânes, chants nahuatl, crypte</li>
+                            </ul>
+                            <p><strong>Rumeur ville :</strong> "Cet or est maudit. Les Aztèques se vengent."</p>
+                            <p>(Setup Session 3 Calavera)</p>
+                            
+                            <h4>Scène Finale</h4>
+                            <p>Star Saloon, soir. Héros boivent whisky. <span data-pnj="rosie">Rosie</span> (limonade, étoile poitrine) à côté <span data-pnj="blackman">Blackman</span>.</p>
+                            <p>Citoyen lève verre : "Aux héros de Tecumah Gulch ! Aux Légendes !"</p>
+                            <p>Tous lèvent verres : "AUX LÉGENDES !"</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (bas, à héros) :</strong> "Dans 6 mois, je prends retraite. Rosie sera prête. Vous l'avez formée mieux que moi."</p>
+                            <p>Camera s'éloigne. Lune pleine. Coyote hurle. Vent froid traverse ville.</p>
+                            <p><strong>FIN... ?</strong></p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔮 Hooks pour Session 3 (Selon Issue)</div>
+                            
+                            <p><strong>Si El Serpiente tué Crypte :</strong></p>
+                            <ul>
+                                <li>Carmen "La Víbora" Muerte (sœur jumelle) apprend mort frère</li>
+                                <li>Jure vengeance IMMÉDIATE, orchestre évasion 7 prisonniers</li>
+                                <li>Session 3 : "Le Convoi des Pendus" (canon)</li>
+                            </ul>
+                            
+                            <p><strong>Si El Serpiente pendu légalement :</strong></p>
+                            <ul>
+                                <li>Carmen assiste exécution publique, voit frère mourir dignement</li>
+                                <li>Vengeance plus calculée, patiente, cruelle (veut héros SOUFFRENT)</li>
+                                <li>Session 3 : Variante où Carmen manipule procès corruption</li>
+                            </ul>
+                            
+                            <p><strong>Si El Serpiente suicide :</strong></p>
+                            <ul>
+                                <li>Carmen voit suicide comme trahison (frère a "abandonné")</li>
+                                <li>Vengeance dirigée héros (forcé frère suicide) ET mémoire frère</li>
+                                <li>Session 3 : Carmen psychologiquement instable, imprévisible</li>
+                            </ul>
+                            
+                            <p><strong>Or Maudit (Toutes Issues) :</strong></p>
+                            <ul>
+                                <li>Morts mystérieuses Tecumah Gulch (accidents, maladies, suicides)</li>
+                                <li>Cauchemars héros intensifient (crânes, Serpiente revient fantôme)</li>
+                                <li>Doit être retourné crypte ou détruit rituellement</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Bâcler discours <span data-pnj="serpiente">El Serpiente</span> : CŒUR ÉMOTIONNEL scénario, prendre temps</li>
+                                <li>Rendre combat trop facile : Boss final 2 PV DOIT être challenge épique</li>
+                                <li>Forcer choix moral : Héros DOIVENT décider eux-mêmes (tuer/capturer/suicide)</li>
+                                <li>Oublier arc <span data-pnj="rosie">Rosie</span> : Elle DOIT recevoir étoile deputy épilogue</li>
+                                <li>Minimiser malédiction or : Préfiguration Session 3 essentielle</li>
+                                <li>Négliger atmosphère crypte : Surnaturel, sacré, oppressant</li>
+                                <li>Épilogue trop court : C'est conclusion campagne, prendre 5-10 min célébrer</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- CONSEILS MJ -->
+            <section id="conseils" class="section">
+                <h2>💡 CONSEILS DE MAÎTRE DE JEU</h2>
+                
+                <div class="card">
+                    <h3>🎭 Jouer El Serpiente</h3>
+                    <ul>
+                        <li><strong>Voix :</strong> Calme, menaçante, accent mexicain prononcé</li>
+                        <li><strong>Manies :</strong> Sifflote mélodies mexicaines, caresse crânes</li>
+                        <li><strong>Motivation :</strong> Or = pouvoir, mais aussi malédiction (obsession)</li>
+                        <li><strong>Respect :</strong> Admire courage héros, méprise lâcheté Federales</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌡️ Gérer la Chaleur Mexicaine</h3>
+                    <p><strong>Jets Constitution 5+ toutes 2 heures :</strong></p>
+                    <ul>
+                        <li>Échec → Malus −1 tous jets (déshydratation)</li>
+                        <li>2 échecs consécutifs → 1 dégât (coup de chaleur)</li>
+                        <li>Gourdes eau : 1 gourde annule 1 échec</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🗣️ Barrière Linguistique</h3>
+                    <p><strong>Sans El Coyote comme interprète :</strong></p>
+                    <ul>
+                        <li>Jets Diplomatie 6+ au lieu 5+ avec NPCs mexicains</li>
+                        <li>Malentendus possibles si échec critique (1-2)</li>
+                        <li>Si El Coyote trahit/meurt : mission BEAUCOUP plus difficile</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚠️ Erreurs Fatales à Éviter</h3>
+                    <ul>
+                        <li>Tuer El Serpiente avant procès → Blackman furieux, pas de rédemption</li>
+                        <li>Laisser Rosie mourir → Session échoue narrativement</li>
+                        <li>Perdre El Coyote trop tôt → Héros perdus désert/village</li>
+                        <li>Ignorer chaleur → TPK par déshydratation (crédible)</li>
+                        <li>Combat frontal Hacienda sans plan → 15 sicarios = suicide</li>
+                    </ul>
+                </div>
+            </section>
+            
+        </div>
+        
+        <!-- ============================================
+             FOOTER
+             ============================================ -->
+        <footer>
+            <p><strong>🇲🇽 La Traque au-delà du Rio Grande</strong></p>
+            <p>Session 2 Alternative - La Trilogie de Tecumah Gulch</p>
+            <p style="font-style: italic; margin-top: 15px;">"La justice n'a pas de frontière... mais la vengeance non plus."</p>
+        </footer>
+    </div>
+    
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ========== CONFIGURATION ==========
+        const CONFIG = {
+            timerInterval: null,
+            timerSeconds: 0
+        };
+        
+        // ========== TOOLTIPS DATA ==========
+        const pnjData = {
+            "serpiente": {
+                nom: "Rodrigo 'El Serpiente' Muerte",
+                surnom: "Le Serpent",
+                description: "Chef Hermanos Muerte, 28 ans. Boss final 2 PV. A réussi évasion Session 1. Calculateur, cruel, honorable. Obsédé or maudit.",
+                combat: "2 PV | Double Colt 4+ (2 tirs/tour) | Coup de tête 5+",
+                role: "Antagoniste principal, duel final crypte"
+            },
+            "blackman": {
+                nom: "Walt Blackman",
+                surnom: "Le Shérif Brisé",
+                description: "Shérif Tecumah Gulch, 63 ans. Blessé Session 1. Obsédé rédemption. Veut capturer El Serpiente VIVANT pour procès. Ne participe pas assaut.",
+                role: "Mentor héros, commanditaire mission"
+            },
+            "rosie": {
+                nom: "Rosie McKenzie",
+                surnom: "La Gamine Têtue",
+                description: "11 ans (2 mois après S1). Fille palefrenier tué. Apprentie deputy. Veut prouver valeur. Arc : capture 1er criminel Acte III. NE DOIT PAS mourir.",
+                combat: "1 PV | Pistolet 5+ | Furtive 4+",
+                role: "Alliée fragile, évolution narrative"
+            },
+            "coyote": {
+                nom: "Juan 'El Coyote' Ramirez",
+                surnom: "Le Passeur",
+                description: "Contrebandier retraité, 45 ans. Connaît passages Rio Grande. Cynique, mercenaire. Indispensable Acte II. Peut trahir si menacé (jet 6 Persuasion).",
+                combat: "1 PV | Évite combats | Fuite 3+",
+                role: "Guide essentiel, loyauté conditionnelle"
+            },
+            "diego": {
+                nom: "Diego 'El Machete' Torres",
+                surnom: "La Lame",
+                description: "Lieutenant El Serpiente, 32 ans. Massacré 3 familles Santa Muerte. Machete 60cm. Boss intermédiaire Acte IV. Révèle crypte si capturé.",
+                combat: "2 PV | Machete 4+ (2 dégâts si 6) | Charge 5+",
+                role: "Mini-boss, terreur villageois"
+            },
+            "maria": {
+                nom: "Maria Alvarez",
+                surnom: "La Veuve de Santa Muerte",
+                description: "Veuve mexicaine, 38 ans. Mari tué par Diego. Seule à parler héros. Révèle Hacienda. Demande vengeance. Alliée si justice rendue.",
+                role: "Informatrice clé, conscience morale"
+            },
+            "rojas": {
+                nom: "Capitán Esteban Rojas",
+                surnom: "Le Federale Corrompu",
+                description: "Officier Federales, 40 ans. Payé El Serpiente. Intercepte Acte II. Propose pot-de-vin 1000$. Fuit si 3+ soldats tombent. Lâche.",
+                combat: "1 PV + 10 soldats 0 PV | Pistolet 5+ | Fuite 4+",
+                role: "Obstacle Acte II, choix moral"
+            },
+            "hermanos": {
+                nom: "Les Hermanos Muerte (Reste)",
+                surnom: "Les Frères Survivants",
+                description: "3-4 bandits survivants Session 1. Carlos, Javier, Miguel. Loyaux El Serpiente. 1 PV chacun. Retranchés Hacienda Acte IV.",
+                combat: "1 PV chacun | Armes variées 5+",
+                role: "Sbires boss, combat Hacienda"
+            }
+        };
+        
+        const lieuxData = {
+            "tecumah": {
+                nom: "Tecumah Gulch",
+                localisation: "Point départ, Texas",
+                description: "Ville humiliée après échec S1. Aube grise, citoyens silencieux. Star Saloon fermé deuil. Blackman convoque héros bureau privé.",
+                ambiance: "Vue: rues vides, volets clos | Son: silence pesant, vent | Odorat: poussière, whisky"
+            },
+            "rio_grande": {
+                nom: "Le Rio Grande",
+                localisation: "Frontière Texas-Mexique, 30km sud",
+                description: "Fleuve large 50m, courant traître. El Coyote connaît gué secret. Embuscade Federales possible. Midi brûlant 45°C.",
+                ambiance: "Vue: eau boueuse, rochers | Son: courant gronde, insectes | Toucher: chaleur écrasante, eau froide"
+            },
+            "santa_muerte": {
+                nom: "Santa Muerte (Village)",
+                localisation: "15km sud Rio Grande, Mexique",
+                description: "Village fantôme terrorisé. 30 habitants cachés. 3 corps pendus place centrale (massacres Diego). Maria Alvarez seule ose sortir.",
+                ambiance: "Vue: adobe délabré, corps pendus, sang | Son: silence mortel, corde grince | Odorat: putréfaction, encens"
+            },
+            "hacienda": {
+                nom: "Hacienda del Diablo",
+                localisation: "8km ouest Santa Muerte, territoire Serpiente",
+                description: "Hacienda fortifiée coloniale. Murs 3m, tour guet, 15 sicarios. Hermanos retranchés. Or empilé. Crypte secrète sous cave.",
+                ambiance: "Vue: murs ocres, drapeaux rouges | Son: rires, musique, aboiements | Odorat: cuir, poudre, tequila"
+            },
+            "crypte": {
+                nom: "La Crypte des Calaveras",
+                localisation: "Sous Hacienda, 10m profondeur",
+                description: "Crypte aztèque ancienne. Autels crânes sculptés. Or empilé centre comme offrande. El Serpiente rituel final. Ambiance surnaturelle.",
+                ambiance: "Vue: pierre noire, crânes, or luisant | Son: chants, écho | Odorat: encens copal, sang, moisi"
+            },
+            "desert": {
+                nom: "Le Désert de Chihuahua",
+                localisation: "Entre Rio Grande et Hacienda, 25km",
+                description: "Désert hostile. Chaleur 45°C jour. Cactus, serpents. Pas d'eau 15km. El Coyote indispensable. Jets Constitution 5+ toutes 2h.",
+                ambiance: "Vue: horizon ondulant, mirages | Son: silence, serpents | Toucher: chaleur suffocante, soif"
+            }
+        };
+        
+        // ========== NAVIGATION ==========
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activate clicked button
+            event.target.classList.add('active');
+        }
+        
+        // ========== TIMER ==========
+        function startTimer() {
+            if (CONFIG.timerInterval) return;
+            CONFIG.timerInterval = setInterval(() => {
+                CONFIG.timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            clearInterval(CONFIG.timerInterval);
+            CONFIG.timerInterval = null;
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            CONFIG.timerSeconds = 0;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const hours = Math.floor(CONFIG.timerSeconds / 3600);
+            const minutes = Math.floor((CONFIG.timerSeconds % 3600) / 60);
+            const seconds = CONFIG.timerSeconds % 60;
+            
+            document.getElementById('time-display').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // ========== DICE ROLLER ==========
+        function rollDice() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const display = document.getElementById('dice-result');
+            display.textContent = result;
+            display.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                display.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        // ========== TOOLTIPS ==========
+        function createTooltip(element, data) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            
+            let content = `<div class="tooltip-header">${data.nom}</div>`;
+            
+            if (data.surnom) {
+                content += `<div class="tooltip-nickname">${data.surnom}</div>`;
+            }
+            
+            if (data.localisation) {
+                content += `<div class="tooltip-nickname">${data.localisation}</div>`;
+            }
+            
+            content += `<div class="tooltip-description">${data.description}</div>`;
+            
+            if (data.combat) {
+                content += `<div class="tooltip-info"><strong>Combat:</strong> ${data.combat}</div>`;
+            }
+            
+            if (data.role) {
+                content += `<div class="tooltip-info"><strong>Rôle:</strong> ${data.role}</div>`;
+            }
+            
+            if (data.ambiance) {
+                content += `<div class="tooltip-info"><strong>Ambiance:</strong> ${data.ambiance}</div>`;
+            }
+            
+            tooltip.innerHTML = content;
+            document.body.appendChild(tooltip);
+            
+            return tooltip;
+        }
+        
+        function positionTooltip(event, tooltip) {
+            const x = event.clientX;
+            const y = event.clientY;
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const padding = 15;
+            
+            let left = x + padding;
+            let top = y + padding;
+            
+            if (left + tooltipRect.width > window.innerWidth) {
+                left = x - tooltipRect.width - padding;
+            }
+            
+            if (top + tooltipRect.height > window.innerHeight) {
+                top = y - tooltipRect.height - padding;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+        
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentTooltip = null;
+            
+            // PNJ tooltips
+            document.querySelectorAll('[data-pnj]').forEach(element => {
+                element.addEventListener('mouseenter', function(e) {
+                    const pnjKey = this.getAttribute('data-pnj');
+                    const data = pnjData[pnjKey];
+                    if (data) {
+                        currentTooltip = createTooltip(this, data);
+                        setTimeout(() => currentTooltip.classList.add('visible'), 10);
+                    }
+                });
+                
+                element.addEventListener('mousemove', function(e) {
+                    if (currentTooltip) {
+                        positionTooltip(e, currentTooltip);
+                    }
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    if (currentTooltip) {
+                        currentTooltip.remove();
+                        currentTooltip = null;
+                    }
+                });
+            });
+            
+            // Lieu tooltips
+            document.querySelectorAll('[data-lieu]').forEach(element => {
+                element.addEventListener('mouseenter', function(e) {
+                    const lieuKey = this.getAttribute('data-lieu');
+                    const data = lieuxData[lieuKey];
+                    if (data) {
+                        currentTooltip = createTooltip(this, data);
+                        setTimeout(() => currentTooltip.classList.add('visible'), 10);
+                    }
+                });
+                
+                element.addEventListener('mousemove', function(e) {
+                    if (currentTooltip) {
+                        positionTooltip(e, currentTooltip);
+                    }
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    if (currentTooltip) {
+                        currentTooltip.remove();
+                        currentTooltip = null;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
