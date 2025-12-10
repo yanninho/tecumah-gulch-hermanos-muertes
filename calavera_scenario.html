@@ -1,1 +1,1970 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💀 La Malédiction de Calavera - Scénario JDR</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:wght@300;400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #E8E8E8;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(26, 26, 46, 0.95);
+            border: 8px solid #533483;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.4);
+            overflow: hidden;
+        }
+        
+        /* HEADER */
+        header {
+            background: linear-gradient(to bottom, #0f0f1e, #1a1a2e);
+            color: #FFD700;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid #533483;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '💀';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        header::after {
+            content: '🌙';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-60%); }
+        }
+        
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(138, 43, 226, 0.7);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            color: #9D4EDD;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #B565D8;
+            font-style: italic;
+        }
+        
+        /* TIMER & TOOLS */
+        .tools-bar {
+            background: #16213e;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 3px solid #533483;
+        }
+        
+        .timer {
+            background: rgba(138, 43, 226, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #FFD700;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timer-controls button {
+            background: #533483;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+        
+        .timer-controls button:hover {
+            background: #7B2CBF;
+            transform: scale(1.05);
+        }
+        
+        .dice-roller {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dice-button {
+            background: #9D4EDD;
+            color: white;
+            border: 3px solid #5A189A;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Creepster', cursive;
+        }
+        
+        .dice-button:hover {
+            background: #C77DFF;
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .dice-result {
+            background: rgba(138, 43, 226, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* NAVIGATION */
+        nav {
+            background: #16213e;
+            padding: 20px 30px;
+            border-bottom: 3px solid #533483;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: #533483;
+            color: #E0AAFF;
+            border: 2px solid #7B2CBF;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #7B2CBF;
+            border-color: #C77DFF;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        /* MAIN CONTENT */
+        .content {
+            padding: 40px;
+            min-height: 600px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            font-family: 'Creepster', cursive;
+            color: #C77DFF;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #533483;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        h3 {
+            font-family: 'Creepster', cursive;
+            color: #9D4EDD;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #B565D8;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        p, li {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        /* CARDS */
+        .card {
+            background: rgba(22, 33, 62, 0.8);
+            border: 3px solid #533483;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3);
+        }
+        
+        /* PNJ CARDS */
+        .pnj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pnj-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 4px solid #7B2CBF;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pnj-card::before {
+            content: '💀';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 4em;
+            opacity: 0.1;
+        }
+        
+        .pnj-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.4);
+            border-color: #C77DFF;
+        }
+        
+        .pnj-header {
+            margin-bottom: 15px;
+        }
+        
+        .pnj-name {
+            font-family: 'Creepster', cursive;
+            font-size: 1.4em;
+            color: #C77DFF;
+            margin-bottom: 3px;
+        }
+        
+        .pnj-nickname {
+            color: #B565D8;
+            font-style: italic;
+            font-size: 1em;
+        }
+        
+        .pnj-presentation {
+            color: #E8E8E8;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin: 15px 0;
+            padding: 12px;
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #7B2CBF;
+        }
+        
+        .pnj-section {
+            margin-top: 15px;
+        }
+        
+        .pnj-section-title {
+            font-weight: bold;
+            color: #C77DFF;
+            font-size: 1em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .pnj-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .pnj-list li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+        
+        .pnj-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #9D4EDD;
+            font-weight: bold;
+        }
+        
+        .pnj-combat {
+            background: #7B2CBF;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .pnj-role {
+            background: #533483;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        /* LIEU CARDS */
+        .lieu-card {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border: 4px solid #5A189A;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .lieu-title {
+            font-family: 'Creepster', cursive;
+            font-size: 1.6em;
+            color: #E0AAFF;
+            margin-bottom: 8px;
+        }
+        
+        .lieu-location {
+            color: #B565D8;
+            font-style: italic;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+        
+        .lieu-ambiance {
+            list-style: none;
+            margin: 15px 0;
+            padding: 0;
+        }
+        
+        .lieu-ambiance li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .lieu-ambiance li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #9D4EDD;
+            font-size: 1.2em;
+        }
+        
+        /* SCENE CARDS */
+        .scene-card {
+            background: rgba(22, 33, 62, 0.9);
+            border: 4px solid #7B2CBF;
+            border-radius: 12px;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3);
+            overflow: hidden;
+        }
+        
+        .scene-header {
+            background: linear-gradient(to right, #5A189A, #7B2CBF);
+            color: white;
+            padding: 25px;
+        }
+        
+        .scene-title {
+            font-family: 'Creepster', cursive;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .scene-synopsis {
+            font-style: italic;
+            font-size: 1.05em;
+            opacity: 0.95;
+        }
+        
+        .scene-body {
+            padding: 25px;
+        }
+        
+        .scene-section {
+            margin-bottom: 25px;
+        }
+        
+        .scene-section-title {
+            font-family: 'Creepster', cursive;
+            color: #C77DFF;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #533483;
+            padding-bottom: 5px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: rgba(138, 43, 226, 0.1);
+            border-left: 4px solid #7B2CBF;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #C77DFF;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: #E8E8E8;
+            font-size: 1em;
+        }
+        
+        /* WARNINGS */
+        .warning {
+            background: #533483;
+            border: 3px solid #7B2CBF;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning::before {
+            content: '⚠️ ';
+            font-size: 1.5em;
+        }
+        
+        /* FOOTER */
+        footer {
+            background: #0f0f1e;
+            color: #B565D8;
+            padding: 30px;
+            text-align: center;
+            border-top: 5px solid #533483;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .pnj-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tools-bar {
+                flex-direction: column;
+            }
+        }
+        
+        /* INFO-BULLES */
+        .tooltip-trigger {
+            position: relative;
+            cursor: help;
+            border-bottom: 2px dotted #8B0000;
+            font-weight: 600;
+            color: #d4a574;
+            transition: all 0.2s;
+        }
+        
+        .tooltip-trigger:hover {
+            color: #ff6b6b;
+            border-bottom-color: #ff0000;
+        }
+        
+        .tooltip-trigger-pnj {
+            color: #ff4444;
+        }
+        
+        .tooltip-trigger-lieu {
+            color: #9370db;
+        }
+        
+        .custom-tooltip {
+            position: absolute;
+            display: none;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d0d0d 100%);
+            border: 3px solid #8B0000;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.9);
+            z-index: 10000;
+            pointer-events: none;
+            animation: tooltipFadeIn 0.2s ease-out;
+        }
+        
+        @keyframes tooltipFadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip-header {
+            font-family: 'Creepster', cursive;
+            font-size: 1.2em;
+            color: #ff4444;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .tooltip-surnom {
+            font-size: 0.9em;
+            color: #d4a574;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .tooltip-lieu {
+            font-size: 0.85em;
+            color: #9370db;
+            margin-bottom: 10px;
+        }
+        
+        .tooltip-text {
+            color: #e0d4c8;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .tooltip-combat {
+            background: rgba(139, 0, 0, 0.3);
+            border-left: 3px solid #8B0000;
+            padding: 8px;
+            margin-top: 8px;
+            color: #ff6b6b;
+            font-size: 0.9em;
+            border-radius: 5px;
+        }
+        
+        .tooltip-role {
+            background: rgba(147, 112, 219, 0.3);
+            border-left: 3px solid #9370db;
+            padding: 8px;
+            margin-top: 8px;
+            color: #dda0dd;
+            font-size: 0.9em;
+            border-radius: 5px;
+        }
+        
+        .tooltip-ambiance {
+            background: rgba(70, 50, 50, 0.3);
+            border-left: 3px solid #8B4513;
+            padding: 8px;
+            margin-top: 8px;
+            color: #d4a574;
+            font-size: 0.9em;
+            font-style: italic;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💀 LA MALÉDICTION DE CALAVERA</h1>
+            <p class="subtitle">Scénario Western Spaghetti - Système d6 Cow-boy - Session 2</p>
+        </header>
+        
+        <div class="tools-bar">
+            <div class="timer">
+                ⏱️ <span id="time-display">00:00</span>
+                <div class="timer-controls">
+                    <button onclick="startTimer()">▶️ Start</button>
+                    <button onclick="pauseTimer()">⏸️ Pause</button>
+                    <button onclick="resetTimer()">🔄 Reset</button>
+                </div>
+            </div>
+            
+            <div class="dice-roller">
+                <button class="dice-button" onclick="rollDice()">🎲 LANCER D6</button>
+                <div class="dice-result" id="dice-result">-</div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('intro')">📋 Introduction</button>
+                <button class="nav-btn" onclick="showSection('pnj')">👥 PNJ</button>
+                <button class="nav-btn" onclick="showSection('lieux')">🗺️ Lieux</button>
+                <button class="nav-btn" onclick="showSection('scene1')">🌑 Scène 1</button>
+                <button class="nav-btn" onclick="showSection('scene2')">⚡ Scène 2</button>
+                <button class="nav-btn" onclick="showSection('scene3')">⚰️ Scène 3</button>
+                <button class="nav-btn" onclick="showSection('scene4')">⚖️ Scène 4</button>
+                <button class="nav-btn" onclick="showSection('scene5')">🌅 Scène 5</button>
+                <button class="nav-btn" onclick="showSection('hooks')">🔗 Hooks</button>
+            </div>
+        </nav>
+        
+        <div class="content">
+            <!-- INTRODUCTION -->
+            <section id="intro" class="section active">
+                <h2>📋 INTRODUCTION</h2>
+                
+                <div class="card">
+                    <h3>🎯 Pitch</h3>
+                    <p>Deux semaines après l'arrêt du Train de l'Enfer, une série de morts mystérieuses frappe Tecumah Gulch. L'or récupéré serait maudit selon une légende apache oubliée. Pendant ce temps, trois chasseurs de primes impitoyables arrivent en ville avec des avis de recherche... au nom des héros. El Serpiente a survécu et tire les ficelles depuis Calavera, ville fantôme hantée. Pour survivre, les joueurs devront affronter fantômes du passé, trahisons, et un duel final au cimetière sous la pleine lune.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📖 Synopsis</h3>
+                    <ul>
+                        <li><strong>Acte I (30 min)</strong> - Les Ombres de Tecumah Gulch : Morts mystérieuses, arrivée des chasseurs, les héros deviennent fugitifs</li>
+                        <li><strong>Acte II (40 min)</strong> - Le Chemin des Morts : Voyage vers Calavera, embuscades, rencontre avec la chamane apache</li>
+                        <li><strong>Acte III (50 min)</strong> - Calavera, la Ville des Crânes : Infiltration, trahisons multiples, duel mexicain au cimetière</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌡️ Contexte & Enjeux</h3>
+                    <h4>La Situation</h4>
+                    <p><strong>14 jours après le Train de l'Enfer</strong>, Tecumah Gulch célèbre encore ses héros. Mais trois événements changent tout :</p>
+                    <ol>
+                        <li><strong>Trois citoyens meurent</strong> dans des circonstances étranges près du coffre contenant l'or</li>
+                        <li><strong>Une chamane apache</strong> arrive en ville, parlant d'une malédiction ancestrale</li>
+                        <li><strong>Trois chasseurs de primes</strong> débarquent avec des avis de recherche falsifiés : les héros sont accusés du vol de l'or</li>
+                    </ol>
+                    <p><strong>La vérité :</strong> El Serpiente a survécu. Depuis Calavera, il orchestre sa vengeance en manipulant les chasseurs de primes et en exploitant la légende de l'or maudit.</p>
+                    
+                    <h4>Les Enjeux</h4>
+                    <ul>
+                        <li><strong>Pour les héros :</strong> Laver leur nom, briser la malédiction, survivre aux chasseurs</li>
+                        <li><strong>Pour Tecumah Gulch :</strong> La ville perd confiance en ses héros, la peur s'installe</li>
+                        <li><strong>Pour El Serpiente :</strong> Vengeance totale et récupération de l'or</li>
+                        <li><strong>Pour les chasseurs de primes :</strong> 10 000$ par tête (mise à prix par El Serpiente)</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>ℹ️ Informations Générales</h3>
+                    <div class="info-grid">
+                        <div class="info-box">
+                            <div class="info-label">Durée</div>
+                            <div class="info-value">2 heures</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Joueurs</div>
+                            <div class="info-value">3-5 joueurs (11-14 ans)</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Ton</div>
+                            <div class="info-value">Western spaghetti, surnaturel</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Système</div>
+                            <div class="info-value">d6 simplifié</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🎲 Système d6 - Référence Rapide</h3>
+                    <ul>
+                        <li><strong>Réussite:</strong> 4, 5 ou 6</li>
+                        <li><strong>Échec:</strong> 1, 2 ou 3</li>
+                        <li><strong>À couvert:</strong> Réussite sur 3+</li>
+                        <li><strong>Surpris:</strong> Réussite sur 5+</li>
+                        <li><strong>Joueurs:</strong> 5 PV</li>
+                        <li><strong>Boss:</strong> 2 PV</li>
+                        <li><strong>Modificateurs spéciaux:</strong></li>
+                        <ul>
+                            <li>Malédiction active : -1 près de l'or</li>
+                            <li>Rituel commencé : +1 dans cimetière</li>
+                            <li>Rituel accompli : Esprits aident (1 réussite auto par héros)</li>
+                        </ul>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- PNJ -->
+            <section id="pnj" class="section">
+                <h2>👥 PERSONNAGES NON-JOUEURS</h2>
+                
+                <div class="pnj-grid">
+                    <!-- El Serpiente -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🐍 Rodrigo Muerte</div>
+                                <div class="pnj-nickname">35 ans - "El Serpiente" / "Le Fantôme du Désert"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            A survécu de justesse au Train de l'Enfer. Abandonné par ses hommes, a rampé jusqu'à Calavera où il a trouvé refuge. Sa blessure s'est infectée, la fièvre le rend instable. A dépensé ses dernières économies pour engager les chasseurs de primes et falsifier les avis de recherche. C'est un homme brisé, prêt à tout pour se venger. Ne cherche plus la richesse : seulement le sang.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Cicatrice en zigzag infectée, purulente</li>
+                                <li>Poncho déchiré, couvert de sang séché</li>
+                                <li>Regard halluciné, fièvre brillante dans les yeux</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Vengeance totale contre les héros</li>
+                                <li>Obsédé par la douleur subie</li>
+                                <li>Instable mentalement, plus dangereux que jamais</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Alterner entre lucidité froide et délire fiévreux</li>
+                                <li>Montrer la souffrance physique constante</li>
+                                <li>Rire de façon démente quand il souffre</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-combat">
+                            <strong>BOSS FINAL:</strong> 2 PV | Rage du Mourant : à 1 PV attaque une dernière fois | Tire à 4+ (affaibli)
+                        </div>
+                    </div>
+                    
+                    <!-- El Águila -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🦅 Marcus Kane</div>
+                                <div class="pnj-nickname">44 ans - "El Águila" / "L'Aigle Noir"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Ancien sniper de la Guerre de Sécession (Confédéré), devenu chasseur de primes par pragmatisme. Ne tue que si nécessaire – les primes vivantes paient mieux. Méthodique, patient, impitoyable. A un code d'honneur tordu : respecte ses contrats à la lettre. Si les héros prouvent leur innocence de façon irréfutable, pourrait les laisser partir... mais seulement si c'est plus profitable.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Grand homme maigre, chapeau à large bord noir</li>
+                                <li>Fusil longue portée toujours à portée de main</li>
+                                <li>Regard perçant de rapace, yeux gris acier</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Devenir le chasseur de primes le plus riche de l'Ouest</li>
+                                <li>Pragmatique, calcule tout en argent</li>
+                                <li>Code d'honneur personnel strict</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Parler peu, peser chaque mot</li>
+                                <li>Montrer le calcul constant (combien ça rapporte ?)</li>
+                                <li>Respecter les adversaires compétents</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-combat">
+                            <strong>BOSS:</strong> 2 PV | Tireur d'élite : touche à 3+ même à longue distance | Patient et méthodique
+                        </div>
+                    </div>
+                    
+                    <!-- Dynamita -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">💣 Rosa Vasquez</div>
+                                <div class="pnj-nickname">26 ans - "Dynamita" / "La Folle Explosive"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            A perdu sa famille dans l'explosion d'une mine. Depuis, obsédée par les explosifs. Devenue chasseuse de primes pour financer sa "passion", ne fait jamais les choses à moitié. Adore les pièges explosifs et les grandes destructions. Instable mentalement, rit en lançant la dynamite. Sous son apparence folle se cache une experte en explosifs qui calcule chaque détonation au millimètre.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Petite femme, cheveux courts ébouriffés</li>
+                                <li>Ceinture garnie de bâtons de dynamite</li>
+                                <li>Sourire maniaque permanent, yeux fous</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Sentir l'adrénaline de l'explosion</li>
+                                <li>Détruire tout ce qui lui résiste</li>
+                                <li>Rire face au danger</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Rire constamment, surtout dans le danger</li>
+                                <li>Parler de la dynamite comme d'une amie</li>
+                                <li>Montrer l'excitation avant chaque explosion</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-combat">
+                            <strong>BOSS:</strong> 2 PV | Dynamite : zone 5m, tous à 4+ | Instable : peut cibler alliés par accident
+                        </div>
+                    </div>
+                    
+                    <!-- El Cuchillo -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🗡️ Vicente Morales</div>
+                                <div class="pnj-nickname">38 ans - "El Cuchillo" / "La Lame Silencieuse"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Ancien assassin du cartel mexicain, a fui après avoir refusé de tuer un enfant. Devenu chasseur de primes, utilise exclusivement des couteaux. Se déplace sans bruit, frappe sans prévenir, disparaît dans l'ombre. Les autres chasseurs le craignent autant que leurs cibles. A une règle personnelle : ne tue jamais d'enfants. Rosie pourrait être sa faiblesse.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Silencieux, toujours en mouvement furtif</li>
+                                <li>Poncho gris qui se fond dans l'ombre</li>
+                                <li>Visage couvert, arsenal de couteaux visible</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Perfectionner l'art du meurtre discret</li>
+                                <li>Protéger les innocents (surtout enfants)</li>
+                                <li>Rester invisible, imprévisible</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>NE JAMAIS PARLER (communiquer par gestes)</li>
+                                <li>Apparaître et disparaître sans prévenir</li>
+                                <li>Montrer l'hésitation face aux enfants</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-combat">
+                            <strong>BOSS:</strong> 2 PV | Attaque silencieuse : si non détecté (6+), touche auto | Expert infiltration
+                        </div>
+                    </div>
+                    
+                    <!-- Grandmother Moon -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🌙 Lune-Qui-Veille</div>
+                                <div class="pnj-nickname">80+ ans - "Grandmother Moon" / "La Chamane Apache"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Dernière gardienne d'une légende oubliée : l'or du Train appartenait à un chef apache assassiné en 1850. Avant de mourir, il a maudit son trésor : "Celui qui le vole verra la mort suivre son ombre." Elle sait que la malédiction est réelle – elle l'a vue frapper avant. Peut guider les héros vers le rituel de purification... mais le prix sera élevé. Parle peu, voit beaucoup, ses prophéties se réalisent toujours.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Très vieille femme, cheveux blancs tressés</li>
+                                <li>Bijoux en os et plumes d'aigle</li>
+                                <li>Yeux laiteux mais perçants, voit l'invisible</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Protéger l'équilibre spirituel du territoire</li>
+                                <li>Briser la malédiction avant destruction totale</li>
+                                <li>Transmettre la sagesse ancestrale</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Parler par énigmes et métaphores</li>
+                                <li>Voir le futur dans les signes</li>
+                                <li>Montrer le poids des siècles et de la sagesse</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-role">
+                            <strong>Rôle:</strong> Alliée mystérieuse | Guide spirituel | Enseigne le rituel de purification
+                        </div>
+                    </div>
+                    
+                    <!-- Rosie -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">👧 Rosie McKenzie</div>
+                                <div class="pnj-nickname">10 ans - "Red" / "La Petite Renarde"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Depuis le Train de l'Enfer, idolâtre les héros. S'entraîne au tir avec Blackman, monte à cheval, rêve de devenir chasseuse de primes. Quand les accusations tombent, elle est la seule à croire fermement en leur innocence. Suivra les héros malgré les interdictions – et son instinct pourrait sauver des vies. A grandi, mais reste imprudente.
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Maintenant habillée en apprentie cowgirl</li>
+                                <li>Revolver miniature à la ceinture (cadeau Blackman)</li>
+                                <li>Regard déterminé, plus mature qu'avant</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Aider ses héros coûte que coûte</li>
+                                <li>Prouver qu'elle est courageuse et compétente</li>
+                                <li>Devenir une vraie chasseuse de primes</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Montrer la croissance depuis Session 1</li>
+                                <li>Garder l'imprudence enfantine touchante</li>
+                                <li>Alterner fierté et moments de doute</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-role">
+                            <strong>Évolution:</strong> Peut tirer (5+) | 0 PV (assommée, jamais tuée) | Connaît Calavera
+                        </div>
+                    </div>
+                    
+                    <!-- Blackman -->
+                    <div class="pnj-card">
+                        <div class="pnj-header">
+                            <div>
+                                <div class="pnj-name">🤠 Walt Blackman</div>
+                                <div class="pnj-nickname">63 ans - "Iron" / "Le Vieux Clou"</div>
+                            </div>
+                        </div>
+                        <div class="pnj-presentation">
+                            Dévasté par la situation. La ville exige qu'il arrête "les voleurs". Il sait que c'est faux mais n'a aucune preuve. Quand les chasseurs de primes arrivent, doit choisir : la loi ou la justice. Sa décision déterminera le début du scénario. Dans son cœur, sait que les héros sont innocents. Mais peut-il risquer une émeute en les protégeant ?
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Physique</div>
+                            <ul class="pnj-list">
+                                <li>Épuisé, cernes profonds sous les yeux</li>
+                                <li>Étoile de shérif ternie par le doute</li>
+                                <li>Dos voûté par le poids de la décision</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Mental</div>
+                            <ul class="pnj-list">
+                                <li>Protéger la ville ET ses protégés</li>
+                                <li>Déchiré entre devoir et loyauté</li>
+                                <li>Cherche désespérément une solution</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-section">
+                            <div class="pnj-section-title">Conseils d'interprétation</div>
+                            <ul class="pnj-list">
+                                <li>Montrer le conflit intérieur constant</li>
+                                <li>Hésiter avant chaque action</li>
+                                <li>Chercher à aider en secret si possible</li>
+                            </ul>
+                        </div>
+                        <div class="pnj-role">
+                            <strong>Rôle:</strong> Allié conflictuel | Peut fournir ressources en secret | Crée dilemme moral
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 30px;">
+                    <h3>Groupe : Citoyens de Tecumah Gulch (MJ seulement)</h3>
+                    <ul>
+                        <li>Population terrorisée par les morts mystérieuses</li>
+                        <li>Transformés de fans en accusateurs par la peur</li>
+                        <li>Forment une foule hostile potentielle</li>
+                        <li>Certains restent loyaux mais ont peur de le montrer</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- LIEUX -->
+            <section id="lieux" class="section">
+                <h2>🗺️ LIEUX</h2>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Tecumah Gulch Transformée</div>
+                    <div class="lieu-location">Tecumah Gulch, Arizona - 14 jours après le Train de l'Enfer</div>
+                    <div class="pnj-section-title">Ambiance et Description</div>
+                    <ul class="lieu-ambiance">
+                        <li>Ville festive devenue lugubre, volets fermés, rues désertes</li>
+                        <li>Corbillard noir traverse rue principale, croix fraîches au cimetière</li>
+                        <li>Silence oppressant, pas de musique au saloon</li>
+                        <li>Chuchotements apeurés derrière portes, enseignes grincent au vent</li>
+                        <li>Odeur de mort et de peur, encens brûlé pour éloigner esprits</li>
+                        <li>Coffre de l'or sous surveillance, semble absorber lumière autour de lui</li>
+                        <li>Froid inhabituel pour l'Arizona, chair de poule constante</li>
+                        <li>Regards citoyens mêlent peur et accusation - trahison émotionnelle</li>
+                        <li>Arrivée des chasseurs crée tension électrique - danger imminent</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Badlands d'Arizona</div>
+                    <div class="lieu-location">Entre Tecumah Gulch et Calavera (6 heures à cheval)</div>
+                    <div class="pnj-section-title">Ambiance et Description</div>
+                    <ul class="lieu-ambiance">
+                        <li>Paysage désolé, formations rocheuses torturées par le vent</li>
+                        <li>Ciel orageux, éclairs au loin sans pluie</li>
+                        <li>Vent violent charrie poussière rouge comme du sang</li>
+                        <li>Sensation constante d'être suivi, observé par invisible</li>
+                        <li>Rochers instables, crevasses cachées partout</li>
+                        <li>Vautours plus nombreux qu'habituellement - mauvais présage</li>
+                        <li>Chaleur étouffante puis froid glacial à l'ombre</li>
+                        <li>Électricité statique dans l'air fait dresser les cheveux</li>
+                        <li>Échos étranges donnent impression de voix fantomatiques</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Campement Sacré Apache</div>
+                    <div class="lieu-location">Ancien lieu de cérémonie au milieu des Badlands</div>
+                    <div class="pnj-section-title">Ambiance et Description</div>
+                    <ul class="lieu-ambiance">
+                        <li>Cercle de pierres gravées de symboles anciens</li>
+                        <li>Restes de feux rituels, cendres jamais dispersées</li>
+                        <li>Impression de protection malgré l'hostilité environnante</li>
+                        <li>Vent s'arrête soudainement dans le cercle - silence absolu</li>
+                        <li>Grandmother Moon apparaît comme surgie de nulle part</li>
+                        <li>Fumée d'herbes sacrées crée visions fugaces</li>
+                        <li>Sensation de présence bienveillante des ancêtres</li>
+                        <li>Temps semble ralentir, étoiles visibles en plein jour</li>
+                        <li>Chaleur douce au centre malgré froid extérieur</li>
+                    </ul>
+                </div>
+                
+                <div class="lieu-card">
+                    <div class="lieu-title">Calavera - La Ville des Crânes</div>
+                    <div class="lieu-location">Ville fantôme abandonnée depuis 1860, à 8h de Tecumah Gulch</div>
+                    
+                    <h4 style="color: #E0AAFF; margin-top: 20px;">Jour (6h00-18h00)</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Bâtiments délabrés, planches pourries, fenêtres vides comme orbites</li>
+                        <li>Rue principale mène directement au cimetière immense</li>
+                        <li>Silence absolu - pas d'oiseaux, pas d'insectes, rien</li>
+                        <li>Ossements humains visibles dans certains bâtiments effondrés</li>
+                        <li>Saloon penche dangereusement, pourrait s'effondrer</li>
+                        <li>Froid inhabituel malgré soleil - l'endroit rejette la chaleur</li>
+                        <li>Impression constante d'être observé par bâtiments vides</li>
+                        <li>Poussière tourbillonne sans vent, forme parfois silhouettes</li>
+                    </ul>
+                    
+                    <h4 style="color: #E0AAFF; margin-top: 20px;">Nuit (18h00-6h00)</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Lune rouge énorme au-dessus du cimetière</li>
+                        <li>Feux follets dansent entre les tombes - âmes perdues</li>
+                        <li>Ombres bougent sans source de lumière</li>
+                        <li>Murmures incompréhensibles portés par le vent</li>
+                        <li>El Serpiente visible comme silhouette noire au cimetière</li>
+                        <li>Température chute brutalement, gel se forme</li>
+                        <li>Étoiles semblent plus proches, plus nombreuses</li>
+                        <li>Cimetière devient seul endroit "vivant" - paradoxe terrifiant</li>
+                    </ul>
+                    
+                    <h4 style="color: #E0AAFF; margin-top: 20px;">Le Cimetière (Lieu Final)</h4>
+                    <ul class="lieu-ambiance">
+                        <li>Cryptes en pierre gravées de noms espagnols et apaches</li>
+                        <li>Autel apache au centre avec symboles de malédiction</li>
+                        <li>200+ tombes de victimes de l'épidémie 1860</li>
+                        <li>Trois entrées principales (une par faction au duel final)</li>
+                        <li>Feu Sacré peut être allumé sur l'autel central</li>
+                        <li>Graffitis récents d'El Serpiente : menaces en espagnol</li>
+                        <li>Sol instable cache caveaux effondrés (danger de chute)</li>
+                        <li>Centre parfait pour duel mexicain - équidistance trois côtés</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 1 -->
+            <section id="scene1" class="section">
+                <h2>🎬 SCÈNES</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 1 : LES OMBRES DE TECUMAH GULCH</div>
+                        <div class="scene-synopsis">Deux semaines après leur triomphe, les héros sont traités en légendes. Mais cette nuit, un 4e citoyen meurt mystérieusement près du coffre de l'or. Au matin, <span data-pnj="grandmother_moon">Grandmother Moon</span> arrive avec ses avertissements. À midi, trois silhouettes entrent dans la ville : les chasseurs de primes. <span data-pnj="blackman">Blackman</span> doit faire un choix impossible.</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Date</div>
+                                    <div class="info-value">14 jours après le Train de l'Enfer</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Aube (6h00) puis Midi (12h00)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Ciel gris sombre, vent froid</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">30 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieu</div>
+                            <p><strong><span data-lieu="tecumah_gulch">Tecumah Gulch Transformée</span></strong> (voir section Lieux pour description complète)</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Personnages</div>
+                            <ul>
+                                <li><span data-pnj="grandmother_moon">Grandmother Moon</span> (arrive à l'aube)</li>
+                                <li>Les trois chasseurs de primes (arrivent à midi) : <span data-pnj="el_aguila">El Águila</span>, <span data-pnj="la_dynamita">La Dynamita</span>, <span data-pnj="el_cuchillo">El Cuchillo</span></li>
+                                <li><span data-pnj="blackman">Shérif Blackman</span> (déchiré, doit choisir)</li>
+                                <li><span data-pnj="rosie">Rosie</span> (seule à croire les héros)</li>
+                                <li>Citoyens effrayés (foule hostile potentielle)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Établir la transformation de <span data-lieu="tecumah_gulch">Tecumah Gulch</span> (triomphe → tragédie)</li>
+                                <li>Révéler les morts mystérieuses et la légende de la malédiction</li>
+                                <li>Introduire <span data-pnj="grandmother_moon">Grandmother Moon</span> et ses avertissements cryptiques</li>
+                                <li>Présenter les trois chasseurs de primes (menace immédiate)</li>
+                                <li>Forcer les héros à fuir ou se rendre</li>
+                                <li>Créer dilemme moral avec <span data-pnj="blackman">Blackman</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Informations à Révéler</div>
+                            <ul>
+                                <li>4 citoyens morts en 2 semaines, tous près du coffre de l'or</li>
+                                <li>Morts étranges : visages figés de terreur, griffures inexplicables</li>
+                                <li>Légende apache : Or appartenait au chef Loup-de-Nuit, assassiné 1850</li>
+                                <li>Il a maudit son trésor avant de mourir</li>
+                                <li>Avis de recherche falsifiés : 10 000$ par tête des "héros"</li>
+                                <li>Signés par faux "Marshal Johnson" (manipulation d'<span data-pnj="el_serpiente">El Serpiente</span>)</li>
+                                <li>Prophétie de <span data-pnj="grandmother_moon">Grandmother Moon</span> : "Trois ombres chassent, une ombre attend. Ville des crânes, lune pleine, serpent danse avec aigles."</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Les héros fuient avant l'arrestation →</strong> Poursuite immédiate</li>
+                                <li><strong>Les héros se rendent →</strong> <span data-pnj="blackman">Blackman</span> les aide à s'échapper la nuit</li>
+                                <li><strong>Les héros convainquent <span data-pnj="blackman">Blackman</span> →</strong> Il crée diversion</li>
+                                <li><strong><span data-pnj="rosie">Rosie</span> suit en secret →</strong> Révélée plus tard sur la route</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Rendre les citoyens stupides : Ils sont terrifiés, pas idiots</li>
+                                    <li>Faire apparaître les chasseurs trop tôt : Laisser tension monter</li>
+                                    <li>Oublier <span data-pnj="grandmother_moon">Grandmother Moon</span> : Elle est la clé de la malédiction</li>
+                                    <li>Négliger <span data-pnj="blackman">Blackman</span> : Son choix définit sa relation future</li>
+                                    <li>Forcer une issue : Laisser joueurs décider fuir ou rester</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 2 -->
+            <section id="scene2" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 2 : LE CHEMIN DES MORTS</div>
+                        <div class="scene-synopsis">Les héros fuient <span data-lieu="tecumah_gulch">Tecumah Gulch</span>, poursuivis par les chasseurs de primes. La traversée des <span data-lieu="chemin_morts">Badlands</span> est périlleuse : pièges de <span data-pnj="la_dynamita">Dynamita</span>, tirs longue distance d'<span data-pnj="el_aguila">El Águila</span>, embuscades d'<span data-pnj="el_cuchillo">El Cuchillo</span>. Au milieu du désert, <span data-pnj="grandmother_moon">Grandmother Moon</span> les attend au Campement Sacré. Elle révèle la vérité sur la malédiction et le seul moyen de la briser : un rituel au cœur de <span data-lieu="calavera">Calavera</span>.</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">13h00-17h00</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Orageux, éclairs sans pluie, vent violent</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">40 minutes (3 phases)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieux</div>
+                            <p><strong><span data-lieu="chemin_morts">Badlands d'Arizona</span> puis Campement Sacré Apache</strong> (voir section Lieux)</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Personnages</div>
+                            <ul>
+                                <li>Les trois chasseurs de primes (poursuivants implacables) : <span data-pnj="el_aguila">El Águila</span>, <span data-pnj="la_dynamita">Dynamita</span>, <span data-pnj="el_cuchillo">El Cuchillo</span></li>
+                                <li><span data-pnj="grandmother_moon">Grandmother Moon</span> (au Campement Sacré)</li>
+                                <li><span data-pnj="rosie">Rosie</span> (si elle a suivi, révélée maintenant)</li>
+                                <li>Esprits apaches (visions fugaces dans le campement)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Créer tension de la poursuite à travers terrain hostile</li>
+                                <li>Tester capacités des joueurs contre trois boss différents</li>
+                                <li>Établir personnalités distinctes des chasseurs de primes</li>
+                                <li>Révéler la vérité complète sur la malédiction</li>
+                                <li>Enseigner le rituel de purification (complexe, en plusieurs étapes)</li>
+                                <li>Orienter les héros vers <span data-lieu="calavera">Calavera</span> (piège d'<span data-pnj="el_serpiente">El Serpiente</span>)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Informations à Révéler</div>
+                            <ul>
+                                <li><span data-pnj="el_aguila">El Águila</span> traque méthodiquement, tire de très loin</li>
+                                <li><span data-pnj="la_dynamita">Dynamita</span> pose pièges explosifs sur la route</li>
+                                <li><span data-pnj="el_cuchillo">El Cuchillo</span> attaque de nuit, silencieusement</li>
+                                <li>Malédiction complète : "Le sang versé appelle le sang. Seul le feu sacré purifie."</li>
+                                <li><strong>Rituel de purification complet :</strong>
+                                    <ol>
+                                        <li>Trouver le Feu Sacré (autel apache au <span data-lieu="cimetiere">cimetière de Calavera</span>)</li>
+                                        <li>Brûler une offrande personnelle de chaque héros</li>
+                                        <li>Prononcer les mots de Loup-de-Nuit en apache</li>
+                                        <li>Verser son propre sang volontairement sur l'or</li>
+                                        <li><span data-pnj="el_serpiente">El Serpiente</span> doit mourir (il est lié à la vengeance)</li>
+                                    </ol>
+                                </li>
+                                <li>Vision mystique : flash de Loup-de-Nuit assassiné, <span data-lieu="calavera">Calavera</span> sous la lune, <span data-pnj="el_serpiente">El Serpiente</span> dansant sur les tombes</li>
+                                <li>Prophétie : "Au cimetière, trois chemins se croisent. Balance de l'or et du sang."</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Héros distancent chasseurs →</strong> Arrivent à <span data-lieu="calavera">Calavera</span> avec avance</li>
+                                <li><strong>Chasseurs toujours proches →</strong> Arrivent presque simultanément</li>
+                                <li><strong>Un chasseur capturé/éliminé →</strong> Les deux autres plus dangereux</li>
+                                <li><strong>Alliance temporaire →</strong> Possible avec un chasseur si bien argumenté</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Tuer les chasseurs trop facilement : Ce sont des BOSS</li>
+                                    <li>Rendre poursuite monotone : Varier les obstacles et tactiques</li>
+                                    <li>Oublier <span data-pnj="rosie">Rosie</span> si elle suit : Elle connaît raccourci vers <span data-lieu="calavera">Calavera</span></li>
+                                    <li>Négliger ambiance surnaturelle : Visions, présages, signes</li>
+                                    <li>Rendre rituel trop simple : Il doit coûter quelque chose</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 3 -->
+            <section id="scene3" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 3 : CALAVERA, LA VILLE DES CRÂNES</div>
+                        <div class="scene-synopsis">Les héros arrivent à <span data-lieu="calavera">Calavera</span> au crépuscule. La ville fantôme est encore plus sinistre que dans les légendes. Ils doivent l'explorer, trouver des indices sur <span data-pnj="el_serpiente">El Serpiente</span>, éviter ses pièges, et se préparer pour le rituel. Au <span data-lieu="cimetiere">cimetière</span>, sous la pleine lune, trois factions convergent : les héros, <span data-pnj="el_serpiente">El Serpiente</span>, et les chasseurs de primes. Le duel mexicain final commence. Tout le monde combat tout le monde.</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Crépuscule (18h) → Nuit pleine lune (21h)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Lune rouge, vent glacial, feux follets</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">50 minutes (3 phases)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Lieu</div>
+                            <p><strong><span data-lieu="calavera">Calavera</span> - La Ville des Crânes et son <span data-lieu="cimetiere">Cimetière</span></strong> (voir section Lieux)</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Personnages</div>
+                            <ul>
+                                <li><span data-pnj="el_serpiente">El Serpiente</span> (boss final, attend au cimetière)</li>
+                                <li>Les trois chasseurs de primes (arrivent par trois directions) : <span data-pnj="el_aguila">El Águila</span>, <span data-pnj="la_dynamita">Dynamita</span>, <span data-pnj="el_cuchillo">El Cuchillo</span></li>
+                                <li>Esprits des morts (présences inquiétantes)</li>
+                                <li>Lucky Jim (prisonnier d'<span data-pnj="el_serpiente">El Serpiente</span>, peut être libéré)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Explorer la ville fantôme, trouver indices et ressources</li>
+                                <li>Éviter/désamorcer les pièges d'<span data-pnj="el_serpiente">El Serpiente</span></li>
+                                <li>Préparer le rituel de purification (trouver les éléments)</li>
+                                <li>Survivre au duel mexicain à trois factions</li>
+                                <li>Briser la malédiction (accomplir le rituel pendant le combat)</li>
+                                <li>Décider du sort d'<span data-pnj="el_serpiente">El Serpiente</span> et des chasseurs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Le Duel Mexicain Final</div>
+                            <p><strong>COMBAT À TROIS FACTIONS</strong> - Tout le monde combat tout le monde. Alliances temporaires possibles.</p>
+                            
+                            <h4>Faction 1 - Les Héros</h4>
+                            <ul>
+                                <li>Position : Sud du <span data-lieu="cimetiere">cimetière</span> (près de l'autel)</li>
+                                <li>Avantage : Peuvent accomplir le rituel pendant le combat</li>
+                                <li>Désavantage : Cible de tous</li>
+                            </ul>
+                            
+                            <h4>Faction 2 - <span data-pnj="el_serpiente">El Serpiente</span> (2 PV)</h4>
+                            <ul>
+                                <li>Position : Nord du <span data-lieu="cimetiere">cimetière</span> (sur grande crypte)</li>
+                                <li>Tire possédé (4+), Rage du Mourant à 1 PV</li>
+                                <li>Si rituel accompli : visions terrifiantes le paralysent (-1 à ses jets)</li>
+                            </ul>
+                            
+                            <h4>Faction 3 - Les Chasseurs</h4>
+                            <ul>
+                                <li><span data-pnj="el_aguila">El Águila</span> (2 PV) : Sniper, reste en hauteur, tire à 3+. Peut négocier alliance</li>
+                                <li><span data-pnj="la_dynamita">Dynamita</span> (2 PV) : Zone 5m à 4+. Peut être convaincue d'exploser crypte (5+)</li>
+                                <li><span data-pnj="el_cuchillo">El Cuchillo</span> (2 PV) : Furtif (6+ pour détecter). Faiblesse : <span data-pnj="rosie">Rosie</span> peut le retourner (6)</li>
+                            </ul>
+                            
+                            <h4>Événements Dynamiques (par round)</h4>
+                            <ul>
+                                <li><strong>Round 3 :</strong> <span data-pnj="la_dynamita">Dynamita</span> fait exploser crypte → débris volent</li>
+                                <li><strong>Round 5 :</strong> <span data-pnj="el_aguila">El Águila</span> et héros dos à dos face <span data-pnj="el_serpiente">El Serpiente</span> → alliance ou trahison ?</li>
+                                <li><strong>Round 7 :</strong> <span data-pnj="rosie">Rosie</span> vole revolver, tire sur <span data-pnj="el_cuchillo">El Cuchillo</span> (5+)</li>
+                                <li><strong>Round 9 :</strong> Si rituel accompli → esprits apparaissent, <span data-pnj="el_serpiente">El Serpiente</span> paralysé 1 tour</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Victoire Héroïque Totale →</strong> <span data-pnj="el_serpiente">El Serpiente</span> mort, chasseurs vaincus, malédiction brisée</li>
+                                <li><strong>Victoire par Alliance →</strong> <span data-pnj="el_serpiente">El Serpiente</span> mort, alliance <span data-pnj="el_aguila">El Águila</span>, or partagé</li>
+                                <li><strong>Victoire Pyrrhique →</strong> <span data-pnj="el_serpiente">El Serpiente</span> mort, héros blessés, chasseurs fuient</li>
+                                <li><strong>Échec Relatif →</strong> <span data-pnj="el_serpiente">El Serpiente</span> s'échappe, malédiction persiste → Session 3</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Simplifier le duel à trois : C'est le climax, doit être chaotique</li>
+                                    <li>Oublier les alliances temporaires : Essence du duel mexicain</li>
+                                    <li>Négliger le rituel : Doit être accompli PENDANT le combat</li>
+                                    <li>Tuer <span data-pnj="el_serpiente">El Serpiente</span> trop vite : C'est le boss final, doit être épique</li>
+                                    <li>Rendre chasseurs unidimensionnels : Ont motivations, peuvent changer</li>
+                                    <li>Oublier <span data-pnj="rosie">Rosie</span> : Son action peut changer le cours du combat</li>
+                                    <li>Négliger ambiance surnaturelle : Esprits, lune rouge, feux follets</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 4 -->
+            <section id="scene4" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 4 : LE PRIX DE LA VICTOIRE</div>
+                        <div class="scene-synopsis">Le combat est terminé. <span data-pnj="el_serpiente">El Serpiente</span> est mort (ou en fuite). Les héros doivent faire des choix : que faire des chasseurs survivants ? De l'or ? Comment rentrer à <span data-lieu="tecumah_gulch">Tecumah Gulch</span> ? La malédiction est-elle vraiment brisée ?</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Minuit (00h00)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Lune redevient blanche, vent se calme</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">5-10 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Objectifs</div>
+                            <ul>
+                                <li>Résoudre destins des chasseurs de primes</li>
+                                <li>Décider du sort de l'or (le garder, le détruire, le rendre)</li>
+                                <li>Vérifier que malédiction est brisée (signes positifs)</li>
+                                <li>Consolider liens entre personnages</li>
+                                <li>Planter graines pour futures aventures</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Choix et Conséquences</div>
+                            
+                            <h4>Choix A - Les Chasseurs (si vivants)</h4>
+                            <ul>
+                                <li><strong>Les tuer :</strong> Fin définitive mais pèse sur conscience</li>
+                                <li><strong>Les capturer :</strong> Ramenés à <span data-lieu="tecumah_gulch">Tecumah Gulch</span>, procès public</li>
+                                <li><strong>Les libérer :</strong> Peuvent revenir en alliés... ou ennemis</li>
+                                <li><strong>Alliance permanente :</strong> <span data-pnj="el_aguila">El Águila</span> devient allié récurrent</li>
+                            </ul>
+                            
+                            <h4>Choix B - L'Or Maudit</h4>
+                            <ul>
+                                <li><strong>Le rendre à <span data-lieu="tecumah_gulch">Tecumah Gulch</span> :</strong> Malédiction définitivement brisée, héroïsme total</li>
+                                <li><strong>Le laisser à <span data-lieu="calavera">Calavera</span> :</strong> Rituel funéraire apache, respect des ancêtres</li>
+                                <li><strong>En garder une part :</strong> Risque que malédiction persiste (10% chance)</li>
+                                <li><strong>Le détruire rituellement :</strong> Fondre et disperser, fin absolue</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Vers Scène 5 (Épilogue) :</strong> Retour à <span data-lieu="tecumah_gulch">Tecumah Gulch</span></li>
+                                <li><strong>Vers Session 3 :</strong> Carmen revient, nouveau gang, nouvelles menaces</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Résoudre trop vite : Laisser moment respirer</li>
+                                    <li>Oublier conséquences émotionnelles : Combat a été traumatisant</li>
+                                    <li>Négliger l'or : C'est l'origine de tout, doit être traité</li>
+                                    <li>Forcer choix moral : Laisser joueurs décider librement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 5 -->
+            <section id="scene5" class="section">
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">SCÈNE 5 : ÉPILOGUE - HÉROS OU LÉGENDES ?</div>
+                        <div class="scene-synopsis">Retour à <span data-lieu="tecumah_gulch">Tecumah Gulch</span> au lever du soleil. La nouvelle de la victoire arrive avant eux. <span data-pnj="blackman">Blackman</span> les accueille, la foule est partagée entre honte et soulagement. Les morts ont cessé. La malédiction est brisée. Mais à quel prix ? Les héros sont-ils toujours les mêmes ?</div>
+                    </div>
+                    
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Aube, lever de soleil (6h00)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Météo</div>
+                                    <div class="info-value">Ciel clair, premiers rayons dorés</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée</div>
+                                    <div class="info-value">5 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Ambiance</div>
+                            <ul class="lieu-ambiance">
+                                <li>Soleil levant chasse les ombres (symbolique)</li>
+                                <li>Ville qui reprend vie lentement</li>
+                                <li>Certains citoyens honteux, d'autres joyeux</li>
+                                <li><span data-pnj="blackman">Blackman</span> ému aux larmes (rare pour lui)</li>
+                                <li><span data-pnj="rosie">Rosie</span> célébrée comme héroïne aussi</li>
+                                <li>Sentiment de victoire mais aussi de perte</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Récompenses Finales</div>
+                            
+                            <h4>💰 Argent</h4>
+                            <ul>
+                                <li>800$ de base (si or rendu)</li>
+                                <li>+300$ si malédiction brisée avec rituel complet</li>
+                                <li>+200$ si tous les chasseurs vaincus</li>
+                                <li>+100$ si Lucky Jim sauvé</li>
+                            </ul>
+                            
+                            <h4>⭐ Réputation</h4>
+                            <ul>
+                                <li>Titre : "Les Briseurs de Malédiction"</li>
+                                <li>Respect des Apaches (important pour futur)</li>
+                                <li>Pardon des citoyens de <span data-lieu="tecumah_gulch">Tecumah Gulch</span></li>
+                                <li>Histoire devient légende du territoire</li>
+                            </ul>
+                            
+                            <h4>🎁 Objets</h4>
+                            <ul>
+                                <li>Amulette apache de protection (<span data-pnj="grandmother_moon">Grandmother Moon</span>)</li>
+                                <li>Fusil longue portée d'<span data-pnj="el_aguila">El Águila</span> (si vaincu)</li>
+                                <li>Dynamite de <span data-pnj="la_dynamita">Rosa</span> (si récupérée)</li>
+                                <li>Poncho d'<span data-pnj="el_serpiente">El Serpiente</span> (trophée final)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Évolution des Personnages</div>
+                            <ul>
+                                <li><span data-pnj="rosie">Rosie</span> officiellement apprentie deputy</li>
+                                <li><span data-pnj="blackman">Blackman</span> propose de former les héros comme marshals</li>
+                                <li>Lucky Jim ouvre atelier mécanique à <span data-lieu="tecumah_gulch">Tecumah Gulch</span></li>
+                                <li>Relations avec PNJ évoluent selon choix faits</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">Erreurs à Éviter</div>
+                            <div class="warning">
+                                <ul style="margin: 0;">
+                                    <li>Bâcler épilogue : C'est la conclusion de l'arc</li>
+                                    <li>Oublier citoyens qui ont douté : Doivent demander pardon</li>
+                                    <li>Négliger évolution <span data-pnj="rosie">Rosie</span> : Elle a grandi encore</li>
+                                    <li>Rendre victoire trop facile : Doit avoir coûté quelque chose</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- HOOKS -->
+            <section id="hooks" class="section">
+                <h2>🔗 HOOKS POUR SESSION 3</h2>
+                
+                <div class="card">
+                    <ol>
+                        <li><strong>Carmen "La Bruja" revient</strong> avec nouveau gang pour venger El Serpiente</li>
+                        <li><strong>Le Baron Mexicain</strong> (propriétaire original de l'or) veut récupérer son bien</li>
+                        <li><strong>Marshal Fédéral</strong> arrive enquêter sur falsification des avis de recherche</li>
+                        <li><strong>Grandmother Moon</strong> prédit nouvelle menace : "L'ombre du serpent a des enfants"</li>
+                        <li><strong>El Águila</strong> (si allié) propose chasse au trésor légendaire au Mexique</li>
+                        <li><strong>Dynamita</strong> (si survit) revient avec gang d'explosifs</li>
+                        <li><strong>Culte adorateur de Loup-de-Nuit</strong> veut venger profanation du Feu Sacré</li>
+                        <li><strong>Lucky Jim</strong> découvre plans d'El Serpiente : cache secrète de 100 000$ en or</li>
+                        <li><strong>Rosie disparaît</strong> - enlevée par survivants des Hermanos Muerte</li>
+                        <li><strong>La malédiction se déplace</strong> - l'or était juste le début, terre elle-même maudite</li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <h3>🔥 Rituel de Purification Complet</h3>
+                    <h4>Étapes du Rituel</h4>
+                    <ol>
+                        <li><strong>Trouver le Feu Sacré :</strong> Autel apache au centre du cimetière de Calavera</li>
+                        <li><strong>Offrandes Personnelles :</strong> Chaque héros brûle objet sentimental, arme favorite, ou promesse future</li>
+                        <li><strong>Mots Sacrés :</strong> Prononcer en apache : "Shíłą́ągo, nidááh. Ałk'idą́ą́ʼ baa naʼídííłkeed." (Mon sang, ta paix. Que les ombres retrouvent le repos.)</li>
+                        <li><strong>Sacrifice de Sang :</strong> Couper paume volontairement, verser sang sur l'or</li>
+                        <li><strong>Mort du Serpent :</strong> El Serpiente doit mourir (lié spirituellement à la vengeance)</li>
+                    </ol>
+                    
+                    <h4>Signes de Réussite</h4>
+                    <ul>
+                        <li>Flammes du Feu Sacré deviennent bleues</li>
+                        <li>Esprits apaches apparaissent, paisibles</li>
+                        <li>Froid surnaturel disparaît</li>
+                        <li>Lune redevient blanche</li>
+                        <li>Or perd son éclat malsain</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📚 Équipement Disponible</h3>
+                    
+                    <h4>À Tecumah Gulch (début)</h4>
+                    <ul>
+                        <li>Provisions pour 3 jours</li>
+                        <li>Munitions limitées (18 balles par héros)</li>
+                        <li>1 gourde d'eau chacun</li>
+                        <li>Carte basique du territoire</li>
+                        <li>Chevaux fatigués (ont besoin repos)</li>
+                    </ul>
+                    
+                    <h4>Trouvable à Calavera</h4>
+                    <ul>
+                        <li>Dynamite (6 bâtons dans vieux saloon)</li>
+                        <li>Munitions variées (coffre dans ancienne banque)</li>
+                        <li>Provisions sèches (grange effondrée)</li>
+                        <li>Bois sacré pour rituel (vieille église)</li>
+                        <li>Winchester d'El Serpiente (si vaincu)</li>
+                    </ul>
+                    
+                    <h4>Donné par Grandmother Moon</h4>
+                    <ul>
+                        <li>Herbes médicinales (+1 PV si consommées)</li>
+                        <li>Amulette de protection temporaire (+1 jet crucial)</li>
+                        <li>Poudre pour révéler pièges invisibles</li>
+                        <li>Carte précise vers Calavera</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p><strong>💀 LA MALÉDICTION DE CALAVERA</strong></p>
+            <p>Scénario Western Spaghetti pour système d6 Cow-boy - Session 2</p>
+            <p>Durée: 2 heures | Joueurs: 3-5 (11-14 ans)</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Timer fonctionnel
+        let timerSeconds = 0;
+        let timerInterval = null;
+        
+        function startTimer() {
+            if (!timerInterval) {
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 0;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            document.getElementById('time-display').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // Lanceur de dés
+        function rollDice() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const resultElement = document.getElementById('dice-result');
+            
+            resultElement.textContent = '🎲';
+            resultElement.style.transform = 'scale(1.3) rotate(360deg)';
+            
+            setTimeout(() => {
+                resultElement.textContent = result;
+                resultElement.style.transform = 'scale(1)';
+                
+                if (result >= 4) {
+                    resultElement.style.background = 'rgba(138, 43, 226, 0.8)';
+                } else {
+                    resultElement.style.background = 'rgba(90, 24, 154, 0.8)';
+                }
+                
+                setTimeout(() => {
+                    resultElement.style.background = 'rgba(138, 43, 226, 0.3)';
+                }, 1000);
+            }, 300);
+        }
+        
+        // Navigation
+        function showSection(sectionId) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Désactiver tous les boutons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Activer la section sélectionnée
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activer le bouton correspondant
+            event.target.classList.add('active');
+            
+            // Scroll vers le haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // ===== SYSTÈME D'INFO-BULLES =====
+        const pnjData = {
+            "rosie": {
+                nom: "Rosie 'Red' McKenzie",
+                surnom: "11 ans - La Petite Légende",
+                description: "A évolué depuis Session 1. S'entraîne au tir avec Blackman, idolâtre les héros. Seule à croire en leur innocence. Courageuse mais imprudente.",
+                combat: "1 PV - Tire à 5+ (progrès!) - Ne peut être tuée (assommée seulement)",
+                role: "Alliée fidèle - +1 bonus jets - Peut retourner El Cuchillo (jet 6)"
+            },
+            "blackman": {
+                nom: "Shérif Walt 'Iron' Blackman",
+                surnom: "63 ans - Le Vieux Clou",
+                description: "Déchiré entre loi et justice. Sait que héros innocents mais pression de la ville. Doit choisir : arrêter protégés ou aider en secret.",
+                role: "Allié secret - Fournit ressources cachées - Crée diversions"
+            },
+            "grandmother_moon": {
+                nom: "Grandmother Moon",
+                surnom: "Chamane Apache - Âge inconnu",
+                description: "Dernière gardienne de la légende de l'Or de Sang. Arrive pour avertir de la malédiction. Connaît rituel pour briser malédiction.",
+                role: "Guide spirituel - Explique malédiction - Peut aider rituel final"
+            },
+            "el_aguila": {
+                nom: "Santiago 'El Águila' Rojas",
+                surnom: "38 ans - L'Œil Perçant",
+                description: "Chasseur de primes méthodique. Traque pour l'honneur pas l'argent. Respecte adversaires courageux. Code moral strict.",
+                combat: "BOSS - 2 PV - Fusil longue portée 3+ - Vision perçante (repère cachés 4+)"
+            },
+            "la_dynamita": {
+                nom: "Rosa 'La Dynamita' Vega",
+                surnom: "32 ans - Poudre et Fureur",
+                description: "Experte explosifs. Impulsive et dangereuse. Jubile dans destruction. Veut exploser quelque chose à chaque scène.",
+                combat: "BOSS - 2 PV - Lance dynamite 4+ (explosion zone 3m) - Piège explosifs"
+            },
+            "el_cuchillo": {
+                nom: "Miguel 'El Cuchillo' Vargas",
+                surnom: "45 ans - Lame Silencieuse",
+                description: "Assassin silencieux. Sadique qui aime voir peur. Expert torture et intimidation. Menace otages pour forcer héros.",
+                combat: "BOSS - 2 PV - Couteaux lancer 4+ - Combat rapproché 3+ - Prend otages"
+            },
+            "el_serpiente": {
+                nom: "Rodrigo 'El Serpiente' Muerte",
+                surnom: "35 ans - Le Serpent Vengeur",
+                description: "Retour possible si survécu Session 1. Veut vengeance mais aussi récupérer or maudit. Maître manipulateur tire ficelles depuis Calavera.",
+                combat: "BOSS FINAL - 2 PV - Fouet + Revolver - Négocie avant combattre",
+                role: "Antagoniste principal ou allié forcé selon choix Session 1"
+            },
+            "padre_muerte": {
+                nom: "Padre Esteban Muerte",
+                surnom: "Frère aîné El Serpiente",
+                description: "Prêtre renégat de Calavera. Cherche or maudit pour rituel sombre. Connaît vérité malédiction apache.",
+                combat: "BOSS SECRET - 2 PV - Malédictions 5+ - Invoque esprits",
+                role: "Vrai cerveau si El Serpiente mort Session 1"
+            }
+        };
 
+        const lieuxData = {
+            "tecumah_gulch": {
+                nom: "Tecumah Gulch",
+                lieu: "Ville des héros (Session 1)",
+                description: "Devenue hostile. 4 morts mystérieuses. Peur et suspicion règnent. Or maudit caché quelque part.",
+                ambiance: "Portes fermées, regards accusateurs, silence lourd, cloches funèbres"
+            },
+            "chemin_morts": {
+                nom: "Le Chemin des Morts",
+                lieu: "Route vers Calavera (2h cheval)",
+                description: "Sentier sinueux désert. Ossements blanchis jalonnent route. Présences invisibles suivent voyageurs. Point non-retour.",
+                ambiance: "Vent gémit, crânes animaux, sensation yeux dans dos, chevaux nerveux"
+            },
+            "calavera": {
+                nom: "Calavera - Ville Fantôme",
+                lieu: "Village abandonné 1842",
+                description: "Ancienne mission espagnole. Massacre apache 1842. Bâtiments délabrés, église effondrée, cimetière hanté.",
+                ambiance: "Pleine lune éclaire crânes, ombres mouvantes, cris lointains, froid surnaturel"
+            },
+            "cimetiere": {
+                nom: "Cimetière de Calavera",
+                lieu: "Lieu du duel final",
+                description: "Tombes apaches et espagnoles mêlées. Crypte centrale contient or maudit. Terre consacrée empêche esprits.",
+                ambiance: "Croix brisées, brume rampante, silence absolu avant tempête finale"
+            }
+        };
+
+        function createTooltip(element, data) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            
+            if (data.combat || data.role) { // PNJ
+                tooltip.innerHTML = `
+                    <div class="tooltip-header">${data.nom}</div>
+                    <div class="tooltip-surnom">${data.surnom}</div>
+                    <div class="tooltip-text">${data.description}</div>
+                    ${data.combat ? `<div class="tooltip-combat">⚔️ ${data.combat}</div>` : ''}
+                    ${data.role ? `<div class="tooltip-role">📋 ${data.role}</div>` : ''}
+                `;
+            } else { // Lieu
+                tooltip.innerHTML = `
+                    <div class="tooltip-header">${data.nom}</div>
+                    <div class="tooltip-lieu">📍 ${data.lieu}</div>
+                    <div class="tooltip-text">${data.description}</div>
+                    <div class="tooltip-ambiance">🎭 ${data.ambiance}</div>
+                `;
+            }
+            
+            document.body.appendChild(tooltip);
+            
+            element.addEventListener('mouseenter', (e) => {
+                tooltip.style.display = 'block';
+                positionTooltip(e, tooltip);
+            });
+            
+            element.addEventListener('mousemove', (e) => {
+                positionTooltip(e, tooltip);
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        }
+
+        function positionTooltip(e, tooltip) {
+            const padding = 15;
+            let x = e.pageX + padding;
+            let y = e.pageY + padding;
+            
+            // Ajuster si déborde à droite
+            if (x + tooltip.offsetWidth > window.innerWidth + window.scrollX) {
+                x = e.pageX - tooltip.offsetWidth - padding;
+            }
+            
+            // Ajuster si déborde en bas
+            if (y + tooltip.offsetHeight > window.innerHeight + window.scrollY) {
+                y = e.pageY - tooltip.offsetHeight - padding;
+            }
+            
+            tooltip.style.left = x + 'px';
+            tooltip.style.top = y + 'px';
+        }
+
+        // Initialisation des info-bulles
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ajouter les info-bulles PNJ
+            document.querySelectorAll('[data-pnj]').forEach(element => {
+                const pnjId = element.getAttribute('data-pnj');
+                if (pnjData[pnjId]) {
+                    element.classList.add('tooltip-trigger', 'tooltip-trigger-pnj');
+                    createTooltip(element, pnjData[pnjId]);
+                }
+            });
+            
+            // Ajouter les info-bulles Lieux
+            document.querySelectorAll('[data-lieu]').forEach(element => {
+                const lieuId = element.getAttribute('data-lieu');
+                if (lieuxData[lieuId]) {
+                    element.classList.add('tooltip-trigger', 'tooltip-trigger-lieu');
+                    createTooltip(element, lieuxData[lieuId]);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
