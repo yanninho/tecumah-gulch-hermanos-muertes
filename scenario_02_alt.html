@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇲🇽 La Traque au-delà du Rio Grande - Scénario JDR</title>
+    
+    <!-- ============================================
+         STYLES CSS
+         ============================================ -->
+    <style>
+        /* === FONTS === */
+        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Bitter:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+        
+        /* === CSS VARIABLES === */
+        :root {
+            --primary-bg: #1a0f0a;
+            --secondary-bg: #3d2817;
+            --accent-red: #B8001A;
+            --accent-gold: #D4AF37;
+            --accent-turquoise: #40E0D0;
+            --text-light: #F5DEB3;
+            --text-sand: #DEB887;
+            --border-dark: #654321;
+            --shadow-heavy: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* === BODY === */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 50%, var(--primary-bg) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        /* === CONTAINER === */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(26, 15, 10, 0.95);
+            border: 8px solid var(--accent-red);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px var(--shadow-heavy);
+            overflow: hidden;
+        }
+        
+        /* === HEADER === */
+        header {
+            background: linear-gradient(to bottom, #0f0a08, var(--primary-bg));
+            color: var(--accent-gold);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-red);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '🇲🇽';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: wave 3s ease-in-out infinite;
+        }
+        
+        header::after {
+            content: '🌵';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            opacity: 0.3;
+            animation: sway 4s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+            50% { transform: translateY(-55%) rotate(5deg); }
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            50% { transform: translateY(-50%) rotate(3deg); }
+        }
+        
+        h1 {
+            font-family: 'Rye', cursive;
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(184, 0, 26, 0.9);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: var(--accent-turquoise);
+            font-style: italic;
+        }
+        
+        .context-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(184, 0, 26, 0.2);
+            border-left: 4px solid var(--accent-red);
+            font-size: 0.95em;
+            text-align: left;
+            color: var(--text-sand);
+        }
+        
+        /* === TOOLS BAR === */
+        .tools-bar {
+            background: var(--secondary-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 3px solid var(--accent-red);
+        }
+        
+        .timer {
+            background: rgba(184, 0, 26, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: var(--accent-gold);
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timer-controls button {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+        
+        .timer-controls button:hover {
+            background: #D4001F;
+            transform: scale(1.05);
+        }
+        
+        .dice-roller {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dice-button {
+            background: var(--accent-turquoise);
+            color: var(--primary-bg);
+            border: 3px solid #2A9D8F;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Rye', cursive;
+        }
+        
+        .dice-button:hover {
+            background: #5FF5E5;
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .dice-result {
+            background: rgba(184, 0, 26, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* === NAVIGATION === */
+        nav {
+            background: #2d1810;
+            padding: 20px 30px;
+            border-bottom: 3px solid var(--accent-red);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: var(--secondary-bg);
+            color: var(--text-sand);
+            border: 2px solid var(--border-dark);
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--accent-red);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(184, 0, 26, 0.4);
+        }
+        
+        /* === CONTENT === */
+        .content {
+            padding: 40px;
+            min-height: 600px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* === TYPOGRAPHY === */
+        h2 {
+            font-family: 'Rye', cursive;
+            color: var(--accent-gold);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--accent-red);
+            padding-bottom: 10px;
+            text-shadow: 2px 2px 4px var(--shadow-heavy);
+        }
+        
+        h3 {
+            font-family: 'Bitter', serif;
+            color: var(--accent-turquoise);
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: var(--accent-gold);
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        p, li {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        /* === CARDS === */
+        .card {
+            background: rgba(61, 40, 23, 0.4);
+            border: 3px solid var(--accent-red);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(184, 0, 26, 0.4);
+            border-color: var(--accent-gold);
+        }
+        
+        /* === PNJ CARDS === */
+        .pnj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .pnj-card {
+            background: linear-gradient(135deg, rgba(61, 40, 23, 0.6) 0%, rgba(26, 15, 10, 0.8) 100%);
+            border: 3px solid var(--accent-red);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pnj-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+        
+        .pnj-card:hover::before {
+            top: 100%;
+            right: 100%;
+        }
+        
+        .pnj-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 40px rgba(184, 0, 26, 0.5);
+        }
+        
+        .pnj-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        
+        .pnj-name {
+            font-family: 'Rye', cursive;
+            font-size: 1.8em;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .pnj-nickname {
+            font-style: italic;
+            color: var(--accent-turquoise);
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .pnj-description {
+            color: var(--text-sand);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .pnj-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-block {
+            background: rgba(184, 0, 26, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-red);
+        }
+        
+        .stat-title {
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        
+        .stat-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.9em;
+        }
+        
+        .stat-list li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .stat-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-turquoise);
+        }
+        
+        /* === LIEU CARDS === */
+        .lieu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .lieu-card {
+            background: linear-gradient(135deg, rgba(61, 40, 23, 0.5) 0%, rgba(26, 15, 10, 0.7) 100%);
+            border: 3px solid var(--accent-turquoise);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.4s;
+        }
+        
+        .lieu-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 40px rgba(64, 224, 208, 0.3);
+        }
+        
+        .lieu-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        
+        .lieu-name {
+            font-family: 'Bitter', serif;
+            font-size: 1.8em;
+            color: var(--accent-turquoise);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .lieu-location {
+            color: var(--text-sand);
+            text-align: center;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .lieu-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* === SCENE CARDS === */
+        .scene-card {
+            background: rgba(61, 40, 23, 0.3);
+            border: 4px solid var(--accent-red);
+            border-radius: 15px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .scene-header {
+            background: linear-gradient(135deg, var(--accent-red) 0%, #8B0000 100%);
+            padding: 25px;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+        
+        .scene-title {
+            font-family: 'Rye', cursive;
+            font-size: 2em;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .scene-synopsis {
+            color: var(--text-sand);
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+        
+        .scene-body {
+            padding: 30px;
+        }
+        
+        .scene-section {
+            margin-bottom: 30px;
+        }
+        
+        .scene-section-title {
+            font-family: 'Bitter', serif;
+            font-size: 1.5em;
+            color: var(--accent-turquoise);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(64, 224, 208, 0.3);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: rgba(184, 0, 26, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-red);
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .info-value {
+            color: var(--text-light);
+            font-size: 1.05em;
+        }
+        
+        .warning {
+            background: rgba(184, 0, 26, 0.3);
+            border-left: 4px solid var(--accent-red);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        
+        .warning strong {
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        /* === TOOLTIPS === */
+        [data-pnj],
+        [data-lieu] {
+            color: var(--accent-gold);
+            cursor: help;
+            border-bottom: 2px dotted var(--accent-turquoise);
+            transition: all 0.2s;
+        }
+        
+        [data-pnj]:hover,
+        [data-lieu]:hover {
+            color: var(--accent-turquoise);
+            border-bottom-color: var(--accent-gold);
+        }
+        
+        .custom-tooltip {
+            position: fixed;
+            background: linear-gradient(135deg, rgba(26, 15, 10, 0.98) 0%, rgba(61, 40, 23, 0.98) 100%);
+            border: 3px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 400px;
+            z-index: 10000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .custom-tooltip.visible {
+            opacity: 1;
+        }
+        
+        .tooltip-header {
+            font-family: 'Rye', cursive;
+            font-size: 1.3em;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 8px;
+        }
+        
+        .tooltip-nickname {
+            font-style: italic;
+            color: var(--accent-turquoise);
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+        
+        .tooltip-description {
+            color: var(--text-sand);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .tooltip-info {
+            color: var(--text-light);
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        /* === FOOTER === */
+        footer {
+            background: var(--primary-bg);
+            color: var(--text-sand);
+            padding: 30px;
+            text-align: center;
+            border-top: 5px solid var(--accent-red);
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tools-bar {
+                flex-direction: column;
+            }
+            
+            .pnj-grid,
+            .lieu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================
+             HEADER
+             ============================================ -->
+        <header>
+            <h1>🇲🇽 LA TRAQUE AU-DELÀ DU RIO GRANDE</h1>
+            <p class="subtitle">Session 2 Alternative - Système d6 Cow-boy - Durée 2h30</p>
+            <div class="context-info">
+                <strong>Contexte :</strong> Les <span data-pnj="hermanos">Hermanos Muerte</span> ont réussi leur évasion lors du Convoi de l'Enfer. Ils ont franchi le Rio Grande avec l'or maudit et se cachent au Mexique. Les héros doivent les traquer en territoire hostile, sans juridiction, où <span data-pnj="serpiente">El Serpiente</span> règne en maître. Une course contre la montre commence avant que le cartel ne devienne intouchable.
+            </div>
+        </header>
+        
+        <!-- ============================================
+             TOOLS BAR
+             ============================================ -->
+        <div class="tools-bar">
+            <div class="timer">
+                ⏱️ <span id="time-display">00:00:00</span>
+                <div class="timer-controls">
+                    <button onclick="startTimer()">▶️ Start</button>
+                    <button onclick="pauseTimer()">⏸️ Pause</button>
+                    <button onclick="resetTimer()">🔄 Reset</button>
+                </div>
+            </div>
+            <div class="dice-roller">
+                <button class="dice-button" onclick="rollDice()">🎲 Lancer D6</button>
+                <div class="dice-result" id="dice-result">-</div>
+            </div>
+        </div>
+        
+        <!-- ============================================
+             NAVIGATION
+             ============================================ -->
+        <nav>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('introduction')">📖 Introduction</button>
+                <button class="nav-btn" onclick="showSection('pnj')">👥 PNJ</button>
+                <button class="nav-btn" onclick="showSection('lieux')">📍 Lieux</button>
+                <button class="nav-btn" onclick="showSection('scene1')">🌅 Scène 1</button>
+                <button class="nav-btn" onclick="showSection('scene2')">🐴 Scène 2</button>
+                <button class="nav-btn" onclick="showSection('scene3')">🏜️ Scène 3</button>
+                <button class="nav-btn" onclick="showSection('scene4')">💀 Scène 4</button>
+                <button class="nav-btn" onclick="showSection('scene5')">⚔️ Scène 5</button>
+                <button class="nav-btn" onclick="showSection('conseils')">💡 Conseils MJ</button>
+            </div>
+        </nav>
+        
+        <!-- ============================================
+             CONTENT SECTIONS
+             ============================================ -->
+        <div class="content">
+            
+            <!-- INTRODUCTION -->
+            <section id="introduction" class="section active">
+                <h2>📖 INTRODUCTION</h2>
+                
+                <div class="card">
+                    <h3>🎯 Pitch</h3>
+                    <p>Deux jours après l'échec du Convoi de l'Enfer, les <span data-pnj="hermanos">Hermanos Muerte</span> se cachent au Mexique avec 50 000$ d'or maudit. <span data-pnj="blackman">Walt Blackman</span>, humilié, rassemble ses meilleurs pistoleros pour une mission suicide : traverser le Rio Grande, infiltrer le territoire d'<span data-pnj="serpiente">El Serpiente</span>, et ramener les bandits VIVANTS pour le procès. Mais au Mexique, les héros n'ont aucune autorité, et le cartel a des yeux partout. Une course contre la montre où chaque minute rapproche <span data-pnj="serpiente">El Serpiente</span> de devenir intouchable.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📜 Synopsis des 5 Actes</h3>
+                    <ul>
+                        <li><strong>Acte I - L'Humiliation (0h-6h) :</strong> Aube à <span data-lieu="tecumah">Tecumah Gulch</span>. <span data-pnj="blackman">Blackman</span> blessé, furieux, rassemble héros Star Saloon. <span data-pnj="rosie">Rosie</span> révèle pisteur secret : <span data-pnj="coyote">Juan "El Coyote" Ramirez</span>, contrebandier retraité. Mission : traverser Rio Grande discrètement.</li>
+                        
+                        <li><strong>Acte II - Le Passage de la Frontière (6h-12h) :</strong> Midi brûlant. Héros traversent <span data-lieu="rio_grande">Rio Grande</span> avec <span data-pnj="coyote">El Coyote</span>. Embuscade <span data-pnj="federales">Federales corrompus</span> (payés par <span data-pnj="serpiente">El Serpiente</span>). Combat/négociation. Arrivée village fantôme <span data-lieu="santa_muerte">Santa Muerte</span> : première piste.</li>
+                        
+                        <li><strong>Acte III - Le Village de la Peur (12h-18h) :</strong> <span data-lieu="santa_muerte">Santa Muerte</span>, village terrorisé. <span data-pnj="hermanos">Hermanos</span> ont massacré 3 familles refusant hospitalité. <span data-pnj="maria">Maria Alvarez</span> (veuve) révèle : <span data-pnj="serpiente">El Serpiente</span> parti vers <span data-lieu="hacienda">Hacienda del Diablo</span> avec or. Héros doivent gagner confiance villageois.</li>
+                        
+                        <li><strong>Acte IV - L'Assaut de l'Hacienda (18h-23h) :</strong> Crépuscule. <span data-lieu="hacienda">Hacienda fortifiée</span>, 15 sicarios, <span data-pnj="hermanos">Hermanos</span> retranchés. Héros infiltrent/assaillent. Combats intenses chariot par chariot (flashback Session 1). <span data-pnj="serpiente">El Serpiente</span> fuit vers crypte secrète.</li>
+                        
+                        <li><strong>Acte V - Le Duel des Calaveras (23h-Minuit) :</strong> Minuit. Crypte sous Hacienda, autels aztèques, or empilé. <span data-pnj="serpiente">El Serpiente</span> rituel sanglant : "Cet or appartient aux morts !". Duel final 2 PV. Choix : tuer (vengeance) ou capturer (justice). Épilogue : retour triomphal ou fuite éperdue selon issues.</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎲 Mécaniques Spéciales</h3>
+                    <ul>
+                        <li><strong>Chaleur Mexicaine :</strong> Jets Constitution 5+ toutes les 2h ou malus −1 (déshydratation)</li>
+                        <li><strong>Barrière Linguistique :</strong> Sans interprète, jets Diplomatie 6+ au lieu 5+</li>
+                        <li><strong>Territoire Hostile :</strong> Aucun renfort possible, soins limités</li>
+                        <li><strong>Traque Inversée :</strong> <span data-pnj="serpiente">El Serpiente</span> sait qu'ils viennent (espions partout)</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔗 Continuité Session 1</h3>
+                    <p><strong>Si héros ont échoué Session 1 :</strong> Cette session est leur rédemption. <span data-pnj="blackman">Blackman</span> leur donne UNE dernière chance.</p>
+                    <p><strong>Si <span data-pnj="rosie">Rosie McKenzie</span> a participé Session 1 :</strong> Elle a maintenant 11 ans (2 mois après), insiste pour venir. Arc narratif : prouver qu'elle n'est pas qu'une enfant.</p>
+                    <p><strong>Or maudit :</strong> Révélé Session 3 (Calavera). Ici, juste "or volé", mais ambiance surnaturelle crypte préfigure malédiction.</p>
+                </div>
+            </section>
+            
+            <!-- PNJ -->
+            <section id="pnj" class="section">
+                <h2>👥 PERSONNAGES NON-JOUEURS</h2>
+                
+                <div class="pnj-grid">
+                    <!-- PNJ 1 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🐍</span>
+                        <div class="pnj-name">Rodrigo "El Serpiente" Muerte</div>
+                        <div class="pnj-nickname">"Le Serpent"</div>
+                        <div class="pnj-description">Chef des Hermanos Muerte, 28 ans. A réussi son évasion Session 1 et règne maintenant sur son territoire mexicain. Calculateur, cruel, mais honorable selon son propre code. Sait que les héros viennent le chercher et a préparé sa défense. L'or représente sa fortune mais aussi sa malédiction (révélé plus tard). Duel final inévitable.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme hispanique 28 ans</li>
+                                    <li>Cicatrice serpent cou→joue</li>
+                                    <li>Veste cuir noire cloutée</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Venger son honneur (échec S1)</li>
+                                    <li>Paranoïaque (espions partout)</li>
+                                    <li>Obsédé par l'or maudit</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>2 PV (Boss Final)</li>
+                                    <li>Double Colt 4+ (tir 2x/tour)</li>
+                                    <li>Coup de tête 5+ (1 dégât)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Sifflote mélodies mexicaines</li>
+                                    <li>Parle lentement, menaces calmes</li>
+                                    <li>Respecte courage, méprise lâcheté</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 2 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">👴</span>
+                        <div class="pnj-name">Walt Blackman</div>
+                        <div class="pnj-nickname">"Le Shérif Brisé"</div>
+                        <div class="pnj-description">Shérif de Tecumah Gulch, 63 ans. Blessé et humilié par l'échec Session 1. Veut sa revanche avant retraite. Obsédé par l'idée de capturer El Serpiente VIVANT pour procès public et restaurer son honneur. Prêt à tout risquer, y compris sa vie. Relation paternelle avec héros et Rosie. Blessure jambe le ralentit (ne participera pas assaut final).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme blanc 63 ans, barbe grise</li>
+                                    <li>Étoile ternie, bandage jambe</li>
+                                    <li>Regard fatigué mais déterminé</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Restaurer son honneur perdu</li>
+                                    <li>Obsessionnel (revanche)</li>
+                                    <li>Protecteur envers Rosie</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (blessé Session 1)</li>
+                                    <li>Fusil 5+ (−1 mobilité)</li>
+                                    <li>Ne participe pas assaut final</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Voix grave, autoritaire</li>
+                                    <li>Tousse souvent (blessure)</li>
+                                    <li>Phrases courtes, directes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 3 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">👧</span>
+                        <div class="pnj-name">Rosie McKenzie</div>
+                        <div class="pnj-nickname">"La Gamine Têtue"</div>
+                        <div class="pnj-description">11 ans (2 mois après Session 1). Fille du palefrenier tué par Hermanos. A participé Session 1 malgré interdiction Blackman. Maintenant apprentie deputy officieuse. Veut prouver qu'elle n'est pas qu'une enfant. Excellente tireuse (entraînée par Blackman). Arc narratif : capture son premier criminel solo lors Acte III. NE DOIT PAS mourir (scénario échoue si morte).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Fille 11 ans, cheveux roux courts</li>
+                                    <li>Trop grande pour son âge</li>
+                                    <li>Badge deputy bricolé (fer blanc)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Venger son père (tué S1)</li>
+                                    <li>Prouver sa valeur adultes</li>
+                                    <li>Admirative héros (modèles)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (enfant fragile)</li>
+                                    <li>Pistolet léger 5+ (entraînée)</li>
+                                    <li>Furtive 4+ (petite taille)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Voix aigüe, parle vite</li>
+                                    <li>Courageuse jusqu'à l'inconscience</li>
+                                    <li>Imite langage adultes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 4 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🦊</span>
+                        <div class="pnj-name">Juan "El Coyote" Ramirez</div>
+                        <div class="pnj-nickname">"Le Passeur"</div>
+                        <div class="pnj-description">Contrebandier mexicain retraité, 45 ans. Connaît chaque passage secret Rio Grande. Recruté par Blackman (via Rosie qui le connaît). Cynique, mercenaire, mais code d'honneur bizarre : "Si je guide, je guide jusqu'au bout." Connaît terrain, langue, coutumes. Indispensable Acte II. Peut trahir si menacé (jet 6 Persuasion pour le garder loyal).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme mexicain 45 ans, maigre</li>
+                                    <li>Poncho usé, chapeau large</li>
+                                    <li>Cicatrices multiples (vie dure)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Survivre avant tout</li>
+                                    <li>Cynique mais honorable</li>
+                                    <li>Loyauté conditionnelle (argent)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (évite combats)</li>
+                                    <li>Couteau 5+ (défense seulement)</li>
+                                    <li>Fuite 3+ (expert survie)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Accent mexicain prononcé</li>
+                                    <li>Sarcasmes constants</li>
+                                    <li>Crache par terre souvent</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 5 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">💀</span>
+                        <div class="pnj-name">Diego "El Machete" Torres</div>
+                        <div class="pnj-nickname">"La Lame"</div>
+                        <div class="pnj-description">Lieutenant d'El Serpiente, 32 ans. Bras droit loyal. Machete de 60cm, ne rate jamais en combat rapproché. A massacré 3 familles Santa Muerte pour terroriser village. Boss intermédiaire Acte IV (combat avant El Serpiente). Si capturé, révèle emplacement crypte secrète sous torture morale (menace sa famille au Mexique). 2 PV.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme hispanique 32 ans, massif</li>
+                                    <li>Machete géant à ceinture</li>
+                                    <li>Tatouage crâne poitrine</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Loyauté absolue El Serpiente</li>
+                                    <li>Sadique (aime terreur)</li>
+                                    <li>Craint pour sa famille</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>2 PV (mini-boss)</li>
+                                    <li>Machete 4+ (2 dégâts si 6)</li>
+                                    <li>Charge brutale 5+ (renverse)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Rit en combattant</li>
+                                    <li>Aiguise machete constamment</li>
+                                    <li>Insultes crues en espagnol</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 6 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🕯️</span>
+                        <div class="pnj-name">Maria Alvarez</div>
+                        <div class="pnj-nickname">"La Veuve de Santa Muerte"</div>
+                        <div class="pnj-description">Veuve mexicaine, 38 ans. Mari tué par Diego devant ses yeux. Seule à oser parler aux héros à Santa Muerte (autres villageois terrifiés). Révèle emplacement Hacienda del Diablo et nombre sicarios. Demande vengeance : "Tuez-les tous." Si héros épargnent Diego, devient hostile. Peut devenir alliée puissante si héros vendent justice.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Femme mexicaine 38 ans</li>
+                                    <li>Robe noire deuil, foulard</li>
+                                    <li>Yeux rouges (pleurs constants)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Venger son mari tué</li>
+                                    <li>Brisée (perte récente)</li>
+                                    <li>Courage du désespoir</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>0 PV (civile)</li>
+                                    <li>Peut fournir infos cruciales</li>
+                                    <li>Cache provisions héros</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Voix brisée, pleure souvent</li>
+                                    <li>Mélange prières + malédictions</li>
+                                    <li>Regarde héros comme sauveurs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 7 -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">🎖️</span>
+                        <div class="pnj-name">Capitán Esteban Rojas</div>
+                        <div class="pnj-nickname">"Le Federale Corrompu"</div>
+                        <div class="pnj-description">Officier Federales mexicains, 40 ans. Payé par El Serpiente pour "ne rien voir". Intercepte héros Acte II au Rio Grande. Propose marché : 1000$ et il les laisse passer. Si refus, combat 10 soldats. Si acceptent, peut les trahir plus tard (envoie message El Serpiente). Lâche : fuit si perd 3+ soldats. Peut être capturé/interrogé.</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>Homme mexicain 40 ans, bedonnant</li>
+                                    <li>Uniforme Federales débraillé</li>
+                                    <li>Moustache épaisse cirée</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Enrichissement personnel</li>
+                                    <li>Lâche (fuit danger)</li>
+                                    <li>Méprise gringos</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV (+ 10 soldats 0 PV)</li>
+                                    <li>Pistolet 5+ (tire depuis arrière)</li>
+                                    <li>Fuite 4+ si 3+ soldats tombés</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Sourire faux permanent</li>
+                                    <li>Parle fort, gestes amples</li>
+                                    <li>Sue abondamment (nerveux)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PNJ 8 (Groupe) -->
+                    <div class="pnj-card">
+                        <span class="pnj-icon">💀</span>
+                        <div class="pnj-name">Les Hermanos Muerte (Reste)</div>
+                        <div class="pnj-nickname">"Les Frères Survivants"</div>
+                        <div class="pnj-description">3-4 membres survivants Session 1. Noms : Carlos, Javier, Miguel. Loyaux à El Serpiente. Se battent jusqu'à la mort ou jusqu'à ce qu'El Serpiente ordonne reddition. Positionnés Hacienda Acte IV. 1 PV chacun. Combat standard mais déterminés. Si capturés, révèlent peu (terrifiés vengeance Serpiente).</div>
+                        <div class="pnj-stats">
+                            <div class="stat-block">
+                                <div class="stat-title">👤 Physique</div>
+                                <ul class="stat-list">
+                                    <li>3-4 bandits mexicains 25-35 ans</li>
+                                    <li>Armés revolvers/fusils/couteaux</li>
+                                    <li>Bandanas rouges (symbole gang)</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🧠 Mental</div>
+                                <ul class="stat-list">
+                                    <li>Loyauté terrifiée El Serpiente</li>
+                                    <li>Détermination survivre</li>
+                                    <li>Méfiance totale gringos</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">⚔️ Combat</div>
+                                <ul class="stat-list">
+                                    <li>1 PV chacun</li>
+                                    <li>Armes variées 5+ standard</li>
+                                    <li>Se battent jusqu'ordre retraite</li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <div class="stat-title">🎭 Interprétation</div>
+                                <ul class="stat-list">
+                                    <li>Crient ordres espagnol</li>
+                                    <li>Coordonnent tirs (tactiques)</li>
+                                    <li>Supplications si capturés</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- LIEUX -->
+            <section id="lieux" class="section">
+                <h2>📍 LIEUX PRINCIPAUX</h2>
+                
+                <div class="lieu-grid">
+                    <!-- LIEU 1 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🏜️</span>
+                        <div class="lieu-name">Tecumah Gulch</div>
+                        <div class="lieu-location">Point de départ, Texas</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Ville humiliée après échec Session 1. Aube grise, citoyens silencieux. Star Saloon fermé (deuil). Blackman convoque héros bureau shérif privé.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Rues vides, volets clos, drapeaux mi-mât</li>
+                                <li>Son : Silence pesant, juste vent qui siffle</li>
+                                <li>Odorat : Poussière sèche, relents whisky</li>
+                                <li>Toucher : Air frais aube, tension palpable</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 2 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🌊</span>
+                        <div class="lieu-name">Le Rio Grande</div>
+                        <div class="lieu-location">Frontière Texas-Mexique, 30km sud Tecumah Gulch</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Midi brûlant (45°C). Fleuve large 50m, courant traître. Rives broussailleuses. El Coyote connaît gué secret 2km en aval. Embuscade Federales possible si héros bruyants.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Eau boueuse, rochers affleurants, rives épineuses</li>
+                                <li>Son : Courant qui gronde, insectes qui bourdonnent</li>
+                                <li>Odorat : Vase, sueur chevaux, poudre</li>
+                                <li>Toucher : Chaleur écrasante, eau froide choc</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 3 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">⛪</span>
+                        <div class="lieu-name">Santa Muerte (Village)</div>
+                        <div class="lieu-location">15km sud Rio Grande, Mexique</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Village fantôme terrorisé. 30 habitants cachés maisons. 3 corps pendus place centrale (familles massacrées Diego). Église vandalisée. Silence mortel. Maria Alvarez seule à oser sortir.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Maisons adobe délabrées, corps pendus, sang séché</li>
+                                <li>Son : Silence absolu, juste corde qui grince au vent</li>
+                                <li>Odorat : Putréfaction, encens église, peur</li>
+                                <li>Toucher : Soleil plomb, vent chaud poussière</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 4 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🏰</span>
+                        <div class="lieu-name">Hacienda del Diablo</div>
+                        <div class="lieu-location">8km ouest Santa Muerte, territoire Serpiente</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Hacienda fortifiée coloniale espagnole. Murs épais 3m, tour guet, portail fer forgé. 15 sicarios patrouillent. Hermanos retranchés intérieur. Or empilé salle principale. Crypte secrète sous cave (entrée derrière tapisserie).
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Murs ocres crépis, drapeaux rouges, armes partout</li>
+                                <li>Son : Rires sicarios, musique mexicaine, aboiements chiens</li>
+                                <li>Odorat : Cuir, poudre, viande grillée, tequila</li>
+                                <li>Toucher : Pierre fraîche murs, métal brûlant armes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 5 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">💀</span>
+                        <div class="lieu-name">La Crypte des Calaveras</div>
+                        <div class="lieu-location">Sous Hacienda del Diablo, 10m profondeur</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Crypte aztèque ancienne. Autels pierre sculptés crânes. Or empilé centre comme offrande. Torches murales. El Serpiente y pratique rituel sanglant final. Ambiance surnaturelle (préfigure Session 3 Calavera). Unique sortie : escalier mène cave Hacienda.
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Pierre noire, crânes gravés, or qui luit, ombres dansantes</li>
+                                <li>Son : Chants El Serpiente, écho inquiétant, silence pesant</li>
+                                <li>Odorat : Encens copal, sang frais, moisi séculaire</li>
+                                <li>Toucher : Air froid humide, pierre rugueuse, oppression</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- LIEU 6 -->
+                    <div class="lieu-card">
+                        <span class="lieu-icon">🏜️</span>
+                        <div class="lieu-name">Le Désert de Chihuahua</div>
+                        <div class="lieu-location">Entre Rio Grande et Hacienda, 25km traversée</div>
+                        <div class="lieu-description">
+                            <strong>Ambiance :</strong> Désert hostile. Chaleur 45°C jour, 5°C nuit. Cactus géants, rochers rouges, serpents. Pas d'eau sur 15km. El Coyote indispensable navigation. Tempêtes sable possibles. Danger déshydratation constant (jets Constitution 5+ toutes 2h).
+                            <br><br>
+                            <strong>Description sensorielle :</strong>
+                            <ul>
+                                <li>Vue : Horizon ondulant chaleur, ciel bleu aveuglant, mirages</li>
+                                <li>Son : Silence écrasant, cliquetis serpents, vent sec</li>
+                                <li>Odorat : Terre brûlée, sueur acide, créosote</li>
+                                <li>Toucher : Chaleur suffocante, sable brûlant, soif douloureuse</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNE 1 -->
+            <section id="scene1" class="section">
+                <h2>🌅 SCÈNE 1 : L'HUMILIATION (0h-6h)</h2>
+                
+                <div class="scene-card">
+                    <div class="scene-header">
+                        <div class="scene-title">ACTE I - La Mission Suicide</div>
+                        <div class="scene-synopsis">Aube grise à <span data-lieu="tecumah">Tecumah Gulch</span>. Deux jours après l'échec du Convoi de l'Enfer. <span data-pnj="blackman">Walt Blackman</span>, blessé et humilié, convoque les héros à son bureau. L'atmosphère est lourde : la ville est sous le choc, les familles pleurent leurs morts. Blackman révèle que les <span data-pnj="hermanos">Hermanos Muerte</span> se cachent au Mexique avec l'or. Il propose une mission suicide : traverser le Rio Grande, infiltrer territoire ennemi, capturer El Serpiente VIVANT. <span data-pnj="rosie">Rosie McKenzie</span> arrive avec <span data-pnj="coyote">El Coyote</span>, le passeur qu'elle a recruté en secret. Préparatifs, équipement, départ à l'aube.</div>
+                    </div>
+                    <div class="scene-body">
+                        <div class="scene-section">
+                            <div class="scene-section-title">📊 Éléments Intéressants</div>
+                            <div class="info-grid">
+                                <div class="info-box">
+                                    <div class="info-label">Date</div>
+                                    <div class="info-value">2 jours après Session 1</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Heure</div>
+                                    <div class="info-value">Aube (5h00-6h00)</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Lieu</div>
+                                    <div class="info-value">Bureau Shérif Blackman, Tecumah Gulch</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-label">Durée Réelle</div>
+                                    <div class="info-value">20 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎯 Objectifs</div>
+                            <ul>
+                                <li>Établir conséquences échec Session 1 (ville endeuillée, Blackman brisé)</li>
+                                <li>Présenter mission : traverser frontière, capturer El Serpiente VIVANT</li>
+                                <li>Introduire <span data-pnj="coyote">El Coyote</span> (guide indispensable)</li>
+                                <li>Montrer évolution <span data-pnj="rosie">Rosie</span> (11 ans, plus mature, déterminée)</li>
+                                <li>Créer tension : mission sans autorité légale, territoire hostile</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🎬 Déroulement</div>
+                            
+                            <h4>5h00 - Convocation Bureau Blackman</h4>
+                            <p>Héros arrivent bureau shérif. Blackman assis, jambe bandée, bouteille whisky vide sur bureau. Carte Texas-Mexique étalée. Regard fatigué mais déterminé.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (voix grave) :</strong> "Asseyez-vous. On a merdé. Trois morts, cinquante mille dollars envolés, et ces salopards rient de nous depuis le Mexique."</p>
+                            <p>Pointe carte : "Ils se cachent quelque part dans ce triangle. Mon contact dit qu'El Serpiente prépare quelque chose. Dans une semaine, il sera intouchable."</p>
+                            
+                            <h4>5h15 - La Proposition</h4>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Je vous propose une dernière chance. On traverse le Rio Grande. On infiltre. On capture El Serpiente VIVANT. Je veux un procès public. Je veux que cette ville voie justice être rendue."</p>
+                            <p>Hésite, puis : "Mais... on n'a aucune autorité là-bas. Si on se fait prendre, le gouvernement mexicain nous pendra. Et je ne peux pas venir." (Tape jambe) "Cette blessure me ralentirait."</p>
+                            <p><strong>Réactions héros :</strong> Accepter (honneur), Refuser (suicidaire), Négocier (compensation), Conditions (garanties)</p>
+                            
+                            <h4>5h30 - L'Arrivée de Rosie et El Coyote</h4>
+                            <p>Porte s'ouvre. <span data-pnj="rosie">Rosie McKenzie</span> entre, suivie d'un homme maigre en poncho.</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> (fière) :</strong> "Shérif Blackman, je vous présente Juan Ramirez. Il connaît chaque passage du Rio Grande."</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (surpris) :</strong> "Rosie ? Comment tu as...?"</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Papa me parlait toujours d'El Coyote quand il voyageait. Je l'ai retrouvé."</p>
+                            <p><strong><span data-pnj="coyote">El Coyote</span> (voix traînante, accent) :</strong> "Buenos días, gringos. La petite dit que vous payez 500 dollars pour traverser. Je dis 1000."</p>
+                            <p><strong>Négociation :</strong> Jet 5+ Persuasion → 750$ | Échec → 1000$ ou menace physique (El Coyote part)</p>
+                            
+                            <h4>5h45 - Préparatifs</h4>
+                            <p><strong><span data-pnj="blackman">Blackman</span> fournit :</strong></p>
+                            <ul>
+                                <li>Carte détaillée (villages, haciendas, points eau)</li>
+                                <li>3 gourdes eau supplémentaires (désert hostile)</li>
+                                <li>Avis de recherche El Serpiente (5000$ mort ou vif)</li>
+                                <li>Lettre scellée pour gouverneur Texas (si capturé, preuve mission officieuse)</li>
+                            </ul>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Je viens aussi."</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> :</strong> "Non ! C'est trop dangereux !"</p>
+                            <p><strong><span data-pnj="rosie">Rosie</span> :</strong> "Vous m'aviez promis de me former deputy. Je viens."</p>
+                            <p><strong>Choix héros :</strong> Autoriser Rosie (alliée fragile 1 PV) | Refuser (elle suit quand même en secret, arrive Acte III)</p>
+                            
+                            <h4>6h00 - Départ</h4>
+                            <p>Soleil se lève. Héros montent chevaux. <span data-pnj="coyote">El Coyote</span> en tête.</p>
+                            <p><strong><span data-pnj="blackman">Blackman</span> (main sur épaule héros) :</strong> "Ramenez-moi ce fils de pute. Vivant. Pour tous ceux qu'ils ont tués."</p>
+                            <p>Galop vers sud. <span data-lieu="tecumah">Tecumah Gulch</span> disparaît derrière colline poussiéreuse.</p>
+                        </div>
+                        
+                        <div class="scene-section">
+                            <div class="scene-section-title">🔄 Transitions Possibles</div>
+                            <ul>
+                                <li><strong>Héros acceptent + Rosie vient →</strong> Départ immédiat Acte II (Rio Grande 6h)</li>
+                                <li><strong>Héros refusent mission →</strong> Blackman supplie, offre 2000$ total, menace démission</li>
+                                <li><strong>El Coyote part (menaces) →</strong> Traversée Rio Grande jet 6 Navigation (échec = embuscade)</li>
+                                <li><strong>Rosie refusée mais suit quand même →</strong> Elle arrive Acte III Santa Muerte (a suivi traces)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Erreurs à éviter :</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Minimiser conséquences Session 1 : Ville DOIT être endeuillée, Blackman brisé</li>
+                                <li>Forcer mission : Héros doivent accepter volontairement (honneur/rédemption)</li>
+                                <li>Oublier Rosie : Son évolution 10→11 ans est arc narratif central</li>
+                                <li>Rendre El Coyote trop coopératif : Il est cynique, mercenaire, loyauté conditionnelle</li>
+                                <li>Bâcler préparatifs : Carte, provisions, équipement = survie Actes II-III</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SCÈNES 2-5 : Résumés (À développer si nécessaire) -->
+            <section id="scene2" class="section">
+                <h2>🐴 SCÈNE 2 : LE PASSAGE (6h-12h)</h2>
+                <div class="card">
+                    <p><strong>Synopsis :</strong> Traversée Rio Grande avec El Coyote. Embuscade Federales corrompus (Capitán Rojas). Combat ou pot-de-vin 1000$. Arrivée village fantôme Santa Muerte (cadavres pendus).</p>
+                    <p><strong>Durée :</strong> 40 min | <strong>Boss :</strong> Capitán Rojas (1 PV + 10 soldats)</p>
+                </div>
+            </section>
+            
+            <section id="scene3" class="section">
+                <h2>🏜️ SCÈNE 3 : LA PEUR (12h-18h)</h2>
+                <div class="card">
+                    <p><strong>Synopsis :</strong> Santa Muerte terrorisée. Maria Alvarez révèle massacres Diego. Villageois cachés. Héros doivent gagner confiance pour obtenir infos Hacienda. Rosie capture premier bandit (si présente).</p>
+                    <p><strong>Durée :</strong> 30 min | <strong>Révélation :</strong> Emplacement Hacienda del Diablo</p>
+                </div>
+            </section>
+            
+            <section id="scene4" class="section">
+                <h2>💀 SCÈNE 4 : L'ASSAUT (18h-23h)</h2>
+                <div class="card">
+                    <p><strong>Synopsis :</strong> Infiltration/Assaut Hacienda. 15 sicarios, combats progressifs. Diego boss intermédiaire (2 PV, machete). Découverte crypte secrète. El Serpiente fuit sous-sol.</p>
+                    <p><strong>Durée :</strong> 45 min | <strong>Boss :</strong> Diego "El Machete" Torres (2 PV)</p>
+                </div>
+            </section>
+            
+            <section id="scene5" class="section">
+                <h2>⚔️ SCÈNE 5 : LE DUEL DES CALAVERAS (23h-Minuit)</h2>
+                <div class="card">
+                    <p><strong>Synopsis :</strong> Crypte aztèque. El Serpiente rituel sanglant sur or. "Cet or appartient aux morts !". Duel final 2 PV. Choix : tuer (vengeance) ou capturer (justice). Épilogue selon issue.</p>
+                    <p><strong>Durée :</strong> 30 min | <strong>Boss Final :</strong> El Serpiente (2 PV, double Colt 4+)</p>
+                </div>
+            </section>
+            
+            <!-- CONSEILS MJ -->
+            <section id="conseils" class="section">
+                <h2>💡 CONSEILS DE MAÎTRE DE JEU</h2>
+                
+                <div class="card">
+                    <h3>🎭 Jouer El Serpiente</h3>
+                    <ul>
+                        <li><strong>Voix :</strong> Calme, menaçante, accent mexicain prononcé</li>
+                        <li><strong>Manies :</strong> Sifflote mélodies mexicaines, caresse crânes</li>
+                        <li><strong>Motivation :</strong> Or = pouvoir, mais aussi malédiction (obsession)</li>
+                        <li><strong>Respect :</strong> Admire courage héros, méprise lâcheté Federales</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌡️ Gérer la Chaleur Mexicaine</h3>
+                    <p><strong>Jets Constitution 5+ toutes 2 heures :</strong></p>
+                    <ul>
+                        <li>Échec → Malus −1 tous jets (déshydratation)</li>
+                        <li>2 échecs consécutifs → 1 dégât (coup de chaleur)</li>
+                        <li>Gourdes eau : 1 gourde annule 1 échec</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🗣️ Barrière Linguistique</h3>
+                    <p><strong>Sans El Coyote comme interprète :</strong></p>
+                    <ul>
+                        <li>Jets Diplomatie 6+ au lieu 5+ avec NPCs mexicains</li>
+                        <li>Malentendus possibles si échec critique (1-2)</li>
+                        <li>Si El Coyote trahit/meurt : mission BEAUCOUP plus difficile</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚠️ Erreurs Fatales à Éviter</h3>
+                    <ul>
+                        <li>Tuer El Serpiente avant procès → Blackman furieux, pas de rédemption</li>
+                        <li>Laisser Rosie mourir → Session échoue narrativement</li>
+                        <li>Perdre El Coyote trop tôt → Héros perdus désert/village</li>
+                        <li>Ignorer chaleur → TPK par déshydratation (crédible)</li>
+                        <li>Combat frontal Hacienda sans plan → 15 sicarios = suicide</li>
+                    </ul>
+                </div>
+            </section>
+            
+        </div>
+        
+        <!-- ============================================
+             FOOTER
+             ============================================ -->
+        <footer>
+            <p><strong>🇲🇽 La Traque au-delà du Rio Grande</strong></p>
+            <p>Session 2 Alternative - La Trilogie de Tecumah Gulch</p>
+            <p style="font-style: italic; margin-top: 15px;">"La justice n'a pas de frontière... mais la vengeance non plus."</p>
+        </footer>
+    </div>
+    
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ========== CONFIGURATION ==========
+        const CONFIG = {
+            timerInterval: null,
+            timerSeconds: 0
+        };
+        
+        // ========== TOOLTIPS DATA ==========
+        const pnjData = {
+            "serpiente": {
+                nom: "Rodrigo 'El Serpiente' Muerte",
+                surnom: "Le Serpent",
+                description: "Chef Hermanos Muerte, 28 ans. Boss final 2 PV. A réussi évasion Session 1. Calculateur, cruel, honorable. Obsédé or maudit.",
+                combat: "2 PV | Double Colt 4+ (2 tirs/tour) | Coup de tête 5+",
+                role: "Antagoniste principal, duel final crypte"
+            },
+            "blackman": {
+                nom: "Walt Blackman",
+                surnom: "Le Shérif Brisé",
+                description: "Shérif Tecumah Gulch, 63 ans. Blessé Session 1. Obsédé rédemption. Veut capturer El Serpiente VIVANT pour procès. Ne participe pas assaut.",
+                role: "Mentor héros, commanditaire mission"
+            },
+            "rosie": {
+                nom: "Rosie McKenzie",
+                surnom: "La Gamine Têtue",
+                description: "11 ans (2 mois après S1). Fille palefrenier tué. Apprentie deputy. Veut prouver valeur. Arc : capture 1er criminel Acte III. NE DOIT PAS mourir.",
+                combat: "1 PV | Pistolet 5+ | Furtive 4+",
+                role: "Alliée fragile, évolution narrative"
+            },
+            "coyote": {
+                nom: "Juan 'El Coyote' Ramirez",
+                surnom: "Le Passeur",
+                description: "Contrebandier retraité, 45 ans. Connaît passages Rio Grande. Cynique, mercenaire. Indispensable Acte II. Peut trahir si menacé (jet 6 Persuasion).",
+                combat: "1 PV | Évite combats | Fuite 3+",
+                role: "Guide essentiel, loyauté conditionnelle"
+            },
+            "diego": {
+                nom: "Diego 'El Machete' Torres",
+                surnom: "La Lame",
+                description: "Lieutenant El Serpiente, 32 ans. Massacré 3 familles Santa Muerte. Machete 60cm. Boss intermédiaire Acte IV. Révèle crypte si capturé.",
+                combat: "2 PV | Machete 4+ (2 dégâts si 6) | Charge 5+",
+                role: "Mini-boss, terreur villageois"
+            },
+            "maria": {
+                nom: "Maria Alvarez",
+                surnom: "La Veuve de Santa Muerte",
+                description: "Veuve mexicaine, 38 ans. Mari tué par Diego. Seule à parler héros. Révèle Hacienda. Demande vengeance. Alliée si justice rendue.",
+                role: "Informatrice clé, conscience morale"
+            },
+            "rojas": {
+                nom: "Capitán Esteban Rojas",
+                surnom: "Le Federale Corrompu",
+                description: "Officier Federales, 40 ans. Payé El Serpiente. Intercepte Acte II. Propose pot-de-vin 1000$. Fuit si 3+ soldats tombent. Lâche.",
+                combat: "1 PV + 10 soldats 0 PV | Pistolet 5+ | Fuite 4+",
+                role: "Obstacle Acte II, choix moral"
+            },
+            "hermanos": {
+                nom: "Les Hermanos Muerte (Reste)",
+                surnom: "Les Frères Survivants",
+                description: "3-4 bandits survivants Session 1. Carlos, Javier, Miguel. Loyaux El Serpiente. 1 PV chacun. Retranchés Hacienda Acte IV.",
+                combat: "1 PV chacun | Armes variées 5+",
+                role: "Sbires boss, combat Hacienda"
+            }
+        };
+        
+        const lieuxData = {
+            "tecumah": {
+                nom: "Tecumah Gulch",
+                localisation: "Point départ, Texas",
+                description: "Ville humiliée après échec S1. Aube grise, citoyens silencieux. Star Saloon fermé deuil. Blackman convoque héros bureau privé.",
+                ambiance: "Vue: rues vides, volets clos | Son: silence pesant, vent | Odorat: poussière, whisky"
+            },
+            "rio_grande": {
+                nom: "Le Rio Grande",
+                localisation: "Frontière Texas-Mexique, 30km sud",
+                description: "Fleuve large 50m, courant traître. El Coyote connaît gué secret. Embuscade Federales possible. Midi brûlant 45°C.",
+                ambiance: "Vue: eau boueuse, rochers | Son: courant gronde, insectes | Toucher: chaleur écrasante, eau froide"
+            },
+            "santa_muerte": {
+                nom: "Santa Muerte (Village)",
+                localisation: "15km sud Rio Grande, Mexique",
+                description: "Village fantôme terrorisé. 30 habitants cachés. 3 corps pendus place centrale (massacres Diego). Maria Alvarez seule ose sortir.",
+                ambiance: "Vue: adobe délabré, corps pendus, sang | Son: silence mortel, corde grince | Odorat: putréfaction, encens"
+            },
+            "hacienda": {
+                nom: "Hacienda del Diablo",
+                localisation: "8km ouest Santa Muerte, territoire Serpiente",
+                description: "Hacienda fortifiée coloniale. Murs 3m, tour guet, 15 sicarios. Hermanos retranchés. Or empilé. Crypte secrète sous cave.",
+                ambiance: "Vue: murs ocres, drapeaux rouges | Son: rires, musique, aboiements | Odorat: cuir, poudre, tequila"
+            },
+            "crypte": {
+                nom: "La Crypte des Calaveras",
+                localisation: "Sous Hacienda, 10m profondeur",
+                description: "Crypte aztèque ancienne. Autels crânes sculptés. Or empilé centre comme offrande. El Serpiente rituel final. Ambiance surnaturelle.",
+                ambiance: "Vue: pierre noire, crânes, or luisant | Son: chants, écho | Odorat: encens copal, sang, moisi"
+            },
+            "desert": {
+                nom: "Le Désert de Chihuahua",
+                localisation: "Entre Rio Grande et Hacienda, 25km",
+                description: "Désert hostile. Chaleur 45°C jour. Cactus, serpents. Pas d'eau 15km. El Coyote indispensable. Jets Constitution 5+ toutes 2h.",
+                ambiance: "Vue: horizon ondulant, mirages | Son: silence, serpents | Toucher: chaleur suffocante, soif"
+            }
+        };
+        
+        // ========== NAVIGATION ==========
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activate clicked button
+            event.target.classList.add('active');
+        }
+        
+        // ========== TIMER ==========
+        function startTimer() {
+            if (CONFIG.timerInterval) return;
+            CONFIG.timerInterval = setInterval(() => {
+                CONFIG.timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            clearInterval(CONFIG.timerInterval);
+            CONFIG.timerInterval = null;
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            CONFIG.timerSeconds = 0;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const hours = Math.floor(CONFIG.timerSeconds / 3600);
+            const minutes = Math.floor((CONFIG.timerSeconds % 3600) / 60);
+            const seconds = CONFIG.timerSeconds % 60;
+            
+            document.getElementById('time-display').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // ========== DICE ROLLER ==========
+        function rollDice() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const display = document.getElementById('dice-result');
+            display.textContent = result;
+            display.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                display.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        // ========== TOOLTIPS ==========
+        function createTooltip(element, data) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            
+            let content = `<div class="tooltip-header">${data.nom}</div>`;
+            
+            if (data.surnom) {
+                content += `<div class="tooltip-nickname">${data.surnom}</div>`;
+            }
+            
+            if (data.localisation) {
+                content += `<div class="tooltip-nickname">${data.localisation}</div>`;
+            }
+            
+            content += `<div class="tooltip-description">${data.description}</div>`;
+            
+            if (data.combat) {
+                content += `<div class="tooltip-info"><strong>Combat:</strong> ${data.combat}</div>`;
+            }
+            
+            if (data.role) {
+                content += `<div class="tooltip-info"><strong>Rôle:</strong> ${data.role}</div>`;
+            }
+            
+            if (data.ambiance) {
+                content += `<div class="tooltip-info"><strong>Ambiance:</strong> ${data.ambiance}</div>`;
+            }
+            
+            tooltip.innerHTML = content;
+            document.body.appendChild(tooltip);
+            
+            return tooltip;
+        }
+        
+        function positionTooltip(event, tooltip) {
+            const x = event.clientX;
+            const y = event.clientY;
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const padding = 15;
+            
+            let left = x + padding;
+            let top = y + padding;
+            
+            if (left + tooltipRect.width > window.innerWidth) {
+                left = x - tooltipRect.width - padding;
+            }
+            
+            if (top + tooltipRect.height > window.innerHeight) {
+                top = y - tooltipRect.height - padding;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+        
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentTooltip = null;
+            
+            // PNJ tooltips
+            document.querySelectorAll('[data-pnj]').forEach(element => {
+                element.addEventListener('mouseenter', function(e) {
+                    const pnjKey = this.getAttribute('data-pnj');
+                    const data = pnjData[pnjKey];
+                    if (data) {
+                        currentTooltip = createTooltip(this, data);
+                        setTimeout(() => currentTooltip.classList.add('visible'), 10);
+                    }
+                });
+                
+                element.addEventListener('mousemove', function(e) {
+                    if (currentTooltip) {
+                        positionTooltip(e, currentTooltip);
+                    }
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    if (currentTooltip) {
+                        currentTooltip.remove();
+                        currentTooltip = null;
+                    }
+                });
+            });
+            
+            // Lieu tooltips
+            document.querySelectorAll('[data-lieu]').forEach(element => {
+                element.addEventListener('mouseenter', function(e) {
+                    const lieuKey = this.getAttribute('data-lieu');
+                    const data = lieuxData[lieuKey];
+                    if (data) {
+                        currentTooltip = createTooltip(this, data);
+                        setTimeout(() => currentTooltip.classList.add('visible'), 10);
+                    }
+                });
+                
+                element.addEventListener('mousemove', function(e) {
+                    if (currentTooltip) {
+                        positionTooltip(e, currentTooltip);
+                    }
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    if (currentTooltip) {
+                        currentTooltip.remove();
+                        currentTooltip = null;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
